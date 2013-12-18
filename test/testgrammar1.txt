@@ -1,0 +1,26 @@
+<Sentence> -> <Subject> <Predicate>
+<Subject> -> <Noun phrase>
+<Noun phrase> -> <Determiner> <Noun>
+<Noun phrase> -> <Common noun>
+<Determiner> -> the
+<Determiner> -> a
+<Noun> -> dog
+<Noun> -> tree
+<Noun> -> girl
+<Noun> -> cat
+<Common noun> -> Burger King
+<Predicate> -> <Intransitive verb>
+<Predicate> -> <Transitive verb> <Direct object>
+<Intransitive verb> -> sleeps
+<Transitive verb> -> sees
+<Transitive verb> -> loves
+<Direct object> -> <Noun phrase>
+
+<Intransitive verb> -> plays
+<Intransitive verb> -> smiles
+<Transitive verb> -> eats
+<Noun> -> teacher
+<Transitive verb> -> chases
+<Noun> -> student
+<Transitive verb> -> teaches
+

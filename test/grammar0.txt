@@ -1,0 +1,10 @@
+<Sentence> -> <Subject> <Predicate>
+<Subject> -> <Noun phrase>
+<Noun phrase> -> <Determiner> <Noun>
+<Determiner> -> the
+<Determiner> -> a
+<Noun> -> girl
+<Noun> -> flower
+<Predicate> -> <Verb> <Object>
+<Verb> -> sees
+<Object> -> <Noun phrase>

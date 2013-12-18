@@ -1,0 +1,39 @@
+<Singular count noun> -> <Singular concrete noun>
+<Plural count noun> -> <Plural concrete noun>
+<Non-count noun> -> <Common noun>
+<Non-count noun> -> <Proper noun>
+<Non-count noun> -> <Abstract noun>
+<Common noun> -> sugar
+<Common noun> -> maple
+<Common noun> -> syrup
+<Common noun> -> wood
+<Proper noun> -> Cyrus
+<Proper noun> -> China
+<Singular concrete noun> -> book
+<Plural concrete noun> -> books
+<Singular concrete noun> -> laptop
+<Plural concrete noun> -> laptops
+<Abstract noun> -> heat
+<Abstract noun> -> prejudice
+<Singular concrete noun> -> clock
+<Plural concrete noun> -> clocks
+<Singular concrete noun> -> city
+<Plural concrete noun> -> cities
+<Singular concrete noun> -> color
+<Plural concrete noun> -> colors
+<Common noun> -> milk
+<Abstract noun> -> decor
+<Abstract noun> -> foliage
+<Noun phrase> -> <Determiner> <Pre-modifier noun> <Singular concrete noun>
+<Noun phrase> -> <Determiner> <Adjective> <Singular concrete noun>
+<Noun phrase> -> <Determiner> <Singular concrete noun>
+<Noun phrase> -> <Determiner> <Adjective> <Pre-modifier noun> <Singular concrete noun>
+<Determiner> -> the
+<Pre-modifier noun> -> <Proper noun>
+<Proper noun> -> Angora
+<Adjective> -> beautiful
+<Singular concrete noun> -> cat
+<Plural concrete noun> -> cats
+
+
+

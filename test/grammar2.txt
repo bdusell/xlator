@@ -1,0 +1,3 @@
+<EXPR> -> <EXPR>+<TERM>|<TERM>
+<TERM> -> <TERM>*<FACTOR>|<FACTOR>
+<FACTOR> -> (<EXPR>) | a

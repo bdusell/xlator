@@ -1,0 +1,26 @@
+<Sentence> -> <Sentence>
+
+<Sentence> { <Subject 1s> <Predicate 1s> } -> <Sentence> { <Subject 1s> [<Subject 1s>] <Predicate 1s> [<Predicate 1s>] }
+<Sentence> { <Subject 2s> <Predicate 2s> } -> <Sentence> { <Subject 2s> [<Subject 2s>] <Predicate 2s> [<Predicate 2s>] }
+<Sentence> { <Subject 3s> <Predicate 3s> } -> <Sentence> { <Subject 3s> [<Subject 3s>] <Predicate 3s> [<Predicate 3s>] }
+<Sentence> { <Subject 1p> <Predicate 1p> } -> <Sentence> { <Subject 1p> [<Subject 1p>] <Predicate 1p> [<Predicate 1p>] }
+<Sentence> { <Subject 2p> <Predicate 2p> } -> <Sentence> { <Subject 2p> [<Subject 2p>] <Predicate 2p> [<Predicate 2p>] }
+<Sentence> { <Subject 3p> <Predicate 3p> } -> <Sentence> { <Subject 3p> [<Subject 3p>] <Predicate 3p> [<Predicate 3p>] }
+
+<Sentence> { <Subject 1s> { <Pronoun 1s> } <Predicate 1s> } -> <Sentence> { <Predicate 1s> [<Predicate 1s>] }
+<Sentence> { <Subject 2s> { <Pronoun 2s> } <Predicate 2s> } -> <Sentence> { <Predicate 2s> [<Predicate 2s>] }
+<Sentence> { <Subject 3s> { <Pronoun 3s> } <Predicate 3s> } -> <Sentence> { <Predicate 3s> [<Predicate 3s>] }
+<Sentence> { <Subject 1p> { <Pronoun 1p> } <Predicate 1p> } -> <Sentence> { <Predicate 1p> [<Predicate 1p>] }
+<Sentence> { <Subject 2p> { <Pronoun 2p> } <Predicate 2p> } -> <Sentence> { <Predicate 2p> [<Predicate 2p>] }
+<Sentence> { <Subject 3p> { <Pronoun 3p> } <Predicate 3p> } -> <Sentence> { <Predicate 3p> [<Predicate 3p>] }
+
+<Predicate 1s> { <Transitive verb 1s> <Direct object> } -> <Predicate 1s> { <Direct object> <Transitive verb 1s> }
+<Predicate 2s> { <Transitive verb 2s> <Direct object> } -> <Predicate 2s> { <Direct object> <Transitive verb 2s> }
+<Predicate 3s> { <Transitive verb 3s> <Direct object> } -> <Predicate 3s> { <Direct object> <Transitive verb 3s> }
+<Predicate 1p> { <Transitive verb 1p> <Direct object> } -> <Predicate 1p> { <Direct object> <Transitive verb 1p> }
+<Predicate 2p> { <Transitive verb 2p> <Direct object> } -> <Predicate 2p> { <Direct object> <Transitive verb 2p> }
+<Predicate 3p> { <Transitive verb 3p> <Direct object> } -> <Predicate 3p> { <Direct object> <Transitive verb 3p> }
+
+<Direct object> { <Noun phrase obj 1s> } -> <Direct object> { <Accusative noun> [] }
+
+
