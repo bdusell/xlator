@@ -1,0 +1,22 @@
+This project is a natural language translator based on context free grammars.
+It is currently in the process of reorganization.
+
+==== BUILDING ====
+
+    % cd src && make xlator
+
+==== EXAMPLE USAGE ====
+
+    % ./xlator ../test/testgrammar1.txt ../test/testtranslator1.txt
+ >> the girl
+    puella
+    puellam
+
+ >> the girl sees the dog
+    canem videt puella
+    puella canem videt
+    puella videt canem
+    videt canem puella
+
+ >>
+
