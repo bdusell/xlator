@@ -1,96 +1,93 @@
-#include "Translator.h"
 #include <iostream>
 #include <fstream>
-#include <cstdlib>
-#include <string>
-#include <sstream>
-using namespace std;
+#include <stdexcept>
+#include "resource/ScopedFile.h"
+#include "xlator/Translator.h"
+#include "xlator/Tokenizer.h"
+#include "xlator/Formatter.h"
+
+void print_usage(std::ostream &output) {
+	output << "Usage: xlator <parser file> <translator file>" << std::endl;
+}
 
 int main(int argc, char **argv) {
 
-	bool verbose = false;
-	string grammarFileName, translationFileName;
-
-	for(int i = 1; i < argc - 2; ++i) {
-		if(string(argv[i]) == "-v" || "--verbose") {
-			if(verbose) cerr << "Warning: Setting " << argv[i] << " is redundant" << endl;
-			verbose = true;
+	// Parse the command line arguments
+	char *parser_finname = NULL;
+	char *translator_finname = NULL;
+	for(char **argi = argv + 1, **argn = argv + argc; argi != argn; ++argi) {
+		if(parser_finname == NULL) {
+			parser_finname = *argi;
 		}
-		else cerr << "Warning: Unknown option \'" << argv[i] << "\'" << endl;
+		else if(translator_finname == NULL) {
+			translator_finname = *argi;
+		}
+		else {
+			print_usage(std::cerr);
+			std::cerr << "error: unrecognized argument \"" << *argi << "\"" << std::endl;
+			return 1;
+		}
+	}
+	if(parser_finname == NULL || translator_finname == NULL) {
+		print_usage(std::cerr);
+		std::cerr << "error: input files are required" << std::endl;
+		return 1;
 	}
 
-	if(argc > 2) {
-		grammarFileName = argv[argc - 2];
-		translationFileName = argv[argc - 1];
+	// Load the translator data from the input files
+	xlator::Translator translator;
+	try {
+		resource::ScopedFile<std::ifstream> parser_fin(parser_finname);
+		translator.load_parser_from_file(parser_fin);
 	}
-	else {
-		cerr << "Usage: " << argv[0] << " [-v] <grammar file> <translation file>" << endl;
-		exit(0);
-	}
-
-	Translator myTranslator;
-
-	ifstream grammarFile(grammarFileName.c_str()), translationFile(translationFileName.c_str());
-
-	if(!grammarFile) {
-		cerr << "Error: Unable to open file \'" << grammarFileName << "\'" << endl;
-		exit(0);
-	}
-
-	if(!translationFile) {
-		cerr << "Error: Unable to open file \'" << translationFileName << "\'" << endl;
-		exit(0);
+	catch(xlator::Translator::load_parser_from_file_error &e) {
+		std::cerr << "error in parser file: " << e.what() << std::endl;
+		return 1;
 	}
 
 	try {
-		myTranslator.loadRules(grammarFile, translationFile);
+		resource::ScopedFile<std::ifstream> translator_fin(translator_finname);
+		translator.load_interpreter_from_file(translator_fin);
 	}
-	catch(GrammarInputError &e) {
-		cerr << "Error in " << grammarFileName << ": " << e.what() << endl;
-		myTranslator.printGrammar(cerr);
-		exit(0);
-	}
-	catch(TranslationInputError &e) {
-		cerr << "Error in " << translationFileName << ": " << e.what() << endl;
-		myTranslator.printTranslation(cerr);
-		exit(0);
+	catch(xlator::Translator::load_interpreter_from_file_error &e) {
+		std::cerr << "error in translator file: " << e.what() << std::endl;
+		return 1;
 	}
 
-	if(verbose) {
-		myTranslator.printRules(cout);
-		cout << endl;
+	// Get the raw input line
+	std::string input_line;
+	std::getline(std::cin, input_line);
+
+	// Tokenize the input text
+	xlator::Tokenizer::token_string input_tokens;
+	xlator::Tokenizer tokenizer;
+	tokenizer.tokenize(input_line, input_tokens);
+
+	// Translate the input tokens
+	xlator::Translator::output_token_string_set output_token_set;
+	try {
+		translator.translate(input_tokens, output_token_set);
+	}
+	catch(xlator::Translator::parsing_error &e) {
+		std::cerr << "ungrammatical input: " << e.what() << std::endl;
+		return 1;
+	}
+	catch(xlator::Translator::translation_error &e) {
+		std::cerr << "unable to translate: " << e.what() << std::endl;
+		return 1;
 	}
 
-	grammarFile.close();
-	translationFile.close();
+	// Print the results
+	xlator::Formatter formatter;
+	for(xlator::Translator::output_token_string_set::const_iterator
+		i = output_token_set.begin(), n = output_token_set.end(); i != n; ++i)
+	{
+		// Convert the translated tokens back into text
+		formatter.format(*i, input_line);
 
-	while(cin) {
-
-		if(verbose) cout << "Type a sentence to translate (enter nothing to quit):" << endl;
-
-		string tempString;
-		getline(cin, tempString);
-		istringstream tempStream(tempString);
-		vector<string> tokens;
-		while(tempStream >> tempString) tokens.push_back(tempString);
-		if(tokens.empty()) break;
-
-		set< vector<string> > results;
-		if(verbose) results = myTranslator.translateVerbose(tokens, cout);
-		else results = myTranslator.translate(tokens);
-		int tnum = 1;
-		for(set< vector<string> >::const_iterator i = results.begin(); i != results.end(); ++i) {
-			if(verbose) cout << "Translation #" << tnum++ << ": ";
-			for(int j = 0; j < i->size(); ++j) {
-				cout << (*i)[j];
-				if(j < i->size() - 1) cout << ' ';
-			}
-			cout << endl;
-		}
-		cout << endl;
+		// Print the result
+		std::cout << input_line << std::endl;
 	}
-
-	if(verbose) cout << "Goodbye!" << endl;
 
 	return 0;
 }
