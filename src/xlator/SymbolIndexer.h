@@ -5,28 +5,25 @@
 #include <string>
 #include <vector>
 
+#include "xlator/SymbolInfo.h"
+
 namespace xlator {
 
 class SymbolIndexer {
 
 public:
 
-	typedef unsigned int symbol_index;
-
-	struct symbol {
-		std::string name;
-		enum symbol_type { TERMINAL, NONTERMINAL, NUM_TYPES } type;
-	};
-
-	typedef std::vector<symbol> symbol_mapping;
+	typedef SymbolInfo::symbol_key symbol_index;
+	typedef SymbolInfo::symbol symbol;
+	typedef SymbolInfo::symbol::symbol_type symbol_type;
 
 	/*
 	Insert a symbol into the indexer. Give it a new index if it does not
 	exist, or reuse an existing one.
 	*/
-	symbol_index index_symbol(const std::string &name, symbol::symbol_type type);
+	symbol_index index_symbol(const std::string &name, symbol_type type);
 
-	void create_mapping(symbol_mapping &output) const;
+	void create_mapping(SymbolInfo &output) const;
 
 private:
 

@@ -4,12 +4,12 @@
 
 namespace xlator {
 
-SymbolIndexer::symbol_index SymbolIndexer::index_symbol(const std::string &name, symbol::symbol_type type) {
+SymbolIndexer::symbol_index SymbolIndexer::index_symbol(const std::string &name, symbol_type type) {
 	assert(type < symbol::NUM_TYPES);
 	return symbols[type].insert(map_type::value_type(name, size())).first->second;
 }
 
-void SymbolIndexer::create_mapping(symbol_mapping &output) const {
+void SymbolIndexer::create_mapping(SymbolInfo &output) const {
 	output.resize(size());
 	for(size_t i = 0; i < symbol::NUM_TYPES; ++i) {
 		const map_type &map = symbols[i];

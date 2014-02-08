@@ -6,6 +6,7 @@
 
 #include "xlator/ParseTree.h"
 #include "xlator/SymbolIndexer.h"
+#include "xlator/SymbolInfo.h"
 #include "meta/exception.h"
 
 namespace xlator {
@@ -17,8 +18,6 @@ public:
 	typedef std::string token;
 	typedef std::vector<token> token_string;
 	typedef std::vector<ParseTree> parse_tree_set;
-
-	typedef SymbolIndexer::symbol_mapping symbol_mapping;
 
 	EXCEPTION_CLASS(load_from_file_error)
 	EXCEPTION_CLASS(parsing_error)
@@ -32,10 +31,13 @@ public:
 private:
 
 	typedef SymbolIndexer::symbol_index symbol_index;
+	typedef std::vector<symbol_index> symbol_string;
+	typedef std::map<symbol_string, std::vector<symbol_index> > rule_set_type;
 
-	symbol_mapping symbol_info;
+	rule_set_type rules;
+	SymbolInfo symbol_info;
 
-	// TODO rule container
+	void print_rules() const;
 
 };
 
