@@ -9,6 +9,18 @@ SymbolIndexer::symbol_index SymbolIndexer::index_symbol(const std::string &name,
 	return symbols[type].insert(map_type::value_type(name, size())).first->second;
 }
 
+bool SymbolIndexer::get_index(const std::string &name, symbol_type type, symbol_index &out) const {
+	const map_type &map = symbols[type];
+	map_type::const_iterator pos = map.find(name);
+	if(pos == map.end()) {
+		return false;
+	}
+	else {
+		out = pos->second;
+		return true;
+	}
+}
+
 void SymbolIndexer::create_mapping(SymbolInfo &output) const {
 	output.resize(size());
 	for(size_t i = 0; i < symbol::NUM_TYPES; ++i) {

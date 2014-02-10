@@ -2,7 +2,15 @@
 
 namespace xlator {
 
-void ParseTree::get_leaves(token_string &output) const {
+ParseTree::~ParseTree() {
+	for(child_list_type::const_iterator
+		i = children.begin(), n = children.end(); i != n; ++i)
+	{
+		delete *i;
+	}
+}
+
+void ParseTree::get_leaves(value_list_type &output) const {
 	// TODO
 }
 

@@ -2,6 +2,7 @@
 #define _XLATOR_INTERPRETER_H_
 
 #include <iostream>
+#include <memory>
 
 #include "xlator/ParseTree.h"
 #include "meta/exception.h"
@@ -12,7 +13,7 @@ class Interpreter {
 
 public:
 
-	typedef std::vector<ParseTree> tree_set;
+	typedef std::vector< std::auto_ptr<ParseTree> > tree_set;
 
 	EXCEPTION_CLASS(load_from_file_error)
 	EXCEPTION_CLASS(translation_error)

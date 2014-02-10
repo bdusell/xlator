@@ -23,6 +23,12 @@ public:
 	*/
 	symbol_index index_symbol(const std::string &name, symbol_type type);
 
+	/*
+	Look up a symbol and store its index in out. Return whether an index
+	was found.
+	*/
+	bool get_index(const std::string &name, symbol_type type, symbol_index &out) const;
+
 	void create_mapping(SymbolInfo &output) const;
 
 private:

@@ -25,7 +25,8 @@ public:
 	ParserFileReader(
 		std::istream &fin,
 		output_type &output,
-		SymbolInfo &symbol_info);
+		SymbolInfo &symbol_info,
+		SymbolIndexer &symbol_indexer);
 
 	void read();
 
@@ -36,12 +37,12 @@ private:
 	std::istream &fin;
 	output_type &output;
 	SymbolInfo &symbol_info;
+	SymbolIndexer &symbol_indexer;
 
 	std::string curr_token_value;
 	token_type curr_token_type;
 	char next_char;
 
-	SymbolIndexer symbol_indexer;
 	rule curr_rule;
 
 	static const char *token_type_name(token_type t);

@@ -11,6 +11,7 @@ void Interpreter::load_from_file(std::istream &input)
 void Interpreter::interpret(const ParseTree &input, tree_set &output) const
 	throw(translation_error)
 {
+	throw translation_error("translation is not implemented yet");
 	// TODO
 }
 

@@ -3,10 +3,13 @@
 
 #include <iostream>
 #include <vector>
+#include <set>
 
 #include "xlator/ParseTree.h"
 #include "xlator/SymbolIndexer.h"
 #include "xlator/SymbolInfo.h"
+#include "xlator/ParseForestNode.h"
+#include "xlator/ParseTreeEnumerator.h"
 #include "meta/exception.h"
 
 namespace xlator {
@@ -17,7 +20,7 @@ public:
 
 	typedef std::string token;
 	typedef std::vector<token> token_string;
-	typedef std::vector<ParseTree> parse_tree_set;
+	typedef ParseTreeEnumerator::parse_tree_set parse_tree_set;
 
 	EXCEPTION_CLASS(load_from_file_error)
 	EXCEPTION_CLASS(parsing_error)
@@ -32,12 +35,76 @@ private:
 
 	typedef SymbolIndexer::symbol_index symbol_index;
 	typedef std::vector<symbol_index> symbol_string;
-	typedef std::map<symbol_string, std::vector<symbol_index> > rule_set_type;
+	typedef std::vector<symbol_index> rule_set_value_type;
+	typedef std::map<symbol_string, rule_set_value_type> rule_set_type;
 
 	rule_set_type rules;
 	SymbolInfo symbol_info;
+	SymbolIndexer symbol_indexer;
+
+	class Helper {
+
+	public:
+
+		typedef std::vector<const ParseForestNode *> output_type;
+
+		Helper(
+			const Parser &parser,
+			output_type &output);
+
+		~Helper();
+
+		void parse(const token_string &s);
+
+	private:
+
+		typedef std::vector<const ParseForestNode *> node_string;
+
+		struct VisitedSetLess {
+			bool operator()(const node_string &a, const node_string &b) const;
+		};
+
+		typedef
+			std::set<
+				node_string,
+				VisitedSetLess
+			>
+		visited_set;
+
+		/* This special comparator compares the child lists of parse
+		forest nodes by pointer value rather than comparing them
+		recursively. This is a nice shortcut which we can take because,
+		as can be deomonstrated inductively, every kind of subtree is
+		only stored once in the forest and therefore is represented
+		uniquely by its address. */
+		struct ParseForestNodeLess {
+			bool operator()(const ParseForestNode *a, const ParseForestNode *b) const;
+		};
+
+		typedef
+			std::set<
+				const ParseForestNode *,
+				ParseForestNodeLess
+			>
+			forest_type;
+
+		const Parser &parser;
+		output_type &output;
+		forest_type subtree_cache;
+		visited_set visited_strings;
+
+		void parse_recurse(const node_string &s);
+
+		const ParseForestNode *get_branch_pointer(const ParseForestNode &branch);
+
+		void print_forest() const;
+		void print_string(const node_string &s) const;
+
+	};
 
 	void print_rules() const;
+	void print_helper_output(const Helper::output_type &helper_output) const;
+	void print_tree(const ParseForestNode *node) const;
 
 };
 

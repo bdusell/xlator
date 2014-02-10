@@ -5,11 +5,13 @@ namespace xlator {
 ParserFileReader::ParserFileReader(
 	std::istream &fin,
 	output_type &output,
-	SymbolInfo &symbol_info
+	SymbolInfo &symbol_info,
+	SymbolIndexer &symbol_indexer
 )
 	: fin(fin)
 	, output(output)
 	, symbol_info(symbol_info)
+	, symbol_indexer(symbol_indexer)
 {}
 
 void ParserFileReader::read() {

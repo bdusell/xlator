@@ -3,12 +3,21 @@
 
 namespace functional {
 
-template <typename T>
-struct pointer_less {
-	bool operator()(const T *a, const T *b) const {
-		return *a < *b;
-	}
+#define _DEFINE_POINTER_CMP(name, op) \
+template <typename T> \
+struct pointer_ ## name { \
+	bool operator()(T a, T b) const { \
+		return *a op *b; \
+	} \
 };
+
+/* pointer_less */
+_DEFINE_POINTER_CMP(less, <)
+
+/* pointer_equal */
+_DEFINE_POINTER_CMP(equal, ==)
+
+#undef _DEFINE_POINTER_CMP
 
 } // functional
 

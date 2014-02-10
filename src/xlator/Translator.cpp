@@ -24,7 +24,9 @@ void Translator::translate(const input_token_string &input, output_token_string_
 
 	// Translate each parse tree
 	Interpreter::tree_set output_tree_set;
+	ParseTree::value_list_type output_symbol_string;
 	Translator::output_token_string output_token_string;
+
 	for(Parser::parse_tree_set::const_iterator
 		i = parse_trees.begin(), n = parse_trees.end(); i != n; ++i)
 	{
@@ -36,8 +38,9 @@ void Translator::translate(const input_token_string &input, output_token_string_
 			i = output_tree_set.begin(), n = output_tree_set.end(); i != n; ++i)
 		{
 			output_token_string.clear();
-			i->get_leaves(output_token_string);
-			output.push_back(output_token_string);
+			(*i)->get_leaves(output_symbol_string);
+			// TODO convert output_symbol_string
+			//output.push_back(output_token_string);
 		}
 	}
 }
