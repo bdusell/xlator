@@ -7,5 +7,5 @@ It is currently in the process of reorganization.
 
 ==== EXAMPLE USAGE ====
 
-    % ./xlator ../test/testgrammar1.txt ../test/testtranslator1.txt
+    % ./bin/xlator test/testgrammar1.txt test/testtranslator1.txt
 
