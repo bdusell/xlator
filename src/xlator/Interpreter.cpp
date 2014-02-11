@@ -15,5 +15,9 @@ void Interpreter::interpret(const ParseTree &input, tree_set &output) const
 	// TODO
 }
 
+void Interpreter::to_tokens(const symbol_string &s, token_string &output) const {
+	// TODO
+}
+
 } // namespace xlator
 

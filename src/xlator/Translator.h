@@ -23,7 +23,8 @@ public:
 
 	typedef Parser::token input_token;
 	typedef Parser::token_string input_token_string;
-	typedef input_token_string output_token_string;
+
+	typedef Interpreter::token_string output_token_string;
 	typedef std::vector<output_token_string> output_token_string_set;
 
 	typedef Parser::load_from_file_error load_parser_from_file_error;

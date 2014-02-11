@@ -9,8 +9,8 @@
 #include "xlator/SymbolIndexer.h"
 #include "xlator/SymbolInfo.h"
 #include "xlator/ParseForestNode.h"
-#include "xlator/ParseTreeEnumerator.h"
 #include "meta/exception.h"
+#include "resource/SharedPointer.h"
 
 namespace xlator {
 
@@ -20,7 +20,8 @@ public:
 
 	typedef std::string token;
 	typedef std::vector<token> token_string;
-	typedef ParseTreeEnumerator::parse_tree_set parse_tree_set;
+	typedef resource::SharedPointer<ParseTree> parse_tree_pointer_type;
+	typedef std::vector<parse_tree_pointer_type> parse_tree_set;
 
 	EXCEPTION_CLASS(load_from_file_error)
 	EXCEPTION_CLASS(parsing_error)

@@ -35,12 +35,10 @@ void Parser::parse(const token_string &input, parse_tree_set &output) const
 #	ifdef DEBUG
 	print_helper_output(helper_output);
 #	endif
-	// TODO convert the helper output by enumerating the parse trees
-	ParseTreeEnumerator enumerator(output);
 	for(Helper::output_type::const_iterator
 		i = helper_output.begin(), n = helper_output.end(); i != n; ++i)
 	{
-		enumerator.enumerate(*i);
+		output.push_back(parse_tree_pointer_type(new ParseTree(*i)));
 	}
 }
 

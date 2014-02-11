@@ -4,35 +4,30 @@
 #include <vector>
 
 #include "xlator/SymbolInfo.h"
+#include "resource/SharedPointer.h"
 
 namespace xlator {
+
+class ParseForestNode;
 
 class ParseTree {
 
 public:
 
 	typedef SymbolInfo::symbol_key value_type;
-	typedef std::vector<const ParseTree *> child_list_type;
+	typedef resource::SharedPointer<const ParseTree> child_pointer_type;
+	typedef std::vector<child_pointer_type> child_list_type;
 	typedef std::vector<value_type> value_list_type;
 
-	template <typename I>
-	ParseTree(value_type value, I children_begin, I children_end);
+	ParseTree(const ParseForestNode *node);
 
-	~ParseTree();
-
+	bool is_leaf() const;
 	void get_leaves(value_list_type &output) const;
 
 	const value_type value;
 	const child_list_type children;
 
 };
-
-template <typename I>
-ParseTree::ParseTree(value_type value, I children_begin, I children_end)
-	: value(value)
-	, children(children_begin, children_end)
-{
-}
 
 } // namespace xlator
 

@@ -3,6 +3,7 @@
 
 #include "xlator/ParseTree.h"
 
+
 namespace xlator {
 
 class ParseForestNode;
@@ -15,7 +16,8 @@ public:
 
 	ParseTreeEnumerator(parse_tree_set &output);
 
-	void enumerate(const ParseForestNode *node);
+	// TODO
+	//void enumerate(const ParseForestNode *node);
 
 private:
 
