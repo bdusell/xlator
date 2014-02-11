@@ -2,6 +2,12 @@
 
 namespace xlator {
 
+Translator::Translator()
+	: _parser(_symbol_indexer, _symbol_info)
+	, _interpreter(_symbol_indexer, _symbol_info)
+{
+}
+
 void Translator::load_parser_from_file(std::istream &input)
 	throw(load_parser_from_file_error)
 {

@@ -26,6 +26,8 @@ public:
 	EXCEPTION_CLASS(load_from_file_error)
 	EXCEPTION_CLASS(parsing_error)
 
+	Parser(SymbolIndexer &symbol_indexer, SymbolInfo &symbol_info);
+
 	void load_from_file(std::istream &input)
 		throw(load_from_file_error);
 
@@ -40,8 +42,8 @@ private:
 	typedef std::map<symbol_string, rule_set_value_type> rule_set_type;
 
 	rule_set_type rules;
-	SymbolInfo symbol_info;
-	SymbolIndexer symbol_indexer;
+	SymbolIndexer &symbol_indexer;
+	SymbolInfo &symbol_info;
 
 	class Helper {
 

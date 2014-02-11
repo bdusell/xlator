@@ -5,6 +5,12 @@
 
 namespace xlator {
 
+Parser::Parser(SymbolIndexer &symbol_indexer, SymbolInfo &symbol_info)
+	: symbol_indexer(symbol_indexer)
+	, symbol_info(symbol_info)
+{
+}
+
 void Parser::load_from_file(std::istream &input)
 	throw(load_from_file_error)
 {

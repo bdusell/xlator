@@ -1,12 +1,13 @@
 #ifndef _XLATOR_PARSERFILEREADER_H_
 #define _XLATOR_PARSERFILEREADER_H_
 
+#include "xlator/FileReader.h"
 #include "xlator/Parser.h"
 #include "xlator/SymbolInfo.h"
 
 namespace xlator {
 
-class ParserFileReader {
+class ParserFileReader : public FileReader {
 
 public:
 
@@ -32,29 +33,17 @@ public:
 
 private:
 
-	enum token_type { NONTERMINAL, TERMINAL, ARROW, NEWLINE, PIPE, END };
+	enum { NONTERMINAL, TERMINAL, ARROW, NEWLINE, PIPE, END };
 
-	std::istream &fin;
 	output_type &output;
 	SymbolInfo &symbol_info;
 	SymbolIndexer &symbol_indexer;
 
-	std::string curr_token_value;
-	token_type curr_token_type;
-	char next_char;
-
 	rule curr_rule;
 
-	static const char *token_type_name(token_type t);
-	const char *curr_token_name() const;
-	void expect_token(token_type type);
-	void fail_token(token_type type);
-	void read_token();
-	static void error_stray(char c);
-	void read_to_delim(char delim);
-	void need_char();
-	void fail_if_eof() const;
-	void read_char();
+	virtual const char *token_type_name(token_type t) const;
+	virtual void raise_error(const std::string &s) const;
+	virtual void read_token();
 
 };
 

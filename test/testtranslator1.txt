@@ -1,53 +1,53 @@
-<Sentence> -> <Sentence> [<Sentence>]
+<Sentence> { x } -> <Sentence> { x }
 
-<Sentence> { <Subject> <Predicate> } -> <Sentence> { <Subject> [<Subject>] <Predicate> [<Predicate>] }
+<Sentence> { <Subject> { s } <Predicate> { p } } -> <Sentence> { <Subject> { s } <Predicate> { p } }
 
-<Subject> { <Noun phrase> } -> <Subject> { <Nominative noun phrase> [<Noun phrase>] }
+<Subject> { <Noun phrase> { np } } -> <Subject> { <Nominative noun phrase> { np } }
 
-<Nominative noun phrase> { <Determiner> { the } <Noun> } -> <Nominative noun phrase> { <Nominative noun> [<Noun>] }
-<Nominative noun phrase> { <Determiner> { a } <Noun> } -> <Nominative noun phrase> { <Nominative noun> [<Noun>] }
-<Nominative noun phrase> { <Common noun> } -> <Nominative noun phrase> { <Nominative noun> [<Common noun>] }
+<Nominative noun phrase> { <Determiner> { "the" } <Noun> { n } } -> <Nominative noun phrase> { <Nominative noun> { n } }
+<Nominative noun phrase> { <Determiner> { "a" } <Noun> { n } } -> <Nominative noun phrase> { <Nominative noun> { n } }
+<Nominative noun phrase> { <Common noun> { n } } -> <Nominative noun phrase> { <Nominative noun> { n } }
 
-<Nominative noun> { girl } -> <Nominative noun> { puella }
-<Nominative noun> { tree } -> <Nominative noun> { arbor }
-<Nominative noun> { dog } -> <Nominative noun> { canis }
-<Nominative noun> { Burger King } -> <Nominative noun> { Rex Burgeri }
-<Nominative noun> { cat } -> <Nominative noun> { feles }
+<Nominative noun> { "girl" } -> <Nominative noun> { "puella" }
+<Nominative noun> { "tree" } -> <Nominative noun> { "arbor" }
+<Nominative noun> { "dog" } -> <Nominative noun> { "canis" }
+<Nominative noun> { "Burger" "King" } -> <Nominative noun> { "Rex" "Burgeri" }
+<Nominative noun> { "cat" } -> <Nominative noun> { "feles" }
 
-<Predicate> { <Transitive verb> <Direct object> } -> <Predicate> { <Direct object> [<Direct object>] <Transitive verb> [<Transitive verb>] }
-<Predicate> { <Intransitive verb> } -> <Predicate> { <Intransitive verb> [<Intransitive verb>] }
+<Predicate> { <Transitive verb> { v } <Direct object> { o } } -> <Predicate> { <Direct object> { o } <Transitive verb> { v } }
+<Predicate> { <Intransitive verb> { v } } -> <Predicate> { <Intransitive verb> { v } }
 
-<Direct object> { <Noun phrase> } -> <Direct object> { <Accusative noun phrase> [<Noun phrase>] }
+<Direct object> { <Noun phrase> { np } } -> <Direct object> { <Accusative noun phrase> { np } }
 
-<Accusative noun phrase> { <Determiner> { the } <Noun> } -> <Accusative noun phrase> { <Accusative noun> [<Noun>] }
-<Accusative noun phrase> { <Determiner> { a } <Noun> } -> <Accusative noun phrase> { <Accusative noun> [<Noun>] }
-<Accusative noun phrase> { <Common noun> } -> <Accusative noun phrase> { <Accusative noun> [<Common noun>] }
+<Accusative noun phrase> { <Determiner> { the } <Noun> { n } } -> <Accusative noun phrase> { <Accusative noun> { n } }
+<Accusative noun phrase> { <Determiner> { a } <Noun> { n } } -> <Accusative noun phrase> { <Accusative noun> { n } }
+<Accusative noun phrase> { <Common noun> { n } } -> <Accusative noun phrase> { <Accusative noun> { n } }
 
-<Accusative noun> { tree } -> <Accusative noun> { arborem }
-<Accusative noun> { girl } -> <Accusative noun> { puellam }
-<Accusative noun> { dog } -> <Accusative noun> { canem }
-<Accusative noun> { Burger King } -> <Accusative noun> { Regem Burgeri }
-<Accusative noun> { cat } -> <Accusative noun> { felem }
+<Accusative noun> { "tree" } -> <Accusative noun> { "arborem" }
+<Accusative noun> { "girl" } -> <Accusative noun> { "puellam" }
+<Accusative noun> { "dog" } -> <Accusative noun> { "canem" }
+<Accusative noun> { "Burger" "King" } -> <Accusative noun> { "Regem" "Burgeri" }
+<Accusative noun> { "cat" } -> <Accusative noun> { "felem" }
 
-<Intransitive verb> { sleeps } -> <Intransitive verb> { somnit }
-<Transitive verb> { sees } -> <Transitive verb> { videt }
-<Transitive verb> { loves } -> <Transitive verb> { amat }
+<Intransitive verb> { "sleeps" } -> <Intransitive verb> { "somnit" }
+<Transitive verb> { "sees" } -> <Transitive verb> { "videt" }
+<Transitive verb> { "loves" } -> <Transitive verb> { "amat" }
 
-<Predicate> { <Transitive verb> <Direct object> } -> <Predicate> { <Transitive verb> [<Transitive verb>] <Direct object> [<Direct object>] }
-<Sentence> { <Subject> <Predicate> } -> <Sentence> { <Predicate> [<Predicate>] <Subject> [<Subject>] }
+<Predicate> { <Transitive verb> { v } <Direct object> { o } } -> <Predicate> { <Transitive verb> { v } <Direct object> { o } }
+<Sentence> { <Subject> { s } <Predicate> { p } } -> <Sentence> { <Predicate> { p } <Subject> { s } }
 
-<Transitive verb> { eats } -> <Transitive verb> { edit }
-<Transitive verb> { chases } -> <Transitive verb> { fugit }
-<Intransitive verb> { plays } -> <Intransitive verb> { ludit }
-<Intransitive verb> { smiles } -> <Intransitive verb> { subridet }
-<Nominative noun> { teacher } -> <Nominative noun> { magister }
-<Nominative noun> { teacher } -> <Nominative noun> { magistra }
-<Accusative noun> { teacher } -> <Accusative noun> { magistrum }
-<Accusative noun> { teacher } -> <Nominative noun> { magistram }
-<Nominative noun> { student } -> <Nominative noun> { discipulus }
-<Nominative noun> { student } -> <Nominative noun> { discipula }
-<Accusative noun> { student } -> <Accusative noun> { discipulum }
-<Accusative noun> { student } -> <Nominative noun> { discipulam }
-<Transitive verb> { teaches } -> <Transitive verb> { docet }
+<Transitive verb> { "eats" } -> <Transitive verb> { "edit" }
+<Transitive verb> { "chases" } -> <Transitive verb> { "fugit" }
+<Intransitive verb> { "plays" } -> <Intransitive verb> { "ludit" }
+<Intransitive verb> { "smiles" } -> <Intransitive verb> { "subridet" }
+<Nominative noun> { "teacher" } -> <Nominative noun> { "magister" }
+<Nominative noun> { "teacher" } -> <Nominative noun> { "magistra" }
+<Accusative noun> { "teacher" } -> <Accusative noun> { "magistrum" }
+<Accusative noun> { "teacher" } -> <Nominative noun> { "magistram" }
+<Nominative noun> { "student" } -> <Nominative noun> { "discipulus" }
+<Nominative noun> { "student" } -> <Nominative noun> { "discipula" }
+<Accusative noun> { "student" } -> <Accusative noun> { "discipulum" }
+<Accusative noun> { "student" } -> <Nominative noun> { "discipulam" }
+<Transitive verb> { "teaches" } -> <Transitive verb> { "docet" }
 
 

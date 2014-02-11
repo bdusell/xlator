@@ -8,7 +8,7 @@ ParserFileReader::ParserFileReader(
 	SymbolInfo &symbol_info,
 	SymbolIndexer &symbol_indexer
 )
-	: fin(fin)
+	: FileReader(fin)
 	, output(output)
 	, symbol_info(symbol_info)
 	, symbol_indexer(symbol_indexer)
@@ -18,7 +18,7 @@ void ParserFileReader::read() {
 	do read_token(); while(curr_token_type == NEWLINE);
 	while(curr_token_type != END) {
 		if(curr_token_type != NONTERMINAL) {
-			throw error(
+			raise_error(
 				std::string("expected ")
 				+ token_type_name(NONTERMINAL)
 				+ " on left side of rule but read "
@@ -47,7 +47,7 @@ void ParserFileReader::read() {
 				curr_rule.right.push_back(rule::right_type::value_type());
 				break;
 			default:
-				throw error(
+				raise_error(
 					std::string("expected ")
 					+ token_type_name(NONTERMINAL)
 					+ " or " + token_type_name(TERMINAL)
@@ -58,12 +58,12 @@ void ParserFileReader::read() {
 		do read_token(); while(curr_token_type == NEWLINE);
 	}
 	if(output.empty()) {
-		throw error("no rules specified");
+		raise_error("no rules specified");
 	}
 	symbol_indexer.create_mapping(symbol_info);
 }
 
-const char *ParserFileReader::token_type_name(token_type t) {
+const char *ParserFileReader::token_type_name(token_type t) const {
 	static const char *names[] = {
 		"nonterminal",
 		"terminal",
@@ -75,27 +75,14 @@ const char *ParserFileReader::token_type_name(token_type t) {
 	return names[t];
 }
 
-const char *ParserFileReader::curr_token_name() const {
-	return token_type_name(curr_token_type);
-}
-
-void ParserFileReader::expect_token(token_type type) {
-	read_token();
-	fail_token(type);
-}
-
-void ParserFileReader::fail_token(token_type type) {
-	if(curr_token_type != type) {
-		throw error(
-			std::string("expected ") + token_type_name(type)
-			+ " but read " + curr_token_name());
-	}
+void ParserFileReader::raise_error(const std::string &s) const {
+	throw error(s);
 }
 
 void ParserFileReader::read_token() {
 	do read_char();
-	while(isspace(next_char) && next_char != '\n' && fin);
-	if(!fin) {
+	while(isspace(next_char) && next_char != '\n' && !at_eof());
+	if(at_eof()) {
 		curr_token_type = END;
 		return;
 	}
@@ -133,35 +120,6 @@ void ParserFileReader::read_token() {
 		<< std::endl;
 #		endif
 */
-}
-
-void ParserFileReader::error_stray(char c) {
-	throw error(
-		std::string("stray \"") + c + "\"");
-}
-
-void ParserFileReader::read_to_delim(char delim) {
-	curr_token_value.clear();
-	std::getline(fin, curr_token_value, delim);
-	fail_if_eof();
-}
-
-void ParserFileReader::need_char() {
-	read_char();
-	fail_if_eof();
-}
-
-void ParserFileReader::fail_if_eof() const {
-	if(!fin.good()) {
-		throw error(
-			std::string(token_type_name(END))
-			+ " reached while reading "
-			+ token_type_name(curr_token_type));
-	}
-}
-
-void ParserFileReader::read_char() {
-	fin.read(&next_char, 1);
 }
 
 } // namespace xlator

@@ -33,6 +33,8 @@ public:
 	typedef Parser::parsing_error parsing_error;
 	typedef Interpreter::translation_error translation_error;
 
+	Translator();
+
 	/*
 	Load the parser rules from an input stream.
 	*/
@@ -54,6 +56,8 @@ public:
 
 private:
 
+	SymbolIndexer _symbol_indexer;
+	SymbolInfo _symbol_info;
 	Parser _parser;
 	Interpreter _interpreter;
 

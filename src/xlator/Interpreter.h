@@ -6,6 +6,8 @@
 #include <vector>
 
 #include "xlator/ParseTree.h"
+#include "xlator/SymbolIndexer.h"
+#include "xlator/SymbolInfo.h"
 #include "meta/exception.h"
 
 namespace xlator {
@@ -23,6 +25,10 @@ public:
 	EXCEPTION_CLASS(load_from_file_error)
 	EXCEPTION_CLASS(translation_error)
 
+	Interpreter(
+		const SymbolIndexer &input_symbol_indexer,
+		const SymbolInfo &input_symbol_info);
+
 	void load_from_file(std::istream &input)
 		throw(load_from_file_error);
 
@@ -32,6 +38,12 @@ public:
 	void to_tokens(const symbol_string &s, token_string &output) const;
 
 private:
+
+	const SymbolIndexer &input_symbol_indexer;
+	const SymbolInfo &input_symbol_info;
+
+	SymbolIndexer output_symbol_indexer;
+	SymbolInfo output_symbol_info;
 
 };
 
