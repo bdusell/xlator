@@ -5,6 +5,7 @@ namespace xlator {
 FileReader::FileReader(std::istream &fin)
 	: fin(fin)
 {
+	read_char();
 }
 
 const char *FileReader::curr_token_name() const {

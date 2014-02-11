@@ -12,6 +12,8 @@ public:
 
 	typedef unsigned int counter_type;
 
+	inline SharedPointer();
+
 	inline SharedPointer(T *ptr);
 
 	inline SharedPointer(const SharedPointer &copy);
@@ -30,12 +32,21 @@ public:
 	inline T *operator->();
 	inline const T *operator->() const;
 
+	inline operator bool() const;
+
 private:
 
 	T *_data;
 	counter_type *_references;
 
 };
+
+template <typename T>
+SharedPointer<T>::SharedPointer()
+	: _data(NULL)
+	, _references(NULL)
+{
+}
 
 template <typename T>
 SharedPointer<T>::SharedPointer(T *ptr)
@@ -49,12 +60,12 @@ SharedPointer<T>::SharedPointer(const SharedPointer &copy)
 	: _data(copy._data)
 	, _references(copy._references)
 {
-	++*_references;
+	if(_references) ++*_references;
 }
 
 template <typename T>
 SharedPointer<T>::~SharedPointer() {
-	if(--*_references == 0) {
+	if(_references && --*_references == 0) {
 		delete _data;
 		delete _references;
 	}
@@ -94,6 +105,11 @@ T *SharedPointer<T>::operator->() {
 
 template <typename T>
 const T *SharedPointer<T>::operator->() const {
+	return _data;
+}
+
+template <typename T>
+SharedPointer<T>::operator bool() const {
 	return _data;
 }
 

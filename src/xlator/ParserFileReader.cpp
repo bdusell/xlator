@@ -80,8 +80,7 @@ void ParserFileReader::raise_error(const std::string &s) const {
 }
 
 void ParserFileReader::read_token() {
-	do read_char();
-	while(isspace(next_char) && next_char != '\n' && !at_eof());
+	while(!at_eof() && isspace(next_char) && next_char != '\n') read_char();
 	if(at_eof()) {
 		curr_token_type = END;
 		return;
@@ -112,13 +111,14 @@ void ParserFileReader::read_token() {
 		error_stray(next_char);
 		break;
 	}
+	read_char();
 /*
-#		ifdef DEBUG
+#	ifdef DEBUG
 	std::cerr
 		<< token_type_name(curr_token_type)
 		<< " \"" << curr_token_value << "\""
 		<< std::endl;
-#		endif
+#	endif
 */
 }
 
