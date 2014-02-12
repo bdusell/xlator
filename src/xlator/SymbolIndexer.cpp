@@ -6,19 +6,12 @@ namespace xlator {
 
 SymbolIndexer::symbol_index SymbolIndexer::index_symbol(const std::string &name, symbol_type type) {
 	assert(type < symbol::NUM_TYPES);
-	return symbols[type].insert(map_type::value_type(name, size())).first->second;
+	return symbols[type].index_key(name, size());
 }
 
 bool SymbolIndexer::get_index(const std::string &name, symbol_type type, symbol_index &out) const {
-	const map_type &map = symbols[type];
-	map_type::const_iterator pos = map.find(name);
-	if(pos == map.end()) {
-		return false;
-	}
-	else {
-		out = pos->second;
-		return true;
-	}
+	assert(type < symbol::NUM_TYPES);
+	return symbols[type].get_index(name, out);
 }
 
 void SymbolIndexer::create_mapping(SymbolInfo &output) const {

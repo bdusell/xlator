@@ -27,6 +27,8 @@ public:
 	template <typename I>
 	void print_string(I begin, I end, std::ostream &out) const;
 
+	static void print_symbol(const std::string &name, symbol::symbol_type type, std::ostream &out);
+
 private:
 
 	typedef std::vector<symbol> symbols_type;

@@ -1,10 +1,10 @@
 #ifndef _XLATOR_SYMBOLINDEXER_H_
 #define _XLATOR_SYMBOLINDEXER_H_
 
-#include <map>
 #include <string>
 #include <vector>
 
+#include "xlator/Indexer.h"
 #include "xlator/SymbolInfo.h"
 
 namespace xlator {
@@ -33,7 +33,7 @@ public:
 
 private:
 
-	typedef std::map<std::string, symbol_index> map_type;
+	typedef Indexer<std::string, symbol_index> map_type;
 
 	map_type symbols[symbol::NUM_TYPES];
 

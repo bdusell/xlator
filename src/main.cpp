@@ -41,7 +41,7 @@ int main(int argc, char **argv) {
 		translator.load_parser_from_file(parser_fin);
 	}
 	catch(xlator::Translator::load_parser_from_file_error &e) {
-		std::cerr << "error in parser file: " << e.what() << std::endl;
+		std::cerr << parser_finname << ':' << e.what() << std::endl;
 		return 1;
 	}
 
@@ -50,7 +50,7 @@ int main(int argc, char **argv) {
 		translator.load_interpreter_from_file(translator_fin);
 	}
 	catch(xlator::Translator::load_interpreter_from_file_error &e) {
-		std::cerr << "error in translator file: " << e.what() << std::endl;
+		std::cerr << translator_finname << ':' << e.what() << std::endl;
 		return 1;
 	}
 

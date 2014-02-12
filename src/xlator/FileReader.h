@@ -17,15 +17,14 @@ public:
 protected:
 
 	virtual const char *token_type_name(token_type t) const = 0;
-	virtual void raise_error(const std::string &s) const = 0;
+	virtual void throw_exception(const std::string &s) const = 0;
 	virtual void read_token() = 0;
-
-	const char *curr_token_name() const;
 
 	std::string curr_token_value;
 	token_type curr_token_type;
 	char next_char;
 
+	const char *curr_token_name() const;
 	void read_to_delim(char delim);
 	void need_char();
 	void read_char();
@@ -34,10 +33,12 @@ protected:
 	void error_stray(char c);
 	void expect_token(token_type type);
 	void fail_token(token_type type);
+	void raise_error(const std::string &s) const;
 
 private:
 
 	std::istream &fin;
+	unsigned int line, column;
 
 };
 

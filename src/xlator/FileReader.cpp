@@ -1,9 +1,14 @@
 #include "xlator/FileReader.h"
 
+#include <algorithm>
+#include <sstream>
+
 namespace xlator {
 
 FileReader::FileReader(std::istream &fin)
 	: fin(fin)
+	, line(1)
+	, column(1)
 {
 	read_char();
 }
@@ -16,6 +21,9 @@ void FileReader::read_to_delim(char delim) {
 	curr_token_value.clear();
 	std::getline(fin, curr_token_value, delim);
 	fail_if_eof();
+	column += curr_token_value.size();
+	// Uncomment to make this work for newlines within tokens
+	//line += std::count(curr_token_value.begin(), curr_token_value.end(), '\n') + (delim == '\n');
 }
 
 void FileReader::need_char() {
@@ -33,6 +41,15 @@ void FileReader::fail_if_eof() const {
 
 void FileReader::read_char() {
 	fin.read(&next_char, 1);
+	if(!at_eof()) {
+		if(next_char == '\n') {
+			++line;
+			column = 1;
+		}
+		else {
+			++column;
+		}
+	}
 }
 
 bool FileReader::at_eof() const {
@@ -55,6 +72,12 @@ void FileReader::fail_token(token_type type) {
 			std::string("expected ") + token_type_name(type)
 			+ " but read " + curr_token_name());
 	}
+}
+
+void FileReader::raise_error(const std::string &s) const {
+	std::ostringstream out;
+	out << line << ':' << column << ": " << s;
+	throw_exception(out.str());
 }
 
 } // namespace xlator

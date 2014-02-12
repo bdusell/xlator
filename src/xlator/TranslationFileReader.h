@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "xlator/FileReader.h"
+#include "xlator/Indexer.h"
 #include "xlator/SymbolIndexer.h"
 #include "xlator/SymbolInfo.h"
 #include "xlator/ParseTree.h"
@@ -47,17 +48,23 @@ private:
 	const SymbolIndexer &input_symbol_indexer;
 	const SymbolInfo &input_symbol_info;
 
-	rule curr_rule;
-
 	SymbolIndexer &output_symbol_indexer;
 	SymbolInfo &output_symbol_info;
 
+	rule curr_rule;
+	Indexer<std::string, unsigned int> curr_vars;
+	bool at_top_level, was_variable;
+	enum { LEFT_SIDE, RIGHT_SIDE } curr_side;
+
 	virtual const char *token_type_name(token_type t) const;
-	virtual void raise_error(const std::string &s) const;
+	virtual void throw_exception(const std::string &s) const;
 	virtual void read_token();
 
-	enum { LEFT_SIDE, RIGHT_SIDE };
-	void read_tree(short side);
+	ParseTree::child_pointer_type read_tree();
+	std::string curr_token_repr() const;
+	ParseTree::value_type get_input_index(const std::string &name) const;
+	static SymbolInfo::symbol::symbol_type token_type_to_symbol_type(short token_type);
+	ParseTree::value_type get_symbol_index();
 
 };
 

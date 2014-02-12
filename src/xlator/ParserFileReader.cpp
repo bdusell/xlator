@@ -75,7 +75,7 @@ const char *ParserFileReader::token_type_name(token_type t) const {
 	return names[t];
 }
 
-void ParserFileReader::raise_error(const std::string &s) const {
+void ParserFileReader::throw_exception(const std::string &s) const {
 	throw error(s);
 }
 

@@ -16,6 +16,17 @@ ParseTree::child_list_type make_child_list(const ParseForestNode *node) {
 }
 }
 
+ParseTree::ParseTree(value_type value) 
+	: value(value)
+{
+}
+
+ParseTree::ParseTree(value_type value, const child_list_type &children)
+	: value(value)
+	, children(children)
+{
+}
+
 ParseTree::ParseTree(const ParseForestNode *node)
 	: value(node->value)
 	, children(make_child_list(node))

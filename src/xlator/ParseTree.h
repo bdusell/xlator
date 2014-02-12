@@ -19,7 +19,9 @@ public:
 	typedef std::vector<child_pointer_type> child_list_type;
 	typedef std::vector<value_type> value_list_type;
 
-	ParseTree(const ParseForestNode *node);
+	ParseTree(value_type value);
+	ParseTree(value_type value, const child_list_type &children);
+	explicit ParseTree(const ParseForestNode *node);
 
 	bool is_leaf() const;
 	void get_leaves(value_list_type &output) const;

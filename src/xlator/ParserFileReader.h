@@ -42,7 +42,7 @@ private:
 	rule curr_rule;
 
 	virtual const char *token_type_name(token_type t) const;
-	virtual void raise_error(const std::string &s) const;
+	virtual void throw_exception(const std::string &s) const;
 	virtual void read_token();
 
 };
