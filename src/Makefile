@@ -81,6 +81,8 @@ Translator.o: xlator/Translator.cpp xlator/Translator.h xlator/Parser.h \
  xlator/ParseTree.h xlator/SymbolInfo.h resource/SharedPointer.h \
  xlator/SymbolIndexer.h xlator/Indexer.h xlator/ParseForestNode.h \
  meta/exception.h xlator/Interpreter.h
+TranslationTree.o: xlator/TranslationTree.cpp xlator/TranslationTree.h \
+ xlator/ParseTree.h xlator/SymbolInfo.h resource/SharedPointer.h
 main-debug.o: main.cpp resource/ScopedFile.h xlator/Translator.h \
  xlator/Parser.h xlator/ParseTree.h xlator/SymbolInfo.h \
  resource/SharedPointer.h xlator/SymbolIndexer.h xlator/Indexer.h \
@@ -127,3 +129,5 @@ Translator-debug.o: xlator/Translator.cpp xlator/Translator.h xlator/Parser.h \
  xlator/ParseTree.h xlator/SymbolInfo.h resource/SharedPointer.h \
  xlator/SymbolIndexer.h xlator/Indexer.h xlator/ParseForestNode.h \
  meta/exception.h xlator/Interpreter.h
+TranslationTree-debug.o: xlator/TranslationTree.cpp xlator/TranslationTree.h \
+ xlator/ParseTree.h xlator/SymbolInfo.h resource/SharedPointer.h

@@ -15,20 +15,23 @@ public:
 	typedef ParseTree::value_type symbol_type;
 	typedef resource::SharedPointer<const TranslationTree> child_pointer_type;
 	typedef std::vector<child_pointer_type> child_list_type;
+	typedef int donor_index_type;
+
+	static const donor_index_type NO_DONOR = -1;
+
+	TranslationTree(symbol_type symbol);
+
+	TranslationTree(
+		symbol_type symbol,
+		donor_index_type donor_index,
+		const child_list_type &children);
 
 	const symbol_type symbol;
-	const int donor_index;
-
-	static const int NO_DONOR = -1;
-
-/*
-	const union {
-		symbol_type symbol;
-		unsigned int donor_index;
-	} value;
-*/
+	const donor_index_type donor_index;
 
 	const child_list_type children;
+
+	bool is_leaf() const;
 
 private:
 

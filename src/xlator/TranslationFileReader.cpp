@@ -27,19 +27,25 @@ void TranslationFileReader::read() {
 
 		at_top_level = true;
 		curr_side = LEFT_SIDE;
-		curr_rule.pattern = read_tree();
+		curr_rule.pattern = read_left_tree();
 
 		expect_token(ARROW);
 		read_token();
 
 		curr_side = RIGHT_SIDE;
-		read_tree();
+		curr_rule.translation = read_right_tree();
+
+		output.push_back(curr_rule);
 
 		do read_token(); while(curr_token_type == NEWLINE);
 	}
+	output_symbol_indexer.create_mapping(output_symbol_info);
+#ifdef	DEBUG
+	print_rules();
+#endif
 }
 
-ParseTree::child_pointer_type TranslationFileReader::read_tree() {
+ParseTree::child_pointer_type TranslationFileReader::read_left_tree() {
 	/*
 	Precondition: The first token of the tree has already been read.
 	Postcondition: The last token of the tree has been read but not the one after it.
@@ -55,6 +61,10 @@ ParseTree::child_pointer_type TranslationFileReader::read_tree() {
 
 		/* This helps decide where to look up the symbol index (input
 		or translation grammar). */
+		/*
+		TODO see about allowing single terminals on the left side,
+		since the translation algorithm can easily accommodate it
+		*/
 		at_top_level = false;
 
 		/* Recursively read sub-trees. */
@@ -64,7 +74,7 @@ ParseTree::child_pointer_type TranslationFileReader::read_tree() {
 			read_token();
 			if(curr_token_type == RBRACE) break;
 			was_variable = false;
-			subtree = read_tree();
+			subtree = read_left_tree();
 			bool subtree_was_variable = was_variable;
 			was_variable = false;
 			if(subtree_was_variable) {
@@ -84,6 +94,79 @@ ParseTree::child_pointer_type TranslationFileReader::read_tree() {
 		break;
 	case VARIABLE:
 		curr_vars.index_key(curr_token_value, curr_vars.size());
+		was_variable = true;
+		break;
+	default:
+		raise_error(
+			std::string("expected a syntax tree but got ")
+			+ curr_token_name());
+	}
+
+	return result;
+}
+
+TranslationTree::child_pointer_type TranslationFileReader::read_right_tree() {
+	/*
+	Precondition: The first token of the tree has already been read.
+	Postcondition: The last token of the tree has been read but not the one after it.
+	*/
+
+	// TODO think about code reuse
+
+	TranslationTree::child_pointer_type result;
+	switch(curr_token_type) {
+	case NONTERMINAL:
+	{
+
+		/* Symbols on the right side are always in the translation
+		grammar. */
+		TranslationTree::symbol_type value =
+			output_symbol_indexer.index_symbol(
+				curr_token_value,
+				SymbolInfo::symbol::NONTERMINAL);
+		TranslationTree::donor_index_type result_donor_index =
+			TranslationTree::NO_DONOR;
+
+		expect_token(LBRACE);
+
+		/* Recursively read sub-trees. */
+		TranslationTree::child_list_type result_children;
+		TranslationTree::child_pointer_type subtree;
+		while(true) {
+			read_token();
+			if(curr_token_type == RBRACE) break;
+			was_variable = false;
+			subtree = read_right_tree();
+			bool subtree_was_variable = was_variable;
+			was_variable = false;
+			if(subtree_was_variable) {
+				/* If the subtree is a variable, set the donor index
+				to something interesting. */
+				if(!curr_vars.get_index(curr_token_value, result_donor_index)) {
+					raise_error(
+						std::string("variable ")
+						+ curr_token_value
+						+ " not found on left side of rule");
+				}
+				// Quit early if the subtree was a variable
+				expect_token(RBRACE);
+				break;
+			}
+			result_children.push_back(subtree);
+		}
+		result = TranslationTree::child_pointer_type(
+			new TranslationTree(value, result_donor_index, result_children));
+	}
+		break;
+	case TERMINAL:
+		result = TranslationTree::child_pointer_type(
+			new TranslationTree(
+				output_symbol_indexer.index_symbol(
+					curr_token_value,
+					SymbolInfo::symbol::TERMINAL)));
+		break;
+	case VARIABLE:
+		/* Just signal that we got a variable. */
 		was_variable = true;
 		break;
 	default:
@@ -168,12 +251,6 @@ void TranslationFileReader::read_token() {
 		need_to_read_char = false;
 	}
 	if(need_to_read_char) read_char();
-#	ifdef DEBUG
-	std::cout
-		<< curr_token_name()
-		<< " \"" << curr_token_value << "\""
-		<< std::endl;
-#	endif
 }
 
 ParseTree::value_type TranslationFileReader::get_input_index(const std::string &name) const {
@@ -197,11 +274,68 @@ SymbolInfo::symbol::symbol_type TranslationFileReader::token_type_to_symbol_type
 }
 
 ParseTree::value_type TranslationFileReader::get_symbol_index() {
-	return !at_top_level && curr_side == LEFT_SIDE ?
+	return !at_top_level /* TODO && curr_side == LEFT_SIDE */ ?
 		get_input_index(curr_token_value) :
 		output_symbol_indexer.index_symbol(
 			curr_token_value,
 			token_type_to_symbol_type(curr_token_type));
+}
+
+void TranslationFileReader::print_rules() const {
+	for(output_type::const_iterator
+		i = output.begin(), n = output.end(); i != n; ++i)
+	{
+		unsigned int counter = 0;
+		print_parse_tree(i->pattern, counter, true);
+		std::cout << " -> ";
+		print_translation_tree(i->translation);
+		std::cout << std::endl;
+	}
+}
+
+void TranslationFileReader::print_parse_tree(
+	const ParseTree::child_pointer_type &t,
+	unsigned int &counter,
+	bool at_top) const
+{
+	const SymbolInfo &info = at_top ? output_symbol_info : input_symbol_info;
+	info.print_symbol(t->value, std::cout);
+	if(t->is_leaf()) {
+		if(info[t->value].type == SymbolInfo::symbol::NONTERMINAL) {
+			std::cout << " { " << counter++ << " }";
+		}
+	}
+	else {
+		std::cout << " {";
+		for(ParseTree::child_list_type::const_iterator
+			i = t->children.begin(), n = t->children.end(); i != n; ++i)
+		{
+			std::cout << ' ';
+			print_parse_tree(*i, counter, false);
+		}
+		std::cout << " }";
+	}
+}
+
+void TranslationFileReader::print_translation_tree(
+	const TranslationTree::child_pointer_type &t) const
+{
+	output_symbol_info.print_symbol(t->symbol, std::cout);
+	if(t->is_leaf()) {
+		if(t->donor_index != TranslationTree::NO_DONOR) {
+			std::cout << " { " << t->donor_index << " }";
+		}
+	}
+	else {
+		std::cout << " {";
+		for(TranslationTree::child_list_type::const_iterator
+			i = t->children.begin(), n = t->children.end(); i != n; ++i)
+		{
+			std::cout << ' ';
+			print_translation_tree(*i);
+		}
+		std::cout << " }";
+	}
 }
 
 } // namespace xlator

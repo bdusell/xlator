@@ -52,7 +52,7 @@ private:
 	SymbolInfo &output_symbol_info;
 
 	rule curr_rule;
-	Indexer<std::string, unsigned int> curr_vars;
+	Indexer<std::string, int> curr_vars;
 	bool at_top_level, was_variable;
 	enum { LEFT_SIDE, RIGHT_SIDE } curr_side;
 
@@ -60,11 +60,20 @@ private:
 	virtual void throw_exception(const std::string &s) const;
 	virtual void read_token();
 
-	ParseTree::child_pointer_type read_tree();
+	ParseTree::child_pointer_type read_left_tree();
+	TranslationTree::child_pointer_type read_right_tree();
 	std::string curr_token_repr() const;
 	ParseTree::value_type get_input_index(const std::string &name) const;
 	static SymbolInfo::symbol::symbol_type token_type_to_symbol_type(short token_type);
 	ParseTree::value_type get_symbol_index();
+
+	void print_rules() const;
+	void print_parse_tree(
+		const ParseTree::child_pointer_type &t,
+		unsigned int &counter,
+		bool at_top) const;
+	void print_translation_tree(
+		const TranslationTree::child_pointer_type &t) const;
 
 };
 

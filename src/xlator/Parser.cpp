@@ -222,11 +222,13 @@ const ParseForestNode *Parser::Helper::get_branch_pointer(const ParseForestNode 
 	heap and insert it. */
 	const ParseForestNode *ptr;
 	if(result == subtree_cache.end()) {
-#		ifndef NDEBUG
+#		ifdef DEBUG
 		std::pair<forest_type::const_iterator, bool> pos =
 #		endif
 		subtree_cache.insert(ptr = new ParseForestNode(branch));
+#		ifdef DEBUG
 		assert(pos.second);
+#		endif
 	}
 	else {
 		ptr = *result;

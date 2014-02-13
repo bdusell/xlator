@@ -45,6 +45,8 @@ private:
 	SymbolIndexer output_symbol_indexer;
 	SymbolInfo output_symbol_info;
 
+	void print_rules() const;
+
 };
 
 } // namespace xlator
