@@ -43,5 +43,16 @@ void SymbolInfo::print_symbol(
 	out << left << name << right;
 }
 
+void SymbolInfo::print() const {
+	std::cout << "SYMBOL INFO:" << std::endl;
+	for(symbols_type::size_type
+		i = 0, n = _symbols.size(); i < n; ++i)
+	{
+		std::cout << i << ". ";
+		print_symbol(i, std::cout);
+		std::cout << std::endl;
+	}
+}
+
 } // namespace xlator
 

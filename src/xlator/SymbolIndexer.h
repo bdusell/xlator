@@ -17,6 +17,8 @@ public:
 	typedef SymbolInfo::symbol symbol;
 	typedef SymbolInfo::symbol::symbol_type symbol_type;
 
+	SymbolIndexer();
+
 	/*
 	Insert a symbol into the indexer. Give it a new index if it does not
 	exist, or reuse an existing one.
@@ -29,6 +31,10 @@ public:
 	*/
 	bool get_index(const std::string &name, symbol_type type, symbol_index &out) const;
 
+	symbol_index next_index() const;
+
+	void set_base(symbol_index base);
+
 	void create_mapping(SymbolInfo &output) const;
 
 private:
@@ -36,6 +42,7 @@ private:
 	typedef Indexer<std::string, symbol_index> map_type;
 
 	map_type symbols[symbol::NUM_TYPES];
+	symbol_index base;
 
 	symbol_index size() const;
 

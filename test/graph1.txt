@@ -1,9 +1,0 @@
-setVertex 1 A
-setVertex 2 B
-setVertex 3 C
-setVertex 4 D
-setEdge 1 2 0.0
-setEdge 2 3 0.0
-setEdge 3 4 0.0
-setEdge 4 1 0.0
-cyclic

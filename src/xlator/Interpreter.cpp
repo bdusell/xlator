@@ -6,40 +6,53 @@ namespace xlator {
 
 Interpreter::Interpreter(
 	const SymbolIndexer &input_symbol_indexer,
-	const SymbolInfo &input_symbol_info)
+	SymbolInfo &symbol_info)
 	: input_symbol_indexer(input_symbol_indexer)
-	, input_symbol_info(input_symbol_info)
+	, symbol_info(symbol_info)
+	, parse_tree_matcher(symbol_info)
 {
 }
 
 void Interpreter::load_from_file(std::istream &input)
 	throw(load_from_file_error)
 {
-	TranslationFileReader::output_type output;
 	TranslationFileReader reader(
-		input, output,
-		input_symbol_indexer, input_symbol_info,
-		output_symbol_indexer, output_symbol_info);
+		input, rules,
+		input_symbol_indexer, output_symbol_indexer,
+		symbol_info);
 	reader.read();
-#ifdef	DEBUG
-	print_rules();
-#endif
-	// TODO
-	throw load_from_file_error("reading translation file is not implemented yet");
+	ParseTreeMatcher::key_type key(1);
+	for(rule_list_type::const_iterator
+		i = rules.begin(), n = rules.end(); i != n; ++i)
+	{
+		key[0] = i->pattern;
+		parse_tree_matcher.insert(key, &*i);
+	}
 }
 
 void Interpreter::interpret(const ParseTree &input, tree_set &output) const
 	throw(translation_error)
 {
+	Helper helper(*this, output);
+	helper.interpret();
 	throw translation_error("translation is not implemented yet");
-	// TODO
 }
 
 void Interpreter::to_tokens(const symbol_string &s, token_string &output) const {
-	// TODO
+	for(symbol_string::const_iterator
+		i = s.begin(), n = s.end(); i != n; ++i)
+	{
+		output.push_back(symbol_info[*i].name);
+	}
 }
 
-void Interpreter::print_rules() const {
+Interpreter::Helper::Helper(const Interpreter &interpreter, tree_set &output)
+	: interpreter(interpreter)
+	, output(output)
+{
+}
+
+void Interpreter::Helper::interpret() {
 	// TODO
 }
 

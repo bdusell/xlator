@@ -1,0 +1,7 @@
+<sentence> -> <noun phrase> <verb phrase>
+<noun phrase> -> <det> <noun>
+<verb phrase> -> <trans verb> <noun phrase> | <intrans verb>
+<det> -> "a" | "the"
+<trans verb> -> "sees"
+<noun> -> "man" | "woman"
+<intrans verb> -> "sleeps"

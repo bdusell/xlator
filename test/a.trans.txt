@@ -1,0 +1,9 @@
+<sentence> { s } -> <*sentence> { s }
+<*sentence> { <noun phrase> { np } <verb phrase> { vp } } -> <*sentence> { <*noun phrase> { np } "wa" <*verb phrase> { vp } }
+<*noun phrase> { <det> { d } <noun> { n } } -> <*noun phrase> { <*noun> { n } }
+<*verb phrase> { <trans verb> { v } <noun phrase> { np } } -> <*verb phrase> { <*noun phrase> { np } "o" <*verb> { v } }
+<*verb phrase> { <intrans verb> { v } } -> <*verb phrase> { <*verb> { v } }
+<*noun> { "man" } -> <*noun> { "otoko" "no" "hito" }
+<*noun> { "woman" } -> <*noun> { "onna" "no" "hito" }
+<*verb> { "sees" } -> <*verb> { "mimasu" }
+<*verb> { "sleeps" } -> <*verb> { "nemasu" }

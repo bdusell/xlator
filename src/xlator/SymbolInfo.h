@@ -29,6 +29,8 @@ public:
 
 	static void print_symbol(const std::string &name, symbol::symbol_type type, std::ostream &out);
 
+	void print() const;
+
 private:
 
 	typedef std::vector<symbol> symbols_type;

@@ -1,9 +1,0 @@
-<EXPR> -> <EXPR> + <TERM> | <TERM>
-<TERM> -> <TERM> * <FACTOR> | <FACTOR>
-<FACTOR> -> (<EXPR>) | a
-<A> -> <B>
-<B> -> <C>
-<C> -> <D> | <C>
-<D> -> <E> | <EXPR> | <A>
-<E> -> <A>
-<C> -> fault

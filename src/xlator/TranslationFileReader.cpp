@@ -7,16 +7,17 @@ namespace xlator {
 TranslationFileReader::TranslationFileReader(
 	std::istream &input, output_type &output,
 	const SymbolIndexer &input_symbol_indexer,
-	const SymbolInfo &input_symbol_info,
 	SymbolIndexer &output_symbol_indexer,
-	SymbolInfo &output_symbol_info)
+	SymbolInfo &symbol_info)
 	: FileReader(input)
 	, output(output)
 	, input_symbol_indexer(input_symbol_indexer)
-	, input_symbol_info(input_symbol_info)
 	, output_symbol_indexer(output_symbol_indexer)
-	, output_symbol_info(output_symbol_info)
+	, symbol_info(symbol_info)
 {
+	/* Make sure the codes for input grammar and translation grammar
+	symbols are always distinct. */
+	output_symbol_indexer.set_base(input_symbol_indexer.next_index());
 }
 
 void TranslationFileReader::read() {
@@ -26,22 +27,21 @@ void TranslationFileReader::read() {
 		curr_vars.clear();
 
 		at_top_level = true;
-		curr_side = LEFT_SIDE;
 		curr_rule.pattern = read_left_tree();
 
 		expect_token(ARROW);
 		read_token();
 
-		curr_side = RIGHT_SIDE;
 		curr_rule.translation = read_right_tree();
 
 		output.push_back(curr_rule);
 
 		do read_token(); while(curr_token_type == NEWLINE);
 	}
-	output_symbol_indexer.create_mapping(output_symbol_info);
+	output_symbol_indexer.create_mapping(symbol_info);
 #ifdef	DEBUG
 	print_rules();
+	symbol_info.print();
 #endif
 }
 
@@ -274,7 +274,7 @@ SymbolInfo::symbol::symbol_type TranslationFileReader::token_type_to_symbol_type
 }
 
 ParseTree::value_type TranslationFileReader::get_symbol_index() {
-	return !at_top_level /* TODO && curr_side == LEFT_SIDE */ ?
+	return !at_top_level ?
 		get_input_index(curr_token_value) :
 		output_symbol_indexer.index_symbol(
 			curr_token_value,
@@ -298,10 +298,9 @@ void TranslationFileReader::print_parse_tree(
 	unsigned int &counter,
 	bool at_top) const
 {
-	const SymbolInfo &info = at_top ? output_symbol_info : input_symbol_info;
-	info.print_symbol(t->value, std::cout);
+	symbol_info.print_symbol(t->value, std::cout);
 	if(t->is_leaf()) {
-		if(info[t->value].type == SymbolInfo::symbol::NONTERMINAL) {
+		if(symbol_info[t->value].type == SymbolInfo::symbol::NONTERMINAL) {
 			std::cout << " { " << counter++ << " }";
 		}
 	}
@@ -320,7 +319,7 @@ void TranslationFileReader::print_parse_tree(
 void TranslationFileReader::print_translation_tree(
 	const TranslationTree::child_pointer_type &t) const
 {
-	output_symbol_info.print_symbol(t->symbol, std::cout);
+	symbol_info.print_symbol(t->symbol, std::cout);
 	if(t->is_leaf()) {
 		if(t->donor_index != TranslationTree::NO_DONOR) {
 			std::cout << " { " << t->donor_index << " }";

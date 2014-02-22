@@ -10,11 +10,11 @@ class FileReader {
 
 public:
 
-	typedef unsigned char token_type;
-
 	FileReader(std::istream &fin);
 
 protected:
+
+	typedef unsigned char token_type;
 
 	virtual const char *token_type_name(token_type t) const = 0;
 	virtual void throw_exception(const std::string &s) const = 0;

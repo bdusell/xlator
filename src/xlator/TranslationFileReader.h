@@ -10,6 +10,7 @@
 #include "xlator/ParseTree.h"
 #include "xlator/TranslationTree.h"
 #include "xlator/Interpreter.h"
+#include "xlator/ParseTreeMatcher.h"
 
 namespace xlator {
 
@@ -19,21 +20,17 @@ public:
 
 	typedef SymbolIndexer::symbol_index symbol_index;
 
-	struct rule {
-		ParseTree::child_pointer_type pattern;
-		TranslationTree::child_pointer_type translation;
-	};
+	typedef ParseTreeMatcher::rule_type rule_type;
 
-	typedef std::vector<rule> output_type;
+	typedef std::vector<rule_type> output_type;
 
 	typedef Interpreter::load_from_file_error error;
 
 	TranslationFileReader(
 		std::istream &input, output_type &output,
 		const SymbolIndexer &input_symbol_indexer,
-		const SymbolInfo &input_symbol_info,
 		SymbolIndexer &output_symbol_indexer,
-		SymbolInfo &output_symbol_info);
+		SymbolInfo &symbol_info);
 
 	void read();
 
@@ -46,15 +43,12 @@ private:
 	output_type &output;
 
 	const SymbolIndexer &input_symbol_indexer;
-	const SymbolInfo &input_symbol_info;
-
 	SymbolIndexer &output_symbol_indexer;
-	SymbolInfo &output_symbol_info;
+	SymbolInfo &symbol_info;
 
-	rule curr_rule;
+	rule_type curr_rule;
 	Indexer<std::string, int> curr_vars;
 	bool at_top_level, was_variable;
-	enum { LEFT_SIDE, RIGHT_SIDE } curr_side;
 
 	virtual const char *token_type_name(token_type t) const;
 	virtual void throw_exception(const std::string &s) const;

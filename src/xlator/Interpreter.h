@@ -8,6 +8,7 @@
 #include "xlator/ParseTree.h"
 #include "xlator/SymbolIndexer.h"
 #include "xlator/SymbolInfo.h"
+#include "xlator/ParseTreeMatcher.h"
 #include "meta/exception.h"
 
 namespace xlator {
@@ -27,7 +28,7 @@ public:
 
 	Interpreter(
 		const SymbolIndexer &input_symbol_indexer,
-		const SymbolInfo &input_symbol_info);
+		SymbolInfo &symbol_info);
 
 	void load_from_file(std::istream &input)
 		throw(load_from_file_error);
@@ -40,12 +41,34 @@ public:
 private:
 
 	const SymbolIndexer &input_symbol_indexer;
-	const SymbolInfo &input_symbol_info;
+	SymbolIndexer output_symbol_indexer;
+	SymbolInfo &symbol_info;
 
+/*
 	SymbolIndexer output_symbol_indexer;
 	SymbolInfo output_symbol_info;
+*/
 
-	void print_rules() const;
+	typedef ParseTreeMatcher::rule_type rule_type;
+	typedef std::vector<rule_type> rule_list_type;
+
+	rule_list_type rules;
+	ParseTreeMatcher parse_tree_matcher;
+
+	class Helper {
+
+	public:
+
+		Helper(const Interpreter &interpreter, tree_set &output);
+
+		void interpret();
+
+	private:
+
+		const Interpreter &interpreter;
+		tree_set &output;
+
+	};
 
 };
 
