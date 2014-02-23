@@ -77,7 +77,7 @@ void ParseTreeMatcher::find(const key_type &trees, match_list_type &output) cons
 
 void ParseTreeMatcher::print() const {
 	std::cout << "MATCHER:" << std::endl;
-	matcher.print();
+	matcher.print("");
 }
 
 ParseTreeMatcher::ParseTreeSequenceMatcher::ParseTreeSequenceMatcher(
@@ -139,40 +139,49 @@ void ParseTreeMatcher::ParseTreeSequenceMatcher::find(
 				i = 0, n = key.size(); i < n; ++i)
 			{
 				const symbol_info_type &info = symbol_info_list[i];
+
 				/* Recursively search for matches in the subtree. Here
 				we get rules which were matched deeper in the tree than
-				at the current child node. We will later get the rules
-				matched at the current child node from info.matched. */
+				at the current child node. */
+				sub_matches.clear();
 				info.subtree.find(key[i]->children, sub_matches);
 				sub_rules.clear();
 				match_list_to_rule_set(sub_matches, sub_rules);
+
+				/* We get the rules matched at the current child node
+				from info.matched. */
+				sub_rules.insert(info.matched.begin(), info.matched.end());
+
+				/* Incrementally compute the set intersection of matched
+				rules. */
 				intersection.add(sub_rules);
 
 				/* Stop early if there are no rules which can be
 				matched in every subtree. */
 				if(intersection.set.size() == 0) return;
 			}
+
 			/* For each matched rule, insert it into the results. */
 			match m;
 			for(rule_set_type::const_iterator
 				i = intersection.set.begin(), n = intersection.set.end(); i != n; ++i)
 			{
 				m.rule = *i;
-				// TODO m.children.assign();
+				// TODO XXX FIXME m.children.assign();
 				output.push_back(m);
 			}
-			/* TODO get children, add results to output */
 		}
 	}
 }
 
-void ParseTreeMatcher::ParseTreeSequenceMatcher::print() const {
+void ParseTreeMatcher::ParseTreeSequenceMatcher::print(const std::string &indent) const {
 	typedef std::vector<ParseTree::value_type> value_string_type;
 	value_string_type value_string;
-	std::cout << '{' << std::endl;
+	std::cout << indent << '{' << std::endl;
 	for(map_type::const_iterator
 		i = map.begin(), n = map.end(); i != n; ++i)
 	{
+		std::cout << indent;
 		value_string.clear();
 		for(ParseTree::child_list_type::const_iterator
 			j = i->first.begin(), m = i->first.end(); j != m; ++j)
@@ -188,14 +197,15 @@ void ParseTreeMatcher::ParseTreeSequenceMatcher::print() const {
 			for(rule_set_type::const_iterator
 				ii = j->matched.begin(), nn = j->matched.end(); ii != nn; ++ii)
 			{
+				std::cout << indent << '\t';
 				(*ii)->print(*symbol_info, std::cout);
 				std::cout << std::endl;
 			}
-			j->subtree.print();
+			j->subtree.print(indent + '\t');
 		}
-		std::cout << ']' << std::endl;
+		std::cout << indent << ']' << std::endl;
 	}
-	std::cout << '}' << std::endl;
+	std::cout << indent << '}' << std::endl;
 }
 
 namespace {

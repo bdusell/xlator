@@ -27,10 +27,10 @@ void Interpreter::load_from_file(std::istream &input)
 	{
 		key[0] = i->pattern;
 		parse_tree_matcher.insert(key, &*i);
-#		ifdef DEBUG
-		parse_tree_matcher.print();
-#		endif
 	}
+#	ifdef DEBUG
+	parse_tree_matcher.print();
+#	endif
 }
 
 void Interpreter::interpret(const ParseTree &input, tree_set &output) const
@@ -38,7 +38,6 @@ void Interpreter::interpret(const ParseTree &input, tree_set &output) const
 {
 	Helper helper(*this, output);
 	helper.interpret();
-	throw translation_error("translation is not implemented yet");
 }
 
 void Interpreter::to_tokens(const symbol_string &s, token_string &output) const {
@@ -57,6 +56,7 @@ Interpreter::Helper::Helper(const Interpreter &interpreter, tree_set &output)
 
 void Interpreter::Helper::interpret() {
 	// TODO
+	throw translation_error("translation is not implemented yet");
 }
 
 } // namespace xlator

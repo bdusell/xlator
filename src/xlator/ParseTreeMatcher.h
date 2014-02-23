@@ -73,7 +73,7 @@ private:
 
 		void find(const ParseTree::child_list_type &key, match_list_type &output) const;
 
-		void print() const;
+		void print(const std::string &indent) const;
 
 	private:
 
