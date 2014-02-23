@@ -27,6 +27,9 @@ void Interpreter::load_from_file(std::istream &input)
 	{
 		key[0] = i->pattern;
 		parse_tree_matcher.insert(key, &*i);
+#		ifdef DEBUG
+		parse_tree_matcher.print();
+#		endif
 	}
 }
 

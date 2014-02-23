@@ -62,12 +62,6 @@ private:
 	ParseTree::value_type get_symbol_index();
 
 	void print_rules() const;
-	void print_parse_tree(
-		const ParseTree::child_pointer_type &t,
-		unsigned int &counter,
-		bool at_top) const;
-	void print_translation_tree(
-		const TranslationTree::child_pointer_type &t) const;
 
 };
 

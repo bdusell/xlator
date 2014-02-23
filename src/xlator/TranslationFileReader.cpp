@@ -285,55 +285,8 @@ void TranslationFileReader::print_rules() const {
 	for(output_type::const_iterator
 		i = output.begin(), n = output.end(); i != n; ++i)
 	{
-		unsigned int counter = 0;
-		print_parse_tree(i->pattern, counter, true);
-		std::cout << " -> ";
-		print_translation_tree(i->translation);
+		i->print(symbol_info, std::cout);
 		std::cout << std::endl;
-	}
-}
-
-void TranslationFileReader::print_parse_tree(
-	const ParseTree::child_pointer_type &t,
-	unsigned int &counter,
-	bool at_top) const
-{
-	symbol_info.print_symbol(t->value, std::cout);
-	if(t->is_leaf()) {
-		if(symbol_info[t->value].type == SymbolInfo::symbol::NONTERMINAL) {
-			std::cout << " { " << counter++ << " }";
-		}
-	}
-	else {
-		std::cout << " {";
-		for(ParseTree::child_list_type::const_iterator
-			i = t->children.begin(), n = t->children.end(); i != n; ++i)
-		{
-			std::cout << ' ';
-			print_parse_tree(*i, counter, false);
-		}
-		std::cout << " }";
-	}
-}
-
-void TranslationFileReader::print_translation_tree(
-	const TranslationTree::child_pointer_type &t) const
-{
-	symbol_info.print_symbol(t->symbol, std::cout);
-	if(t->is_leaf()) {
-		if(t->donor_index != TranslationTree::NO_DONOR) {
-			std::cout << " { " << t->donor_index << " }";
-		}
-	}
-	else {
-		std::cout << " {";
-		for(TranslationTree::child_list_type::const_iterator
-			i = t->children.begin(), n = t->children.end(); i != n; ++i)
-		{
-			std::cout << ' ';
-			print_translation_tree(*i);
-		}
-		std::cout << " }";
 	}
 }
 

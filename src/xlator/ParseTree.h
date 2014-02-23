@@ -2,6 +2,7 @@
 #define _XLATOR_PARSETREE_H_
 
 #include <vector>
+#include <iostream>
 
 #include "xlator/SymbolInfo.h"
 #include "resource/SharedPointer.h"
@@ -9,6 +10,7 @@
 namespace xlator {
 
 class ParseForestNode;
+class SymbolInfo;
 
 class ParseTree {
 

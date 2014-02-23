@@ -1,6 +1,7 @@
 #include "ParseTree.h"
 
 #include "xlator/ParseForestNode.h"
+#include "xlator/SymbolInfo.h"
 
 namespace xlator {
 

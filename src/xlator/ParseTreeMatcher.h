@@ -22,6 +22,22 @@ public:
 	struct rule_type {
 		ParseTree::child_pointer_type pattern;
 		TranslationTree::child_pointer_type translation;
+
+		void print(const SymbolInfo &info, std::ostream &out) const;
+
+	private:
+
+		void print_parse_tree(
+			const ParseTree::child_pointer_type tree,
+			const SymbolInfo &info,
+			unsigned int &counter,
+			bool at_top,
+			std::ostream &out) const;
+
+		void print_translation_tree(
+			const TranslationTree::child_pointer_type tree,
+			const SymbolInfo &info,
+			std::ostream &out) const;
 	};
 
 	void insert(const key_type &trees, const rule_type *rule);
@@ -37,11 +53,15 @@ public:
 
 	void find(const key_type &trees, match_list_type &output) const;
 
+	void print() const;
+
 private:
 
 	class value_type;
 
 	class symbol_info_type;
+
+	typedef std::set<const rule_type *> rule_set_type;
 
 	class ParseTreeSequenceMatcher {
 
@@ -52,6 +72,8 @@ private:
 		void insert(const ParseTree::child_list_type &key, const rule_type *rule);
 
 		void find(const ParseTree::child_list_type &key, match_list_type &output) const;
+
+		void print() const;
 
 	private:
 
@@ -74,9 +96,10 @@ private:
 		/* Info is necessary to distinguish nonterminals from terminals. */
 		const SymbolInfo *symbol_info;
 
-	}; // class ParseTreeSequenceMatcher
+		static void match_list_to_rule_set(
+			const match_list_type &matches, rule_set_type &output);
 
-	typedef std::set<const rule_type *> rule_set_type;
+	}; // class ParseTreeSequenceMatcher
 
 	struct symbol_info_type {
 
