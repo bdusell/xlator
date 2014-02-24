@@ -48,7 +48,8 @@ private:
 
 	rule_type curr_rule;
 	Indexer<std::string, int> curr_vars;
-	bool at_top_level, was_variable;
+	bool was_variable;
+	unsigned int level;
 
 	virtual const char *token_type_name(token_type t) const;
 	virtual void throw_exception(const std::string &s) const;
@@ -56,10 +57,15 @@ private:
 
 	ParseTree::child_pointer_type read_left_tree();
 	TranslationTree::child_pointer_type read_right_tree();
-	std::string curr_token_repr() const;
-	ParseTree::value_type get_input_index(const std::string &name) const;
+	std::string token_repr(const std::string &value, short token_type) const;
+	ParseTree::value_type get_input_index(
+		const std::string &name,
+		short token_type) const;
+	ParseTree::value_type get_left_side_symbol_index(
+		const std::string &name,
+		short token_type,
+		bool use_input);
 	static SymbolInfo::symbol::symbol_type token_type_to_symbol_type(short token_type);
-	ParseTree::value_type get_symbol_index();
 
 	void print_rules() const;
 

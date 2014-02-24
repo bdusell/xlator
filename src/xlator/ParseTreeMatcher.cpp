@@ -1,9 +1,8 @@
 #include "xlator/ParseTreeMatcher.h"
 
+#include <cassert>
 #include <set>
 #include <algorithm>
-
-#include "algorithm/SetIntersector.h"
 
 namespace xlator {
 
@@ -80,6 +79,12 @@ void ParseTreeMatcher::print() const {
 	matcher.print("");
 }
 
+bool ParseTreeMatcher::RuleComparator::operator()(
+	const rule_type *a, const rule_type *b) const
+{
+	return a->index < b->index;
+}
+
 ParseTreeMatcher::ParseTreeSequenceMatcher::ParseTreeSequenceMatcher(
 	const SymbolInfo &symbol_info)
 	: symbol_info(&symbol_info)
@@ -96,7 +101,7 @@ void ParseTreeMatcher::ParseTreeSequenceMatcher::insert(
 		i = 0, n = key.size(); i < n; ++i)
 	{
 		if(key[i]->children.empty()) {
-			m[i].matched.insert(rule);
+			m[i].matched.push_back(rule);
 		}
 		else {
 			m[i].subtree.insert(key[i]->children, rule);
@@ -121,55 +126,77 @@ void ParseTreeMatcher::ParseTreeSequenceMatcher::find(
 
 		const std::vector<symbol_info_type> &symbol_info_list = pos->second;
 
-		if(!symbol_info_list.empty()) {
+		assert(!symbol_info_list.empty());
 
-			match_list_type sub_matches;
-			rule_set_type sub_rules;
+		match_list_type matches;
 
-			/* The set of rules which are reported to have been matched in
-			every subtree of the list provided as the key value. It is the
-			set intersection of all the sets of symbols fully matched in
-			the sub-trees. */
-			algorithm::SetIntersector<rule_set_type> intersection;
+		/* In output we store the set of rules which are reported to
+		have been matched in every subtree of the list provided as
+		the key value. It is the set intersection of all the sets of
+		rules fully matched in the sub-trees. */
 
-			/* Loop through the children in the list provided as the key
-			value and each child's corresponding symbol info
-			simultaneously. */
-			for(ParseTree::child_list_type::size_type
-				i = 0, n = key.size(); i < n; ++i)
+		/* Loop through the children in the list provided as the key
+		value and each child's corresponding symbol info
+		simultaneously. */
+		bool first = true;
+		for(ParseTree::child_list_type::size_type
+			i = 0, n = key.size(); i < n; ++i)
+		{
+			const symbol_info_type &info = symbol_info_list[i];
+
+			/* Recursively search for matches in the subtree. Here
+			we get rules which were matched deeper in the tree than
+			at the current child node. */
+			matches.clear();
+			info.subtree.find(key[i]->children, matches);
+
+			/* We get the rules matched at the current child node
+			from info.matched. For each of these, we insert the
+			current node as a leaf for this matched rule (unless
+			it is a terminal). Note that this set of rules is
+			disjoint from those returned by info.subtree.find(). */
+			for(rule_list_type::const_iterator
+				j = info.matched.begin(), m = info.matched.end(); j != m; ++j)
 			{
-				const symbol_info_type &info = symbol_info_list[i];
-
-				/* Recursively search for matches in the subtree. Here
-				we get rules which were matched deeper in the tree than
-				at the current child node. */
-				sub_matches.clear();
-				info.subtree.find(key[i]->children, sub_matches);
-				sub_rules.clear();
-				match_list_to_rule_set(sub_matches, sub_rules);
-
-				/* We get the rules matched at the current child node
-				from info.matched. */
-				sub_rules.insert(info.matched.begin(), info.matched.end());
-
-				/* Incrementally compute the set intersection of matched
-				rules. */
-				intersection.add(sub_rules);
-
-				/* Stop early if there are no rules which can be
-				matched in every subtree. */
-				if(intersection.set.size() == 0) return;
+				assert(matches.count(*j) == 0);
+				ParseTree::child_list_type &v = matches[*j];
+				if((*symbol_info)[key[i]->value].type == SymbolInfo::symbol::NONTERMINAL) {
+					/* This is the base case of the recursion
+					where we actually send leaf nodes back
+					up to the caller. */
+					v.push_back(key[i]);
+				}
 			}
 
-			/* For each matched rule, insert it into the results. */
-			match m;
-			for(rule_set_type::const_iterator
-				i = intersection.set.begin(), n = intersection.set.end(); i != n; ++i)
-			{
-				m.rule = *i;
-				// TODO XXX FIXME m.children.assign();
-				output.push_back(m);
+			/* Incrementally compute the set intersection of
+			the rules matched at each node. */
+			if(first) {
+				output.swap(matches);
+				first = false;
 			}
+			else {
+				for(match_list_type::iterator
+					j = output.begin(), m = output.end(); j != m;)
+				{
+					match_list_type::iterator pos = matches.find(j->first);
+					if(pos == matches.end()) {
+						match_list_type::iterator jcopy = j;
+						++j;
+						output.erase(jcopy);
+					}
+					else {
+						j->second.insert(
+							j->second.end(),
+							pos->second.begin(),
+							pos->second.end());
+						++j;
+					}
+				}
+			}
+
+			/* Stop early if there are no rules which can be
+			matched in every subtree. */
+			if(output.size() == 0) return;
 		}
 	}
 }
@@ -194,7 +221,7 @@ void ParseTreeMatcher::ParseTreeSequenceMatcher::print(const std::string &indent
 		for(map_type::mapped_type::const_iterator
 			j = i->second.begin(), m = i->second.end(); j != m; ++j)
 		{
-			for(rule_set_type::const_iterator
+			for(rule_list_type::const_iterator
 				ii = j->matched.begin(), nn = j->matched.end(); ii != nn; ++ii)
 			{
 				std::cout << indent << '\t';
@@ -225,16 +252,6 @@ bool ParseTreeMatcher::ParseTreeSequenceMatcher::ChildListComparator::operator()
 		a.begin(), a.end(),
 		b.begin(), b.end(),
 		ParseTreeComparator());
-}
-
-void ParseTreeMatcher::ParseTreeSequenceMatcher::match_list_to_rule_set(
-	const match_list_type &matcher, rule_set_type &output)
-{
-	for(match_list_type::const_iterator
-		i = matcher.begin(), n = matcher.end(); i != n; ++i)
-	{
-		output.insert(i->rule);
-	}
 }
 
 ParseTreeMatcher::symbol_info_type::symbol_info_type(const SymbolInfo &symbol_info)

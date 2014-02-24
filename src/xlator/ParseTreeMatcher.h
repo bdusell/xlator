@@ -20,6 +20,7 @@ public:
 	typedef ParseTree::child_list_type key_type;
 
 	struct rule_type {
+		unsigned int index;
 		ParseTree::child_pointer_type pattern;
 		TranslationTree::child_pointer_type translation;
 
@@ -42,14 +43,19 @@ public:
 
 	void insert(const key_type &trees, const rule_type *rule);
 
-	struct match {
-		/* The matched rule. */
-		const rule_type *rule;
-		/* The non-terminal leaves whose children will be donated. */
-		ParseTree::child_list_type children;
+private:
+
+	struct RuleComparator {
+		bool operator()(const rule_type *a, const rule_type *b) const;
 	};
 
-	typedef std::vector<match> match_list_type;
+public:
+
+	typedef std::map<
+		const rule_type *,
+		ParseTree::child_list_type,
+		RuleComparator
+	> match_list_type;
 
 	void find(const key_type &trees, match_list_type &output) const;
 
@@ -60,8 +66,6 @@ private:
 	class value_type;
 
 	class symbol_info_type;
-
-	typedef std::set<const rule_type *> rule_set_type;
 
 	class ParseTreeSequenceMatcher {
 
@@ -96,16 +100,15 @@ private:
 		/* Info is necessary to distinguish nonterminals from terminals. */
 		const SymbolInfo *symbol_info;
 
-		static void match_list_to_rule_set(
-			const match_list_type &matches, rule_set_type &output);
-
 	}; // class ParseTreeSequenceMatcher
+
+	typedef std::vector<const rule_type *> rule_list_type;
 
 	struct symbol_info_type {
 
 		symbol_info_type(const SymbolInfo &symbol_info);
 
-		rule_set_type matched;
+		rule_list_type matched;
 		ParseTreeSequenceMatcher subtree;
 	};
 

@@ -1,5 +1,6 @@
 #include "xlator/TranslationFileReader.h"
 
+#include <cassert>
 #include <sstream>
 
 namespace xlator {
@@ -21,12 +22,13 @@ TranslationFileReader::TranslationFileReader(
 }
 
 void TranslationFileReader::read() {
+	curr_rule.index = 0;
+	level = 0;
 	do read_token(); while(curr_token_type == NEWLINE);
 	while(curr_token_type != END) {
 
 		curr_vars.clear();
 
-		at_top_level = true;
 		curr_rule.pattern = read_left_tree();
 
 		expect_token(ARROW);
@@ -35,6 +37,7 @@ void TranslationFileReader::read() {
 		curr_rule.translation = read_right_tree();
 
 		output.push_back(curr_rule);
+		++curr_rule.index;
 
 		do read_token(); while(curr_token_type == NEWLINE);
 	}
@@ -55,17 +58,13 @@ ParseTree::child_pointer_type TranslationFileReader::read_left_tree() {
 	switch(curr_token_type) {
 	case NONTERMINAL:
 	{
-		ParseTree::value_type value = get_symbol_index();
+		/* Remember what the name of this symbol is. */
+		std::string symbol_name;
+		symbol_name.swap(curr_token_value);
 
 		expect_token(LBRACE);
 
-		/* This helps decide where to look up the symbol index (input
-		or translation grammar). */
-		/*
-		TODO see about allowing single terminals on the left side,
-		since the translation algorithm can easily accommodate it
-		*/
-		at_top_level = false;
+		bool is_leaf = false;
 
 		/* Recursively read sub-trees. */
 		ParseTree::child_list_type result_children;
@@ -74,23 +73,39 @@ ParseTree::child_pointer_type TranslationFileReader::read_left_tree() {
 			read_token();
 			if(curr_token_type == RBRACE) break;
 			was_variable = false;
+			++level;
 			subtree = read_left_tree();
-			bool subtree_was_variable = was_variable;
+			--level;
+			bool child_was_variable = was_variable;
 			was_variable = false;
-			if(subtree_was_variable) {
-				// Quit early if the subtree was a variable
-				expect_token(RBRACE);
-				break;
+			if(child_was_variable) {
+				if(result_children.empty()) {
+					// Quit early if the subtree was a variable
+					is_leaf = true;
+					expect_token(RBRACE);
+					break;
+				}
+				else {
+					raise_error(
+						"variables cannot appear next to symbols");
+				}
 			}
+			assert(subtree);
 			result_children.push_back(subtree);
 		}
+		ParseTree::value_type value = get_left_side_symbol_index(
+			symbol_name, NONTERMINAL,
+			level > 0 || is_leaf);
 		result = ParseTree::child_pointer_type(
 			new ParseTree(value, result_children));
 	}
 		break;
 	case TERMINAL:
 		result = ParseTree::child_pointer_type(
-			new ParseTree(get_symbol_index()));
+			new ParseTree(
+				get_left_side_symbol_index(
+					curr_token_value, TERMINAL,
+					level > 0)));
 		break;
 	case VARIABLE:
 		curr_vars.index_key(curr_token_value, curr_vars.size());
@@ -136,21 +151,29 @@ TranslationTree::child_pointer_type TranslationFileReader::read_right_tree() {
 			read_token();
 			if(curr_token_type == RBRACE) break;
 			was_variable = false;
+			++level;
 			subtree = read_right_tree();
-			bool subtree_was_variable = was_variable;
+			--level;
+			bool child_was_variable = was_variable;
 			was_variable = false;
-			if(subtree_was_variable) {
-				/* If the subtree is a variable, set the donor index
-				to something interesting. */
-				if(!curr_vars.get_index(curr_token_value, result_donor_index)) {
-					raise_error(
-						std::string("variable ")
-						+ curr_token_value
-						+ " not found on left side of rule");
+			if(child_was_variable) {
+				if(result_children.empty()) {
+					/* If the subtree is a variable, set the donor index
+					to something interesting. */
+					if(!curr_vars.get_index(curr_token_value, result_donor_index)) {
+						raise_error(
+							std::string("variable ")
+							+ curr_token_value
+							+ " not found on left side of rule");
+					}
+					// Quit early if the subtree was a variable
+					expect_token(RBRACE);
+					break;
 				}
-				// Quit early if the subtree was a variable
-				expect_token(RBRACE);
-				break;
+				else {
+					raise_error(
+						"variables cannot appear next to symbols");
+				}
 			}
 			result_children.push_back(subtree);
 		}
@@ -178,11 +201,13 @@ TranslationTree::child_pointer_type TranslationFileReader::read_right_tree() {
 	return result;
 }
 
-std::string TranslationFileReader::curr_token_repr() const {
+std::string TranslationFileReader::token_repr(
+	const std::string &value, short token_type) const
+{
 	std::ostringstream out;
 	SymbolInfo::print_symbol(
-		curr_token_value,
-		token_type_to_symbol_type(curr_token_type),
+		value,
+		token_type_to_symbol_type(token_type),
 		out);
 	return out.str();
 }
@@ -253,32 +278,38 @@ void TranslationFileReader::read_token() {
 	if(need_to_read_char) read_char();
 }
 
-ParseTree::value_type TranslationFileReader::get_input_index(const std::string &name) const {
+ParseTree::value_type TranslationFileReader::get_input_index(
+	const std::string &name,
+	short token_type) const
+{
 	SymbolIndexer::symbol_index result;
 	if(!input_symbol_indexer.get_index(
 		name,
-		token_type_to_symbol_type(curr_token_type),
+		token_type_to_symbol_type(token_type),
 		result))
 	{
 		raise_error(
 			std::string("symbol does not exist in input grammar: ")
-			+ curr_token_repr());
+			+ token_repr(name, token_type));
 	}
 	return result;
+}
+
+ParseTree::value_type TranslationFileReader::get_left_side_symbol_index(
+	const std::string &name,
+	short token_type,
+	bool use_input)
+{
+	return use_input ?
+		get_input_index(name, token_type) :
+		output_symbol_indexer.index_symbol(
+			name, SymbolInfo::symbol::NONTERMINAL);
 }
 
 SymbolInfo::symbol::symbol_type TranslationFileReader::token_type_to_symbol_type(short token_type) {
 	return token_type == NONTERMINAL ?
 		SymbolInfo::symbol::NONTERMINAL :
 		SymbolInfo::symbol::TERMINAL;
-}
-
-ParseTree::value_type TranslationFileReader::get_symbol_index() {
-	return !at_top_level ?
-		get_input_index(curr_token_value) :
-		output_symbol_indexer.index_symbol(
-			curr_token_value,
-			token_type_to_symbol_type(curr_token_type));
 }
 
 void TranslationFileReader::print_rules() const {

@@ -62,7 +62,7 @@ ParserFileReader.o: xlator/ParserFileReader.cpp xlator/ParserFileReader.h \
 SymbolInfo.o: xlator/SymbolInfo.cpp xlator/SymbolInfo.h
 ParseTreeMatcher.o: xlator/ParseTreeMatcher.cpp xlator/ParseTreeMatcher.h \
  xlator/ParseTree.h xlator/SymbolInfo.h resource/SharedPointer.h \
- xlator/TranslationTree.h algorithm/SetIntersector.h
+ xlator/TranslationTree.h
 FileReader.o: xlator/FileReader.cpp xlator/FileReader.h
 Tokenizer.o: xlator/Tokenizer.cpp xlator/Tokenizer.h xlator/Parser.h \
  xlator/ParseTree.h xlator/SymbolInfo.h resource/SharedPointer.h \
@@ -116,7 +116,7 @@ ParserFileReader-debug.o: xlator/ParserFileReader.cpp xlator/ParserFileReader.h 
 SymbolInfo-debug.o: xlator/SymbolInfo.cpp xlator/SymbolInfo.h
 ParseTreeMatcher-debug.o: xlator/ParseTreeMatcher.cpp xlator/ParseTreeMatcher.h \
  xlator/ParseTree.h xlator/SymbolInfo.h resource/SharedPointer.h \
- xlator/TranslationTree.h algorithm/SetIntersector.h
+ xlator/TranslationTree.h
 FileReader-debug.o: xlator/FileReader.cpp xlator/FileReader.h
 Tokenizer-debug.o: xlator/Tokenizer.cpp xlator/Tokenizer.h xlator/Parser.h \
  xlator/ParseTree.h xlator/SymbolInfo.h resource/SharedPointer.h \

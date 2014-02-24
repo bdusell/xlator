@@ -38,6 +38,10 @@ void Parser::parse(const token_string &input, parse_tree_set &output) const
 	Helper::output_type helper_output;
 	Helper helper(*this, helper_output);
 	helper.parse(input);
+	if(helper_output.empty()) {
+		throw parsing_error(
+			"the grammar does not recognize the input string");
+	}
 #	ifdef DEBUG
 	print_helper_output(helper_output);
 #	endif

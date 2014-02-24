@@ -55,7 +55,7 @@ Interpreter::Helper::Helper(const Interpreter &interpreter, tree_set &output)
 }
 
 void Interpreter::Helper::interpret() {
-	// TODO
+	
 	throw translation_error("translation is not implemented yet");
 }
 
