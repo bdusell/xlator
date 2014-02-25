@@ -79,13 +79,11 @@ void Parser::print_helper_output(const Helper::output_type &helper_output) const
 void Parser::print_tree(const ParseForestNode *node) const {
 	symbol_info.print_symbol(node->value, std::cout);
 	if(!node->children.empty()) {
-		bool first = true;
-		std::cout << " { ";
+		std::cout << " {";
 		for(ParseForestNode::child_list_type::const_iterator
 			i = node->children.begin(), n = node->children.end(); i != n; ++i)
 		{
-			if(first) first = false;
-			else std::cout << ' ';
+			std::cout << ' ';
 			print_tree(*i);
 		}
 		std::cout << " }";

@@ -20,7 +20,7 @@ public:
 
 	typedef std::string token;
 	typedef std::vector<token> token_string;
-	typedef resource::SharedPointer<ParseTree> parse_tree_pointer_type;
+	typedef ParseTree::child_pointer_type parse_tree_pointer_type;
 	typedef std::vector<parse_tree_pointer_type> parse_tree_set;
 
 	EXCEPTION_CLASS(load_from_file_error)

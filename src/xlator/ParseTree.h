@@ -28,6 +28,8 @@ public:
 	bool is_leaf() const;
 	void get_leaves(value_list_type &output) const;
 
+	void print(const SymbolInfo &info, std::ostream &out) const;
+
 	const value_type value;
 	const child_list_type children;
 

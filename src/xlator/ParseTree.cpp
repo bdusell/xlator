@@ -51,5 +51,19 @@ void ParseTree::get_leaves(value_list_type &output) const {
 	}
 }
 
+void ParseTree::print(const SymbolInfo &info, std::ostream &out) const {
+	info.print_symbol(value, out);
+	if(!is_leaf()) {
+		out << " {";
+		for(child_list_type::const_iterator
+			i = children.begin(), n = children.end(); i != n; ++i)
+		{
+			out << ' ';
+			(*i)->print(info, out);
+		}
+		out << " }";
+	}
+}
+
 } // namespace xlator
 
