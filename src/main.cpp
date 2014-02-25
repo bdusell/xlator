@@ -83,6 +83,7 @@ int main(int argc, char **argv) {
 		i = output_token_set.begin(), n = output_token_set.end(); i != n; ++i)
 	{
 		// Convert the translated tokens back into text
+		input_line.clear();
 		formatter.format(*i, input_line);
 
 		// Print the result

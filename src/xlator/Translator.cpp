@@ -43,6 +43,7 @@ void Translator::translate(const input_token_string &input, output_token_string_
 		for(Interpreter::tree_set::const_iterator
 			i = output_tree_set.begin(), n = output_tree_set.end(); i != n; ++i)
 		{
+			output_symbol_string.clear();
 			output_token_string.clear();
 			(*i)->get_leaves(output_symbol_string);
 			_interpreter.to_tokens(output_symbol_string, output_token_string);
