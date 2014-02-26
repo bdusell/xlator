@@ -23,7 +23,7 @@ on and lets you take a peek at what's going on under the hood. The regular
 xlator program is far more taciturn and simply reads a line of output in the
 input language and spits out all possible translations, one per line, of this
 input string or else reports any errors encountered in the input or in the
-program.
+translation process.
 
 To build both targets:
     % (cd src && make)
@@ -32,9 +32,59 @@ To build both targets:
 
 The xlator program accepts exactly two command line arguments: the first is a
 grammar file which specifies what strings of tokens are accepted by the input
-language. The second is a translation files which specifies the rules used for
-transforming pieces of parse tree in the input language to parse trees in the
-output language. See the examples under test to get an idea of how these work.
+language. The second is a translation file which specifies the rules used for
+transforming pieces of parse tree in the input language to pieces of parse tree
+in the output language. This format requires a little bit of explanation and a
+rudimentary understanding of how the translation algorithm works. Let's look at
+a very simple (but plausible) example of a translation rule.
+
+<*jp-predicate> { <en-verb> { v } <en-noun-phrase> { n } } -> <*jp-predicate> { <*jp-noun-phrase> { n } "o" <*jp-verb> { v } }
+
+Keep in mind that in translation files, two disjoint symbol alphabets are in
+play. For clarity, in this example, any non-terminal symbol (i.e.
+<anything-written-like-this>) belonging to the input alphabet is prefixed with
+"en-", and any non-terminal belonging to the output alphabet is prefixed with
+"*jp-". Note that the braces indicate parse tree hierarchy and that the "->"
+symbol separates the left and right sides of the rule. Anything in double
+quotes is a terminal symbol (which cannot have children). The bare "v" and "n"
+symbols which appear on both sides are wildcards which stand for a string of
+sub-trees beneath a non-terminal symbol.
+
+The left side of a translation rule is a parse tree *pattern*, which is said to
+match the top of a partially translated input parse tree if all of the terminal
+and nonterminal symbols in the input tree match those in the pattern and in the
+same tree structure. Anything else in the input tree must be accounted for in
+the wildcard variables. Note that non-terminal symbols can never be leaf nodes
+-- they must always contain either a string of sub-trees to match or a
+placeholder variable for them. The placeholder variables on the right side
+refer to those on the left and indicate how the unmatched sub-trees in the
+input parse tree are donated to the newly constructed tree on the right side.
+In this example, the non-terminals <en-verb> and <en-noun-phrase> are
+basically re-named and switched, and it is expected that new translation rules
+will be applied recursively to the newly created <*jp-noun-phrase> and
+<*jp-verb> symbols, which have the old child sets of <en-noun-phrase> and
+<en-verb>, respectively.
+
+The root node on the left side belongs to the output alphabet, and anything
+beneath it belongs to the input alphabet. This reflects the fact the
+translation algorithm works by starting at the root node of the input parse
+tree and then working its way down, matching the top of the tree with
+translation rules, applying the transformations described by those rules,
+donating child nodes of the input tree to those of the output tree, and
+continuing the process recursively on the non-terminal leaf nodes of the
+transformed tree.
+
+Refer to the examples under test/ for additional guidance. Note that these
+translation files always start with a rule of the form
+
+<sentence> { x } -> <*sentence> { x }
+
+where <sentence> is in the input alphabet and also the start variable of the
+input grammar, and <*sentence> is in the output alphabet. This rule serves as
+the first matched rule and starts the recursive translation procedure. For this
+reason, whenever a non-terminal variable on the left side is the root node
+and also has a wildcard for its children, it is considered to be in the input
+alphabet.
 
 The xlator program accepts a single line of input on stdin and, barring any
 errors in the input files or the syntax of the input line, exhaustively prints
