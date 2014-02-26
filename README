@@ -106,6 +106,7 @@ English to Japanese:
 English to Latin:
 
     % ./bin/xlator test/testgrammar1.txt test/testtranslator1.txt
+    the teacher teaches the student
     magister discipulum docet
     magister discipulam docet
     magister discipulum docet
