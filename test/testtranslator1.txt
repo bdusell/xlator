@@ -19,8 +19,8 @@
 
 <Direct object> { <Noun phrase> { np } } -> <Direct object> { <Accusative noun phrase> { np } }
 
-<Accusative noun phrase> { <Determiner> { the } <Noun> { n } } -> <Accusative noun phrase> { <Accusative noun> { n } }
-<Accusative noun phrase> { <Determiner> { a } <Noun> { n } } -> <Accusative noun phrase> { <Accusative noun> { n } }
+<Accusative noun phrase> { <Determiner> { "the" } <Noun> { n } } -> <Accusative noun phrase> { <Accusative noun> { n } }
+<Accusative noun phrase> { <Determiner> { "a" } <Noun> { n } } -> <Accusative noun phrase> { <Accusative noun> { n } }
 <Accusative noun phrase> { <Common noun> { n } } -> <Accusative noun phrase> { <Accusative noun> { n } }
 
 <Accusative noun> { "tree" } -> <Accusative noun> { "arborem" }
@@ -43,11 +43,11 @@
 <Nominative noun> { "teacher" } -> <Nominative noun> { "magister" }
 <Nominative noun> { "teacher" } -> <Nominative noun> { "magistra" }
 <Accusative noun> { "teacher" } -> <Accusative noun> { "magistrum" }
-<Accusative noun> { "teacher" } -> <Nominative noun> { "magistram" }
+<Accusative noun> { "teacher" } -> <Accusative noun> { "magistram" }
 <Nominative noun> { "student" } -> <Nominative noun> { "discipulus" }
 <Nominative noun> { "student" } -> <Nominative noun> { "discipula" }
 <Accusative noun> { "student" } -> <Accusative noun> { "discipulum" }
-<Accusative noun> { "student" } -> <Nominative noun> { "discipulam" }
+<Accusative noun> { "student" } -> <Accusative noun> { "discipulam" }
 <Transitive verb> { "teaches" } -> <Transitive verb> { "docet" }
 
 

@@ -13,6 +13,7 @@ ParseTreeMatcher::ParseTreeMatcher(const SymbolInfo &symbol_info)
 
 void ParseTreeMatcher::rule_type::print(const SymbolInfo &info, std::ostream &out) const {
 	unsigned int counter = 0;
+	out << index << ". ";
 	print_parse_tree(pattern, info, counter, true, out);
 	out << " -> ";
 	print_translation_tree(translation, info, out);
