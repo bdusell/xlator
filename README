@@ -142,3 +142,10 @@ English to Latin:
 
 Nonne frigidum (cool) est?
 
+==== TODO ====
+
+* Read files in UTF-8 and use wide character strings to support the Unicode
+  character set.
+* Re-write the parser to use Tomita's GLR algorithm.
+* Validate the input grammar for acyclicity.
+
