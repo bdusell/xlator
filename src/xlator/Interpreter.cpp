@@ -176,15 +176,6 @@ void Interpreter::Helper::interpret(
 		}
 	}
 
-	/* If we ever can't come up with at least one result for a node in the
-	parse tree in mid-translation, we're sunk. */
-	if(output.empty()) {
-		std::ostringstream tmp;
-		node->print(interpreter.symbol_info, tmp);
-		throw translation_error(
-			"no rule to translate parse tree " + tmp.str());
-	}
-
 }
 
 } // namespace xlator

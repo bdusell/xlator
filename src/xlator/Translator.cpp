@@ -50,6 +50,9 @@ void Translator::translate(const input_token_string &input, output_token_string_
 			output.push_back(output_token_string);
 		}
 	}
+	if(output.empty()) {
+		throw translation_error("no parse trees could be fully translated");
+	}
 }
 
 } // namespace xlator
