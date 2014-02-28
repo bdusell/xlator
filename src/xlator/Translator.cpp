@@ -29,7 +29,7 @@ void Translator::translate(const input_token_string &input, output_token_string_
 	_parser.parse(input, parse_trees);
 
 	// Translate each parse tree
-	Interpreter::tree_set output_tree_set;
+	Interpreter::tree_set output_tree_set, unmatched_tree_set;
 	ParseTree::value_list_type output_symbol_string;
 	Translator::output_token_string output_token_string;
 
@@ -39,7 +39,7 @@ void Translator::translate(const input_token_string &input, output_token_string_
 		// Insert the leaves of each translated parse tree into the set
 		// of output strings
 		output_tree_set.clear();
-		_interpreter.interpret(*i, output_tree_set);
+		_interpreter.interpret(*i, output_tree_set, unmatched_tree_set);
 		for(Interpreter::tree_set::const_iterator
 			i = output_tree_set.begin(), n = output_tree_set.end(); i != n; ++i)
 		{
@@ -51,8 +51,14 @@ void Translator::translate(const input_token_string &input, output_token_string_
 		}
 	}
 	if(output.empty()) {
-		throw translation_error("no parse trees could be fully translated");
+		throw translation_error(
+			"no parse trees could be fully translated",
+			unmatched_tree_set);
 	}
+}
+
+const SymbolInfo &Translator::info() const {
+	return _symbol_info;
 }
 
 } // namespace xlator

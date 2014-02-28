@@ -37,10 +37,20 @@ void Interpreter::load_from_file(std::istream &input)
 #	endif
 }
 
-void Interpreter::interpret(const ParseTree::child_pointer_type &input, tree_set &output) const
+Interpreter::translation_error::translation_error(
+	const char *msg, tree_set &unmatched)
+	: std::runtime_error(msg)
+{
+	this->unmatched.swap(unmatched);
+}
+
+void Interpreter::interpret(
+	const ParseTree::child_pointer_type &input,
+	tree_set &output,
+	tree_set &unmatched) const
 	throw(translation_error)
 {
-	Helper helper(*this);
+	Helper helper(*this, unmatched);
 	helper.interpret(input, output);
 }
 
@@ -52,9 +62,10 @@ void Interpreter::to_tokens(const symbol_string &s, token_string &output) const 
 	}
 }
 
-Interpreter::Helper::Helper(const Interpreter &interpreter)
+Interpreter::Helper::Helper(const Interpreter &interpreter, tree_set &unmatched)
 	: interpreter(interpreter)
 	, helper_key(1)
+	, unmatched(unmatched)
 {
 }
 
@@ -174,6 +185,11 @@ void Interpreter::Helper::interpret(
 			ParseTree::child_list_type::const_iterator subroot_iter = j->begin();
 			output.push_back(attach_leaves(i->first->translation, subroot_iter));
 		}
+	}
+
+	/* Record any parse trees which did not have any matches. */
+	if(output.empty()) {
+		unmatched.push_back(node);
 	}
 
 }

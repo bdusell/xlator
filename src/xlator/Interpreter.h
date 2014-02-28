@@ -24,7 +24,16 @@ public:
 	typedef ParseTree::value_list_type symbol_string;
 
 	EXCEPTION_CLASS(load_from_file_error)
-	EXCEPTION_CLASS(translation_error)
+
+	struct translation_error : public std::runtime_error {
+
+		translation_error(const char *msg, tree_set &unmatched);
+
+		~translation_error() throw() {}
+
+		tree_set unmatched;
+
+	};
 
 	Interpreter(
 		const SymbolIndexer &input_symbol_indexer,
@@ -33,7 +42,10 @@ public:
 	void load_from_file(std::istream &input)
 		throw(load_from_file_error);
 
-	void interpret(const ParseTree::child_pointer_type &input, tree_set &output) const
+	void interpret(
+		const ParseTree::child_pointer_type &input,
+		tree_set &output,
+		tree_set &unmatched) const
 		throw(translation_error);
 
 	void to_tokens(const symbol_string &s, token_string &output) const;
@@ -54,7 +66,7 @@ private:
 
 	public:
 
-		Helper(const Interpreter &interpreter);
+		Helper(const Interpreter &interpreter, tree_set &unmatched);
 
 		void interpret(
 			const ParseTree::child_pointer_type &node,
@@ -64,6 +76,7 @@ private:
 
 		const Interpreter &interpreter;
 		ParseTree::child_list_type helper_key;
+		tree_set &unmatched;
 
 	};
 

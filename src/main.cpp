@@ -74,6 +74,14 @@ int main(int argc, char **argv) {
 	}
 	catch(xlator::Translator::translation_error &e) {
 		std::cerr << "unable to translate: " << e.what() << std::endl;
+		std::cerr << "unmatched trees:" << std::endl;
+		for(xlator::Interpreter::tree_set::const_iterator
+			i = e.unmatched.begin(), n = e.unmatched.end(); i != n; ++i)
+		{
+			std::cerr << "    ";
+			(*i)->print(translator.info(), std::cerr);
+			std::cerr << std::endl;
+		}
 		return 1;
 	}
 

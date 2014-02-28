@@ -54,6 +54,8 @@ public:
 	void translate(const input_token_string &input, output_token_string_set &output) const
 		throw(parsing_error, translation_error);
 
+	const SymbolInfo &info() const;
+
 private:
 
 	SymbolIndexer _symbol_indexer;
