@@ -80,5 +80,18 @@ void FileReader::raise_error(const std::string &s) const {
 	throw_exception(out.str());
 }
 
+void FileReader::skip_white_space_and_comments() {
+	while(true) {
+		while(!at_eof() && isspace(next_char) && next_char != '\n') {
+			read_char();
+		}
+		if(!at_eof() && next_char == '#') {
+			read_to_delim('\n');
+			read_char();
+		}
+		else break;
+	}
+}
+
 } // namespace xlator
 

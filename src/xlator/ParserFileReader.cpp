@@ -80,7 +80,7 @@ void ParserFileReader::throw_exception(const std::string &s) const {
 }
 
 void ParserFileReader::read_token() {
-	while(!at_eof() && isspace(next_char) && next_char != '\n') read_char();
+	skip_white_space_and_comments();
 	if(at_eof()) {
 		curr_token_type = END;
 		return;
@@ -112,14 +112,6 @@ void ParserFileReader::read_token() {
 		break;
 	}
 	read_char();
-/*
-#	ifdef DEBUG
-	std::cerr
-		<< token_type_name(curr_token_type)
-		<< " \"" << curr_token_value << "\""
-		<< std::endl;
-#	endif
-*/
 }
 
 } // namespace xlator

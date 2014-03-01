@@ -232,7 +232,7 @@ void TranslationFileReader::throw_exception(const std::string &s) const {
 }
 
 void TranslationFileReader::read_token() {
-	while(!at_eof() && isspace(next_char) && next_char != '\n') read_char();
+	skip_white_space_and_comments();
 	if(at_eof()) {
 		curr_token_type = END;
 		return;
