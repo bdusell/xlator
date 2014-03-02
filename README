@@ -140,4 +140,5 @@ Nonne frigidum (cool) est?
   child set; drop the children of a childless leaf on the left side and
   possibly provide a way to specify all possible alternations of a childless
   leaf node on the right side.
+* Use more library features from C++11 and boost, e.g. shared_ptr.
 

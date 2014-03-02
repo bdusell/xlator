@@ -38,18 +38,25 @@ int main(int argc, char **argv) {
 	xlator::Translator translator;
 	try {
 		resource::ScopedFile<std::ifstream> parser_fin(parser_finname);
+		if(!parser_fin) {
+			std::cerr << parser_finname << ": unable to open file" << std::endl;
+			return 1;
+		}
 		translator.load_parser_from_file(parser_fin);
 	}
-	catch(xlator::Translator::load_parser_from_file_error &e) {
+	catch(const xlator::Translator::load_parser_from_file_error &e) {
 		std::cerr << parser_finname << ':' << e.what() << std::endl;
 		return 1;
 	}
 
 	try {
 		resource::ScopedFile<std::ifstream> translator_fin(translator_finname);
+		if(!translator_fin) {
+			std::cerr << translator_finname << ": unable to open file" << std::endl;
+		}
 		translator.load_interpreter_from_file(translator_fin);
 	}
-	catch(xlator::Translator::load_interpreter_from_file_error &e) {
+	catch(const xlator::Translator::load_interpreter_from_file_error &e) {
 		std::cerr << translator_finname << ':' << e.what() << std::endl;
 		return 1;
 	}
