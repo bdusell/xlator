@@ -1,5 +1,6 @@
 ## English Grammar
 
+## Clause structure
 # <sentence> -> <statement> | <question> | <command> | <exclamation>
 # <statement> -> <complex-clause>
 # <complex-clause> -> <indep-clause> | <complex-clause-commas> <comma> <coord-conj> <indep-clause>
@@ -7,11 +8,6 @@
 # <complex-clause> -> <dep-clause> <comma> <complex-clause> | <complex-clause> <comma> <dep-clause>
 # <dep-clause> -> <subord-conj> <indep-clause>
 # <indep-clause> -> <noun-phrase case:nom pers:@p num:@n> <verb-phrase mood:@m pers:@p num:@n>
-
-## In compound noun phrases, first person takes precedence, then second person.
-## Examples:
-##     "Jack and Jill are (3p)", "You and Jack are (2p)", "Jack and I are (1p)",
-##     "You, Jack, and I are (1p)"
 
 ## Conjunction of noun phrases
 # <noun-phrase case:@c pers:precedence(@p1, @p2) num:p> -> <noun-phrase-commas case:@c pers:@p1 num:@n1> <comma> <coord-conj> <simple-noun-phrase case:@c pers:@p2 num:@n2>
@@ -21,9 +17,15 @@
 # <noun-phrase case:@c pers:@p num:@p> -> <simple-noun-phrase case:@c pers:@p num:@p>
 
 ## Noun phrase structure
-# <simple-noun-phrase case:@c pers:@p num:@n> -> <noncount-noun>
+# <simple-noun-phrase case:@c pers:@p num:@n> -> <pers-pronoun case:@c pers:@p num:@n>
+# <simple-noun-phrase case:@c pers:3 num:@n> -> <noncount-noun>
+# <simple-noun-phrase case:@c pers:3 num:@n> -> <det num:@n> <undet-noun-phrase case:@c num:@n>
+# <undet-noun-phrase case:@c pers:3 num:s> -> <common-noun>
+# <simple-noun-phrase case:@c pers:3 num:p> -> <common-noun-pl>
+# <det num:@n> -> <pers-pronoun case:pos pers:@p num:@n>
+# <det num:@n> -> <demonst-pronoun num:@n>
 
-## Types of noun
+## Noun types
 # <noncount-noun> -> <person-name> | <person-title> <person-name>
 
 ## Conjunction of verb phrases
@@ -32,14 +34,18 @@
 # <verb-phrase pers:@p num:@n> -> <simple-verb-phrase pers:@p num:@n> <coord-conj> <simple-verb-phrase pers:@p num:@n>
 # <verb-phrase pers:@p num:@n> -> <simple-verb-phrase pers:@p num:@n>
 
-## Verb phrase structure
-
+## Adverbial phrase attachment
 # <verb-phrase pers:@p num:@n> -> <verb-phrase pers:@p num:@n> <adv-phrase>
-
 # <simple-verb-phrase tense:@t voice:@v mood:@m pers:@p num:@n> -> <simple-verb-phrase tense:@t voice:@v mood:@m pers:@p num:@n> <adv-phrase>
-# <simple-verb-phrase tense:@t voice:@v mood:@m pers:@p num:@n> -> <intrans-verb tense:@t voice:@v mood:@m pers:@p num:@n>
+# <simple-verb-phrase tense:@t voice:@v mood:@m pers:@p num:@n> -> <adv-phrase> <simple-verb-phrase tense:@t voice:@v mood:@m pers:@p num:@n>
 
+## Verb phrase structure
+# <simple-verb-phrase tense:@t voice:@v mood:@m pers:@p num:@n> -> <intrans-verb tense:@t voice:@v mood:@m pers:@p num:@n>
+# <simple-verb-phrase tense:@t voice:@v mood:@m pers:@p num:@n> -> <trans-verb tense:@t voice:@v mood:@m pers:@p num:@n> <noun-phrase case:obj pers:@pp num:@nn>
+
+## Verb types
 # <intrans-verb tense:past voice:act mood:ind pers:@p num:@n> -> <intrans-verb-past>
+# <trans-verb tense:past voice:act mood:ind pers:@p num:@n> -> <trans-verb-past>
 
 ## Conjunction of adverbial phrases
 # <adv-phrase> -> <adv-phrase-commas> <comma> <coord-conj> <simple-adv-phrase>
@@ -57,9 +63,74 @@
 # <person-name> -> "John" | "Jane" | "Jack" | "Jill"
 # <person-title> -> "Dr." | "Mr." | "Ms." | "Mrs." | "Sir"
 
+# <common-noun> -> "store" | "secret"
+# <common-noun-pl> -> "stores"
+
+## Determiner vocabulary
+# <det num:@n> -> "the"
+# <det num:@s> -> "a" | "an"
+
+## Pronoun vocabulary
+
+# <pers-pronoun case:nom pers:1 num:s> -> "I"
+# <pers-pronoun case:obj pers:1 num:s> -> "me"
+# <pers-pronoun case:pos pers:1 num:s> -> "my"
+# <pers-pronoun case:nom pers:1 num:p> -> "we"
+# <pers-pronoun case:obj pers:1 num:p> -> "us"
+# <pers-pronoun case:pos pers:1 num:p> -> "our"
+
+# <pers-pronoun case:nom pers:2 num:@n> -> "you"
+# <pers-pronoun case:obj pers:2 num:@n> -> "you"
+# <pers-pronoun case:pos pers:2 num:@n> -> "your"
+
+# <pers-pronoun case:nom pers:3 num:s> -> "he"
+# <pers-pronoun case:obj pers:3 num:s> -> "him"
+# <pers-pronoun case:pos pers:3 num:s> -> "his"
+
+# <pers-pronoun case:nom pers:3 num:s> -> "she"
+# <pers-pronoun case:obj pers:3 num:s> -> "her"
+# <pers-pronoun case:pos pers:3 num:s> -> "her"
+
+# <pers-pronoun case:nom pers:3 num:s> -> "it"
+# <pers-pronoun case:obj pers:3 num:s> -> "it"
+# <pers-pronoun case:pos pers:3 num:s> -> "its"
+
+# <pers-pronoun case:nom pers:3 num:p> -> "they"
+# <pers-pronoun case:obj pers:3 num:p> -> "them"
+# <pers-pronoun case:pos pers:3 num:p> -> "their"
+
+# <demons-pronuon num:s> -> "this" | "that"
+# <demons-pronuon num:pl> -> "these" | "those"
+
 ## Verb vocabulary
+
+# <intrans-verb-root> -> "go"
+# <intrans-verb-s> -> "goes"
 # <intrans-verb-past> -> "went"
+# <intrans-verb-pastpart> -> "gone"
+
+# <trans-verb-root> -> "see"
+# <trans-verb-s> -> "sees"
+# <trans-verb-past> -> "saw"
+# <trans-verb-pastpart> -> "seen"
+
+# <trans-verb-root> -> "hug"
+# <trans-verb-s> -> "hugs"
+# <trans-verb-past> -> "hugged"
+# <trans-verb-pastpart> -> "hugged"
+
+# <trans-verb-past> -> "kissed" | "hate"
+
+# <comp-inf-verb-past> -> "wanted"
+# <cop-trans-verb> -> "keep"
+
+## Adverb vocabulary
+# <adv> -> "secretly"
 
 ## Preposition vocabulary
 # <prep> -> "to"
+
+## Conjunction vocabulary
+# <coord-conj> -> "and" | "or" | "but"
+# <subord-conj> -> "when" | "because" | "although"
 
