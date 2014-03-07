@@ -1,0 +1,65 @@
+## English Grammar
+
+# <sentence> -> <statement> | <question> | <command> | <exclamation>
+# <statement> -> <complex-clause>
+# <complex-clause> -> <indep-clause> | <complex-clause-commas> <comma> <coord-conj> <indep-clause>
+# <complex-clause-commas> -> <indep-clause> | <complex-clause-only-commas> <comma> <indep-clause>
+# <complex-clause> -> <dep-clause> <comma> <complex-clause> | <complex-clause> <comma> <dep-clause>
+# <dep-clause> -> <subord-conj> <indep-clause>
+# <indep-clause> -> <noun-phrase case:nom pers:@p num:@n> <verb-phrase mood:@m pers:@p num:@n>
+
+## In compound noun phrases, first person takes precedence, then second person.
+## Examples:
+##     "Jack and Jill are (3p)", "You and Jack are (2p)", "Jack and I are (1p)",
+##     "You, Jack, and I are (1p)"
+
+## Conjunction of noun phrases
+# <noun-phrase case:@c pers:precedence(@p1, @p2) num:p> -> <noun-phrase-commas case:@c pers:@p1 num:@n1> <comma> <coord-conj> <simple-noun-phrase case:@c pers:@p2 num:@n2>
+# <noun-phrase-commas case:@c pers:precedence(@p1, @p2) num:p> -> <noun-phrase-commas case:@c pers:@p1 num:@n1> <comma> <simple-noun-phrase case:@c pers:@p2 num:@n2>
+# <noun-phrase-commas case:@c pers:@p num:@n> -> <simple-noun-phrase case:@c pers:@p num:@n>
+# <noun-phrase case:@c pers:precedence(@p1, @p2) num:p> -> <simple-noun-phrase case:@c pers:@p1 num:@n1> <coord-conj> <simple-noun-phrase case:@c pers:@p2 num:@n2>
+# <noun-phrase case:@c pers:@p num:@p> -> <simple-noun-phrase case:@c pers:@p num:@p>
+
+## Noun phrase structure
+# <simple-noun-phrase case:@c pers:@p num:@n> -> <noncount-noun>
+
+## Types of noun
+# <noncount-noun> -> <person-name> | <person-title> <person-name>
+
+## Conjunction of verb phrases
+# <verb-phrase pers:@p num:@n> -> <verb-phrase-commas pers:@p num:@n> <comma> <coord-conj> <simple-verb-phrase pers:@p num:@n>
+# <verb-phrase-commas pers:@p num:@n> -> <verb-phrase-commas pers:@p num:@n> <comma> <simple-verb-phrase pers:@p num:@n> | <simple-verb-phrase pers:@p num:@n>
+# <verb-phrase pers:@p num:@n> -> <simple-verb-phrase pers:@p num:@n> <coord-conj> <simple-verb-phrase pers:@p num:@n>
+# <verb-phrase pers:@p num:@n> -> <simple-verb-phrase pers:@p num:@n>
+
+## Verb phrase structure
+
+# <verb-phrase pers:@p num:@n> -> <verb-phrase pers:@p num:@n> <adv-phrase>
+
+# <simple-verb-phrase tense:@t voice:@v mood:@m pers:@p num:@n> -> <simple-verb-phrase tense:@t voice:@v mood:@m pers:@p num:@n> <adv-phrase>
+# <simple-verb-phrase tense:@t voice:@v mood:@m pers:@p num:@n> -> <intrans-verb tense:@t voice:@v mood:@m pers:@p num:@n>
+
+# <intrans-verb tense:past voice:act mood:ind pers:@p num:@n> -> <intrans-verb-past>
+
+## Conjunction of adverbial phrases
+# <adv-phrase> -> <adv-phrase-commas> <comma> <coord-conj> <simple-adv-phrase>
+# <adv-phrase-commas> -> <adv-phrase-commas> <comma> <simple-adv-phrase> | <simple-adv-phrase>
+# <adv-phrase> -> <simple-adv-phrase> <coord-conj> <simple-adv-phrase>
+# <adv-phrase> -> <simple-adv-phrase>
+
+## Adverbial phrase structure
+# <simple-adv-phrase> -> <prep-phrase> | <adv>
+
+## Prepositional phrase structure
+# <prep-phrase> -> <prep> <noun-phrase case:obj pers:@p num:@n>
+
+## Noun vocabulary
+# <person-name> -> "John" | "Jane" | "Jack" | "Jill"
+# <person-title> -> "Dr." | "Mr." | "Ms." | "Mrs." | "Sir"
+
+## Verb vocabulary
+# <intrans-verb-past> -> "went"
+
+## Preposition vocabulary
+# <prep> -> "to"
+
