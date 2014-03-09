@@ -95,6 +95,12 @@ delineated by white space. This tokenization method is currently not very
 intelligent and does not even permit sentence capitalization (at least not
 in a way that doesn't involve tweaking the input grammar in a ludricous way).
 
+The program works with ASCII and UTF-8 character encodings.
+
+Both the grammar and translation files can include '#'-style comments;
+everything after the first '#' character on a line not inside of a token is
+ignored.
+
 Examples:
 
 English to Japanese:
@@ -124,15 +130,12 @@ English to Latin:
     docet discipulam magister
     docet discipulam magistra
 
-Nonne frigidum (cool) est?
+Pretty cool, eh?
 
 ==== TODO ====
 
-* Read files in UTF-8 and use wide character strings to support the Unicode
-  character set.
 * Re-write the parser to use Tomita's GLR algorithm.
 * Validate the input grammar for acyclicity.
-* Allow for comments in input files.
 * Implement a more flexible system of rule matching which uses symbol
   attributes as the basis of comparison.
 * Allow rules to be split across lines somehow.
