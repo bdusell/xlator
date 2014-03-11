@@ -136,8 +136,15 @@ Pretty cool, eh?
 
 * Re-write the parser to use Tomita's GLR algorithm.
 * Validate the input grammar for acyclicity.
+* Add a tool for checking translation files for completeness with respect to
+  the input grammar.
 * Implement a more flexible system of rule matching which uses symbol
   attributes as the basis of comparison.
+* Provide more sophisticated methods of specifying grammar rules which make it
+  easier to produce simple, clean parse trees for the translation grammar to
+  use.
+* Allow translation grammars to be chained -- perhaps by accepting additional
+  translation grammars from the command line and applying them in succession.
 * Allow rules to be split across lines somehow.
 * Allow non-terminal leaf nodes in the translation file to have no explicit
   child set; drop the children of a childless leaf on the left side and
