@@ -1,20 +1,314 @@
-## English Grammar
+# English Grammar
 
-## Clause structure
-# <sentence> -> <statement> | <question> | <command> | <exclamation>
-# <statement> -> <complex-clause>
-# <complex-clause> -> <indep-clause> | <complex-clause-commas> <comma> <coord-conj> <indep-clause>
-# <complex-clause-commas> -> <indep-clause> | <complex-clause-only-commas> <comma> <indep-clause>
-# <complex-clause> -> <dep-clause> <comma> <complex-clause> | <complex-clause> <comma> <dep-clause>
-# <dep-clause> -> <subord-conj> <indep-clause>
-# <indep-clause> -> <noun-phrase case:nom pers:@p num:@n> <verb-phrase mood:@m pers:@p num:@n>
+# Clause structure
 
-## Conjunction of noun phrases
-# <noun-phrase case:@c pers:precedence(@p1, @p2) num:p> -> <noun-phrase-commas case:@c pers:@p1 num:@n1> <comma> <coord-conj> <simple-noun-phrase case:@c pers:@p2 num:@n2>
-# <noun-phrase-commas case:@c pers:precedence(@p1, @p2) num:p> -> <noun-phrase-commas case:@c pers:@p1 num:@n1> <comma> <simple-noun-phrase case:@c pers:@p2 num:@n2>
+# A sentence is a collection of clauses, all of which are either indicative,
+# interrogative, imperative, or exclamatory.
+
+# <sentence> -> <complex-clause mood:@m>
+<sentence> -> <complex-clause mood:ind>
+<sentence> -> <complex-clause mood:intg>
+<sentence> -> <complex-clause mood:impv>
+<sentence> -> <complex-clause mood:excl>
+
+# A complex clause is a series of independent clauses separated by commas and
+# one coordinating conjunction at the end, where all clauses are of the same
+# mood. This gives the pattern: A | A, and B | A, ... , Y, and Z.
+# o "I see you, and you see me."
+# o "Are you okay, or do you need medical attention?"
+# o "Look up, then look down."
+# o "What a disaster, and what a calamity!"
+# x *"I see you, and look down."
+# x *"What a disaster, and what are we going to do?"
+
+# <complex-clause mood:@m> -> <indep-clause mood:@m> | <complex-clause-commas mood:@m> <comma> <coord-conj> <indep-clause mood:@m>
+<complex-clause mood:ind>  -> <indep-clause mood:ind>  | <complex-clause-commas mood:ind>  <comma> <coord-conj> <indep-clause mood:ind>
+<complex-clause mood:intg> -> <indep-clause mood:intg> | <complex-clause-commas mood:intg> <comma> <coord-conj> <indep-clause mood:intg>
+<complex-clause mood:impv> -> <indep-clause mood:impv> | <complex-clause-commas mood:impv> <comma> <coord-conj> <indep-clause mood:impv>
+<complex-clause mood:excl> -> <indep-clause mood:ind>  | <complex-clause-commas mood:excl> <comma> <coord-conj> <indep-clause mood:excl>
+
+# <complex-clause-commas mood:@m> -> <indep-clause mood:@m> | <complex-clause-only-commas mood:@m> <comma> <indep-clause mood:@m>
+<complex-clause-commas mood:ind>  -> <indep-clause mood:ind>  | <complex-clause-only-commas mood:ind>  <comma> <indep-clause mood:ind>
+<complex-clause-commas mood:intg> -> <indep-clause mood:intg> | <complex-clause-only-commas mood:intg> <comma> <indep-clause mood:intg>
+<complex-clause-commas mood:impv> -> <indep-clause mood:impv> | <complex-clause-only-commas mood:impv> <comma> <indep-clause mood:impv>
+<complex-clause-commas mood:excl> -> <indep-clause mood:excl> | <complex-clause-only-commas mood:excl> <comma> <indep-clause mood:excl>
+
+# Dependent clauses consist of a subordinating conjunction followed by an
+# independent clause in the indicative. They may be prepended or appended to an
+# independent clause of any mood.
+
+# <complex-clause mood:@m> -> <dep-clause> <comma> <complex-clause mood:@m> | <complex-clause mood:@m> <comma> <dep-clause>
+<complex-clause mood:ind>  -> <dep-clause> <comma> <complex-clause mood:ind>  | <complex-clause mood:ind>  <comma> <dep-clause>
+<complex-clause mood:intg> -> <dep-clause> <comma> <complex-clause mood:intg> | <complex-clause mood:intg> <comma> <dep-clause>
+<complex-clause mood:impv> -> <dep-clause> <comma> <complex-clause mood:impv> | <complex-clause mood:impv> <comma> <dep-clause>
+<complex-clause mood:excl> -> <dep-clause> <comma> <complex-clause mood:excl> | <complex-clause mood:excl> <comma> <dep-clause>
+
+# <dep-clause> -> <subord-conj> <indep-clause mood:ind>
+<dep-clause> -> <subord-conj> <indep-clause mood:ind>
+
+# An ordinary independent clause in the indicative consists of a nominative
+# noun phrase (the subject) followed by a verb phrase (the predicate which
+# agrees with the subject in person and number.
+
+# <indep-clause mood:ind> -> <noun-phrase case:nom pers:@p num:@n> <verb-phrase pers:@p num:@n>
+<indep-clause mood:ind> -> <noun-phrase case:nom pers:1 num:s> <verb-phrase pers:1 num:s>
+<indep-clause mood:ind> -> <noun-phrase case:nom pers:2 num:s> <verb-phrase pers:2 num:s>
+<indep-clause mood:ind> -> <noun-phrase case:nom pers:3 num:s> <verb-phrase pers:3 num:s>
+<indep-clause mood:ind> -> <noun-phrase case:nom pers:1 num:p> <verb-phrase pers:1 num:p>
+<indep-clause mood:ind> -> <noun-phrase case:nom pers:2 num:p> <verb-phrase pers:2 num:p>
+<indep-clause mood:ind> -> <noun-phrase case:nom pers:3 num:p> <verb-phrase pers:3 num:p>
+
+# A noun phrase can consist of sub-noun phrases conjuncted together. The
+# pattern for phrases is a little different from that of clauses, taking the
+# following form (no comma is used when there are just two phrases):
+#     A | A and B | A, ... , Y, and Z
+# When noun phrases are conjuncted, the whole phrase becomes 1st person if any
+# of the sub-noun phrases are 1st person. Otherwise, the whole phrase becomes
+# 2nd person if any of the sub-noun phrases are 2nd person. In all cases the
+# whole phrase is considered plural. So, singular is always promomted to
+# plural, and person is always promoted down. The sub-noun phrases must all
+# agree in case.
+
+# <noun-phrase case:@c pers:promote(@p1, @p2) num:p> -> <noun-phrase-commas case:@c pers:@p1 num:@n1> <comma> <coord-conj> <simple-noun-phrase case:@c pers:@p2 num:@n2>
+# This was not done by hand
+<noun-phrase case:nom pers:1 num:p> -> <noun-phrase-commas case:nom pers:1 num:s> <comma> <coord-conj> <simple-noun-phrase case:nom pers:1 num:s>
+<noun-phrase case:nom pers:1 num:p> -> <noun-phrase-commas case:nom pers:1 num:s> <comma> <coord-conj> <simple-noun-phrase case:nom pers:1 num:p>
+<noun-phrase case:nom pers:1 num:p> -> <noun-phrase-commas case:nom pers:1 num:s> <comma> <coord-conj> <simple-noun-phrase case:nom pers:2 num:s>
+<noun-phrase case:nom pers:1 num:p> -> <noun-phrase-commas case:nom pers:1 num:s> <comma> <coord-conj> <simple-noun-phrase case:nom pers:2 num:p>
+<noun-phrase case:nom pers:1 num:p> -> <noun-phrase-commas case:nom pers:1 num:s> <comma> <coord-conj> <simple-noun-phrase case:nom pers:3 num:s>
+<noun-phrase case:nom pers:1 num:p> -> <noun-phrase-commas case:nom pers:1 num:s> <comma> <coord-conj> <simple-noun-phrase case:nom pers:3 num:p>
+<noun-phrase case:nom pers:1 num:p> -> <noun-phrase-commas case:nom pers:1 num:p> <comma> <coord-conj> <simple-noun-phrase case:nom pers:1 num:s>
+<noun-phrase case:nom pers:1 num:p> -> <noun-phrase-commas case:nom pers:1 num:p> <comma> <coord-conj> <simple-noun-phrase case:nom pers:1 num:p>
+<noun-phrase case:nom pers:1 num:p> -> <noun-phrase-commas case:nom pers:1 num:p> <comma> <coord-conj> <simple-noun-phrase case:nom pers:2 num:s>
+<noun-phrase case:nom pers:1 num:p> -> <noun-phrase-commas case:nom pers:1 num:p> <comma> <coord-conj> <simple-noun-phrase case:nom pers:2 num:p>
+<noun-phrase case:nom pers:1 num:p> -> <noun-phrase-commas case:nom pers:1 num:p> <comma> <coord-conj> <simple-noun-phrase case:nom pers:3 num:s>
+<noun-phrase case:nom pers:1 num:p> -> <noun-phrase-commas case:nom pers:1 num:p> <comma> <coord-conj> <simple-noun-phrase case:nom pers:3 num:p>
+<noun-phrase case:nom pers:1 num:p> -> <noun-phrase-commas case:nom pers:2 num:s> <comma> <coord-conj> <simple-noun-phrase case:nom pers:1 num:s>
+<noun-phrase case:nom pers:1 num:p> -> <noun-phrase-commas case:nom pers:2 num:s> <comma> <coord-conj> <simple-noun-phrase case:nom pers:1 num:p>
+<noun-phrase case:nom pers:2 num:p> -> <noun-phrase-commas case:nom pers:2 num:s> <comma> <coord-conj> <simple-noun-phrase case:nom pers:2 num:s>
+<noun-phrase case:nom pers:2 num:p> -> <noun-phrase-commas case:nom pers:2 num:s> <comma> <coord-conj> <simple-noun-phrase case:nom pers:2 num:p>
+<noun-phrase case:nom pers:2 num:p> -> <noun-phrase-commas case:nom pers:2 num:s> <comma> <coord-conj> <simple-noun-phrase case:nom pers:3 num:s>
+<noun-phrase case:nom pers:2 num:p> -> <noun-phrase-commas case:nom pers:2 num:s> <comma> <coord-conj> <simple-noun-phrase case:nom pers:3 num:p>
+<noun-phrase case:nom pers:1 num:p> -> <noun-phrase-commas case:nom pers:2 num:p> <comma> <coord-conj> <simple-noun-phrase case:nom pers:1 num:s>
+<noun-phrase case:nom pers:1 num:p> -> <noun-phrase-commas case:nom pers:2 num:p> <comma> <coord-conj> <simple-noun-phrase case:nom pers:1 num:p>
+<noun-phrase case:nom pers:2 num:p> -> <noun-phrase-commas case:nom pers:2 num:p> <comma> <coord-conj> <simple-noun-phrase case:nom pers:2 num:s>
+<noun-phrase case:nom pers:2 num:p> -> <noun-phrase-commas case:nom pers:2 num:p> <comma> <coord-conj> <simple-noun-phrase case:nom pers:2 num:p>
+<noun-phrase case:nom pers:2 num:p> -> <noun-phrase-commas case:nom pers:2 num:p> <comma> <coord-conj> <simple-noun-phrase case:nom pers:3 num:s>
+<noun-phrase case:nom pers:2 num:p> -> <noun-phrase-commas case:nom pers:2 num:p> <comma> <coord-conj> <simple-noun-phrase case:nom pers:3 num:p>
+<noun-phrase case:nom pers:1 num:p> -> <noun-phrase-commas case:nom pers:3 num:s> <comma> <coord-conj> <simple-noun-phrase case:nom pers:1 num:s>
+<noun-phrase case:nom pers:1 num:p> -> <noun-phrase-commas case:nom pers:3 num:s> <comma> <coord-conj> <simple-noun-phrase case:nom pers:1 num:p>
+<noun-phrase case:nom pers:2 num:p> -> <noun-phrase-commas case:nom pers:3 num:s> <comma> <coord-conj> <simple-noun-phrase case:nom pers:2 num:s>
+<noun-phrase case:nom pers:2 num:p> -> <noun-phrase-commas case:nom pers:3 num:s> <comma> <coord-conj> <simple-noun-phrase case:nom pers:2 num:p>
+<noun-phrase case:nom pers:3 num:p> -> <noun-phrase-commas case:nom pers:3 num:s> <comma> <coord-conj> <simple-noun-phrase case:nom pers:3 num:s>
+<noun-phrase case:nom pers:3 num:p> -> <noun-phrase-commas case:nom pers:3 num:s> <comma> <coord-conj> <simple-noun-phrase case:nom pers:3 num:p>
+<noun-phrase case:nom pers:1 num:p> -> <noun-phrase-commas case:nom pers:3 num:p> <comma> <coord-conj> <simple-noun-phrase case:nom pers:1 num:s>
+<noun-phrase case:nom pers:1 num:p> -> <noun-phrase-commas case:nom pers:3 num:p> <comma> <coord-conj> <simple-noun-phrase case:nom pers:1 num:p>
+<noun-phrase case:nom pers:2 num:p> -> <noun-phrase-commas case:nom pers:3 num:p> <comma> <coord-conj> <simple-noun-phrase case:nom pers:2 num:s>
+<noun-phrase case:nom pers:2 num:p> -> <noun-phrase-commas case:nom pers:3 num:p> <comma> <coord-conj> <simple-noun-phrase case:nom pers:2 num:p>
+<noun-phrase case:nom pers:3 num:p> -> <noun-phrase-commas case:nom pers:3 num:p> <comma> <coord-conj> <simple-noun-phrase case:nom pers:3 num:s>
+<noun-phrase case:nom pers:3 num:p> -> <noun-phrase-commas case:nom pers:3 num:p> <comma> <coord-conj> <simple-noun-phrase case:nom pers:3 num:p>
+<noun-phrase case:obj pers:1 num:p> -> <noun-phrase-commas case:obj pers:1 num:s> <comma> <coord-conj> <simple-noun-phrase case:obj pers:1 num:s>
+<noun-phrase case:obj pers:1 num:p> -> <noun-phrase-commas case:obj pers:1 num:s> <comma> <coord-conj> <simple-noun-phrase case:obj pers:1 num:p>
+<noun-phrase case:obj pers:1 num:p> -> <noun-phrase-commas case:obj pers:1 num:s> <comma> <coord-conj> <simple-noun-phrase case:obj pers:2 num:s>
+<noun-phrase case:obj pers:1 num:p> -> <noun-phrase-commas case:obj pers:1 num:s> <comma> <coord-conj> <simple-noun-phrase case:obj pers:2 num:p>
+<noun-phrase case:obj pers:1 num:p> -> <noun-phrase-commas case:obj pers:1 num:s> <comma> <coord-conj> <simple-noun-phrase case:obj pers:3 num:s>
+<noun-phrase case:obj pers:1 num:p> -> <noun-phrase-commas case:obj pers:1 num:s> <comma> <coord-conj> <simple-noun-phrase case:obj pers:3 num:p>
+<noun-phrase case:obj pers:1 num:p> -> <noun-phrase-commas case:obj pers:1 num:p> <comma> <coord-conj> <simple-noun-phrase case:obj pers:1 num:s>
+<noun-phrase case:obj pers:1 num:p> -> <noun-phrase-commas case:obj pers:1 num:p> <comma> <coord-conj> <simple-noun-phrase case:obj pers:1 num:p>
+<noun-phrase case:obj pers:1 num:p> -> <noun-phrase-commas case:obj pers:1 num:p> <comma> <coord-conj> <simple-noun-phrase case:obj pers:2 num:s>
+<noun-phrase case:obj pers:1 num:p> -> <noun-phrase-commas case:obj pers:1 num:p> <comma> <coord-conj> <simple-noun-phrase case:obj pers:2 num:p>
+<noun-phrase case:obj pers:1 num:p> -> <noun-phrase-commas case:obj pers:1 num:p> <comma> <coord-conj> <simple-noun-phrase case:obj pers:3 num:s>
+<noun-phrase case:obj pers:1 num:p> -> <noun-phrase-commas case:obj pers:1 num:p> <comma> <coord-conj> <simple-noun-phrase case:obj pers:3 num:p>
+<noun-phrase case:obj pers:1 num:p> -> <noun-phrase-commas case:obj pers:2 num:s> <comma> <coord-conj> <simple-noun-phrase case:obj pers:1 num:s>
+<noun-phrase case:obj pers:1 num:p> -> <noun-phrase-commas case:obj pers:2 num:s> <comma> <coord-conj> <simple-noun-phrase case:obj pers:1 num:p>
+<noun-phrase case:obj pers:2 num:p> -> <noun-phrase-commas case:obj pers:2 num:s> <comma> <coord-conj> <simple-noun-phrase case:obj pers:2 num:s>
+<noun-phrase case:obj pers:2 num:p> -> <noun-phrase-commas case:obj pers:2 num:s> <comma> <coord-conj> <simple-noun-phrase case:obj pers:2 num:p>
+<noun-phrase case:obj pers:2 num:p> -> <noun-phrase-commas case:obj pers:2 num:s> <comma> <coord-conj> <simple-noun-phrase case:obj pers:3 num:s>
+<noun-phrase case:obj pers:2 num:p> -> <noun-phrase-commas case:obj pers:2 num:s> <comma> <coord-conj> <simple-noun-phrase case:obj pers:3 num:p>
+<noun-phrase case:obj pers:1 num:p> -> <noun-phrase-commas case:obj pers:2 num:p> <comma> <coord-conj> <simple-noun-phrase case:obj pers:1 num:s>
+<noun-phrase case:obj pers:1 num:p> -> <noun-phrase-commas case:obj pers:2 num:p> <comma> <coord-conj> <simple-noun-phrase case:obj pers:1 num:p>
+<noun-phrase case:obj pers:2 num:p> -> <noun-phrase-commas case:obj pers:2 num:p> <comma> <coord-conj> <simple-noun-phrase case:obj pers:2 num:s>
+<noun-phrase case:obj pers:2 num:p> -> <noun-phrase-commas case:obj pers:2 num:p> <comma> <coord-conj> <simple-noun-phrase case:obj pers:2 num:p>
+<noun-phrase case:obj pers:2 num:p> -> <noun-phrase-commas case:obj pers:2 num:p> <comma> <coord-conj> <simple-noun-phrase case:obj pers:3 num:s>
+<noun-phrase case:obj pers:2 num:p> -> <noun-phrase-commas case:obj pers:2 num:p> <comma> <coord-conj> <simple-noun-phrase case:obj pers:3 num:p>
+<noun-phrase case:obj pers:1 num:p> -> <noun-phrase-commas case:obj pers:3 num:s> <comma> <coord-conj> <simple-noun-phrase case:obj pers:1 num:s>
+<noun-phrase case:obj pers:1 num:p> -> <noun-phrase-commas case:obj pers:3 num:s> <comma> <coord-conj> <simple-noun-phrase case:obj pers:1 num:p>
+<noun-phrase case:obj pers:2 num:p> -> <noun-phrase-commas case:obj pers:3 num:s> <comma> <coord-conj> <simple-noun-phrase case:obj pers:2 num:s>
+<noun-phrase case:obj pers:2 num:p> -> <noun-phrase-commas case:obj pers:3 num:s> <comma> <coord-conj> <simple-noun-phrase case:obj pers:2 num:p>
+<noun-phrase case:obj pers:3 num:p> -> <noun-phrase-commas case:obj pers:3 num:s> <comma> <coord-conj> <simple-noun-phrase case:obj pers:3 num:s>
+<noun-phrase case:obj pers:3 num:p> -> <noun-phrase-commas case:obj pers:3 num:s> <comma> <coord-conj> <simple-noun-phrase case:obj pers:3 num:p>
+<noun-phrase case:obj pers:1 num:p> -> <noun-phrase-commas case:obj pers:3 num:p> <comma> <coord-conj> <simple-noun-phrase case:obj pers:1 num:s>
+<noun-phrase case:obj pers:1 num:p> -> <noun-phrase-commas case:obj pers:3 num:p> <comma> <coord-conj> <simple-noun-phrase case:obj pers:1 num:p>
+<noun-phrase case:obj pers:2 num:p> -> <noun-phrase-commas case:obj pers:3 num:p> <comma> <coord-conj> <simple-noun-phrase case:obj pers:2 num:s>
+<noun-phrase case:obj pers:2 num:p> -> <noun-phrase-commas case:obj pers:3 num:p> <comma> <coord-conj> <simple-noun-phrase case:obj pers:2 num:p>
+<noun-phrase case:obj pers:3 num:p> -> <noun-phrase-commas case:obj pers:3 num:p> <comma> <coord-conj> <simple-noun-phrase case:obj pers:3 num:s>
+<noun-phrase case:obj pers:3 num:p> -> <noun-phrase-commas case:obj pers:3 num:p> <comma> <coord-conj> <simple-noun-phrase case:obj pers:3 num:p>
+<noun-phrase case:pos pers:1 num:p> -> <noun-phrase-commas case:pos pers:1 num:s> <comma> <coord-conj> <simple-noun-phrase case:pos pers:1 num:s>
+<noun-phrase case:pos pers:1 num:p> -> <noun-phrase-commas case:pos pers:1 num:s> <comma> <coord-conj> <simple-noun-phrase case:pos pers:1 num:p>
+<noun-phrase case:pos pers:1 num:p> -> <noun-phrase-commas case:pos pers:1 num:s> <comma> <coord-conj> <simple-noun-phrase case:pos pers:2 num:s>
+<noun-phrase case:pos pers:1 num:p> -> <noun-phrase-commas case:pos pers:1 num:s> <comma> <coord-conj> <simple-noun-phrase case:pos pers:2 num:p>
+<noun-phrase case:pos pers:1 num:p> -> <noun-phrase-commas case:pos pers:1 num:s> <comma> <coord-conj> <simple-noun-phrase case:pos pers:3 num:s>
+<noun-phrase case:pos pers:1 num:p> -> <noun-phrase-commas case:pos pers:1 num:s> <comma> <coord-conj> <simple-noun-phrase case:pos pers:3 num:p>
+<noun-phrase case:pos pers:1 num:p> -> <noun-phrase-commas case:pos pers:1 num:p> <comma> <coord-conj> <simple-noun-phrase case:pos pers:1 num:s>
+<noun-phrase case:pos pers:1 num:p> -> <noun-phrase-commas case:pos pers:1 num:p> <comma> <coord-conj> <simple-noun-phrase case:pos pers:1 num:p>
+<noun-phrase case:pos pers:1 num:p> -> <noun-phrase-commas case:pos pers:1 num:p> <comma> <coord-conj> <simple-noun-phrase case:pos pers:2 num:s>
+<noun-phrase case:pos pers:1 num:p> -> <noun-phrase-commas case:pos pers:1 num:p> <comma> <coord-conj> <simple-noun-phrase case:pos pers:2 num:p>
+<noun-phrase case:pos pers:1 num:p> -> <noun-phrase-commas case:pos pers:1 num:p> <comma> <coord-conj> <simple-noun-phrase case:pos pers:3 num:s>
+<noun-phrase case:pos pers:1 num:p> -> <noun-phrase-commas case:pos pers:1 num:p> <comma> <coord-conj> <simple-noun-phrase case:pos pers:3 num:p>
+<noun-phrase case:pos pers:1 num:p> -> <noun-phrase-commas case:pos pers:2 num:s> <comma> <coord-conj> <simple-noun-phrase case:pos pers:1 num:s>
+<noun-phrase case:pos pers:1 num:p> -> <noun-phrase-commas case:pos pers:2 num:s> <comma> <coord-conj> <simple-noun-phrase case:pos pers:1 num:p>
+<noun-phrase case:pos pers:2 num:p> -> <noun-phrase-commas case:pos pers:2 num:s> <comma> <coord-conj> <simple-noun-phrase case:pos pers:2 num:s>
+<noun-phrase case:pos pers:2 num:p> -> <noun-phrase-commas case:pos pers:2 num:s> <comma> <coord-conj> <simple-noun-phrase case:pos pers:2 num:p>
+<noun-phrase case:pos pers:2 num:p> -> <noun-phrase-commas case:pos pers:2 num:s> <comma> <coord-conj> <simple-noun-phrase case:pos pers:3 num:s>
+<noun-phrase case:pos pers:2 num:p> -> <noun-phrase-commas case:pos pers:2 num:s> <comma> <coord-conj> <simple-noun-phrase case:pos pers:3 num:p>
+<noun-phrase case:pos pers:1 num:p> -> <noun-phrase-commas case:pos pers:2 num:p> <comma> <coord-conj> <simple-noun-phrase case:pos pers:1 num:s>
+<noun-phrase case:pos pers:1 num:p> -> <noun-phrase-commas case:pos pers:2 num:p> <comma> <coord-conj> <simple-noun-phrase case:pos pers:1 num:p>
+<noun-phrase case:pos pers:2 num:p> -> <noun-phrase-commas case:pos pers:2 num:p> <comma> <coord-conj> <simple-noun-phrase case:pos pers:2 num:s>
+<noun-phrase case:pos pers:2 num:p> -> <noun-phrase-commas case:pos pers:2 num:p> <comma> <coord-conj> <simple-noun-phrase case:pos pers:2 num:p>
+<noun-phrase case:pos pers:2 num:p> -> <noun-phrase-commas case:pos pers:2 num:p> <comma> <coord-conj> <simple-noun-phrase case:pos pers:3 num:s>
+<noun-phrase case:pos pers:2 num:p> -> <noun-phrase-commas case:pos pers:2 num:p> <comma> <coord-conj> <simple-noun-phrase case:pos pers:3 num:p>
+<noun-phrase case:pos pers:1 num:p> -> <noun-phrase-commas case:pos pers:3 num:s> <comma> <coord-conj> <simple-noun-phrase case:pos pers:1 num:s>
+<noun-phrase case:pos pers:1 num:p> -> <noun-phrase-commas case:pos pers:3 num:s> <comma> <coord-conj> <simple-noun-phrase case:pos pers:1 num:p>
+<noun-phrase case:pos pers:2 num:p> -> <noun-phrase-commas case:pos pers:3 num:s> <comma> <coord-conj> <simple-noun-phrase case:pos pers:2 num:s>
+<noun-phrase case:pos pers:2 num:p> -> <noun-phrase-commas case:pos pers:3 num:s> <comma> <coord-conj> <simple-noun-phrase case:pos pers:2 num:p>
+<noun-phrase case:pos pers:3 num:p> -> <noun-phrase-commas case:pos pers:3 num:s> <comma> <coord-conj> <simple-noun-phrase case:pos pers:3 num:s>
+<noun-phrase case:pos pers:3 num:p> -> <noun-phrase-commas case:pos pers:3 num:s> <comma> <coord-conj> <simple-noun-phrase case:pos pers:3 num:p>
+<noun-phrase case:pos pers:1 num:p> -> <noun-phrase-commas case:pos pers:3 num:p> <comma> <coord-conj> <simple-noun-phrase case:pos pers:1 num:s>
+<noun-phrase case:pos pers:1 num:p> -> <noun-phrase-commas case:pos pers:3 num:p> <comma> <coord-conj> <simple-noun-phrase case:pos pers:1 num:p>
+<noun-phrase case:pos pers:2 num:p> -> <noun-phrase-commas case:pos pers:3 num:p> <comma> <coord-conj> <simple-noun-phrase case:pos pers:2 num:s>
+<noun-phrase case:pos pers:2 num:p> -> <noun-phrase-commas case:pos pers:3 num:p> <comma> <coord-conj> <simple-noun-phrase case:pos pers:2 num:p>
+<noun-phrase case:pos pers:3 num:p> -> <noun-phrase-commas case:pos pers:3 num:p> <comma> <coord-conj> <simple-noun-phrase case:pos pers:3 num:s>
+<noun-phrase case:pos pers:3 num:p> -> <noun-phrase-commas case:pos pers:3 num:p> <comma> <coord-conj> <simple-noun-phrase case:pos pers:3 num:p>
+
+# <noun-phrase-commas case:@c pers:promote(@p1, @p2) num:p> -> <noun-phrase-commas case:@c pers:@p1 num:@n1> <comma> <simple-noun-phrase case:@c pers:@p2 num:@n2>
+<noun-phrase-commas case:nom pers:1 num:p> -> <noun-phrase-commas case:nom pers:1 num:s> <comma> <simple-noun-phrase case:nom pers:1 num:s>
+<noun-phrase-commas case:nom pers:1 num:p> -> <noun-phrase-commas case:nom pers:1 num:s> <comma> <simple-noun-phrase case:nom pers:1 num:p>
+<noun-phrase-commas case:nom pers:1 num:p> -> <noun-phrase-commas case:nom pers:1 num:s> <comma> <simple-noun-phrase case:nom pers:2 num:s>
+<noun-phrase-commas case:nom pers:1 num:p> -> <noun-phrase-commas case:nom pers:1 num:s> <comma> <simple-noun-phrase case:nom pers:2 num:p>
+<noun-phrase-commas case:nom pers:1 num:p> -> <noun-phrase-commas case:nom pers:1 num:s> <comma> <simple-noun-phrase case:nom pers:3 num:s>
+<noun-phrase-commas case:nom pers:1 num:p> -> <noun-phrase-commas case:nom pers:1 num:s> <comma> <simple-noun-phrase case:nom pers:3 num:p>
+<noun-phrase-commas case:nom pers:1 num:p> -> <noun-phrase-commas case:nom pers:1 num:p> <comma> <simple-noun-phrase case:nom pers:1 num:s>
+<noun-phrase-commas case:nom pers:1 num:p> -> <noun-phrase-commas case:nom pers:1 num:p> <comma> <simple-noun-phrase case:nom pers:1 num:p>
+<noun-phrase-commas case:nom pers:1 num:p> -> <noun-phrase-commas case:nom pers:1 num:p> <comma> <simple-noun-phrase case:nom pers:2 num:s>
+<noun-phrase-commas case:nom pers:1 num:p> -> <noun-phrase-commas case:nom pers:1 num:p> <comma> <simple-noun-phrase case:nom pers:2 num:p>
+<noun-phrase-commas case:nom pers:1 num:p> -> <noun-phrase-commas case:nom pers:1 num:p> <comma> <simple-noun-phrase case:nom pers:3 num:s>
+<noun-phrase-commas case:nom pers:1 num:p> -> <noun-phrase-commas case:nom pers:1 num:p> <comma> <simple-noun-phrase case:nom pers:3 num:p>
+<noun-phrase-commas case:nom pers:1 num:p> -> <noun-phrase-commas case:nom pers:2 num:s> <comma> <simple-noun-phrase case:nom pers:1 num:s>
+<noun-phrase-commas case:nom pers:1 num:p> -> <noun-phrase-commas case:nom pers:2 num:s> <comma> <simple-noun-phrase case:nom pers:1 num:p>
+<noun-phrase-commas case:nom pers:2 num:p> -> <noun-phrase-commas case:nom pers:2 num:s> <comma> <simple-noun-phrase case:nom pers:2 num:s>
+<noun-phrase-commas case:nom pers:2 num:p> -> <noun-phrase-commas case:nom pers:2 num:s> <comma> <simple-noun-phrase case:nom pers:2 num:p>
+<noun-phrase-commas case:nom pers:2 num:p> -> <noun-phrase-commas case:nom pers:2 num:s> <comma> <simple-noun-phrase case:nom pers:3 num:s>
+<noun-phrase-commas case:nom pers:2 num:p> -> <noun-phrase-commas case:nom pers:2 num:s> <comma> <simple-noun-phrase case:nom pers:3 num:p>
+<noun-phrase-commas case:nom pers:1 num:p> -> <noun-phrase-commas case:nom pers:2 num:p> <comma> <simple-noun-phrase case:nom pers:1 num:s>
+<noun-phrase-commas case:nom pers:1 num:p> -> <noun-phrase-commas case:nom pers:2 num:p> <comma> <simple-noun-phrase case:nom pers:1 num:p>
+<noun-phrase-commas case:nom pers:2 num:p> -> <noun-phrase-commas case:nom pers:2 num:p> <comma> <simple-noun-phrase case:nom pers:2 num:s>
+<noun-phrase-commas case:nom pers:2 num:p> -> <noun-phrase-commas case:nom pers:2 num:p> <comma> <simple-noun-phrase case:nom pers:2 num:p>
+<noun-phrase-commas case:nom pers:2 num:p> -> <noun-phrase-commas case:nom pers:2 num:p> <comma> <simple-noun-phrase case:nom pers:3 num:s>
+<noun-phrase-commas case:nom pers:2 num:p> -> <noun-phrase-commas case:nom pers:2 num:p> <comma> <simple-noun-phrase case:nom pers:3 num:p>
+<noun-phrase-commas case:nom pers:1 num:p> -> <noun-phrase-commas case:nom pers:3 num:s> <comma> <simple-noun-phrase case:nom pers:1 num:s>
+<noun-phrase-commas case:nom pers:1 num:p> -> <noun-phrase-commas case:nom pers:3 num:s> <comma> <simple-noun-phrase case:nom pers:1 num:p>
+<noun-phrase-commas case:nom pers:2 num:p> -> <noun-phrase-commas case:nom pers:3 num:s> <comma> <simple-noun-phrase case:nom pers:2 num:s>
+<noun-phrase-commas case:nom pers:2 num:p> -> <noun-phrase-commas case:nom pers:3 num:s> <comma> <simple-noun-phrase case:nom pers:2 num:p>
+<noun-phrase-commas case:nom pers:3 num:p> -> <noun-phrase-commas case:nom pers:3 num:s> <comma> <simple-noun-phrase case:nom pers:3 num:s>
+<noun-phrase-commas case:nom pers:3 num:p> -> <noun-phrase-commas case:nom pers:3 num:s> <comma> <simple-noun-phrase case:nom pers:3 num:p>
+<noun-phrase-commas case:nom pers:1 num:p> -> <noun-phrase-commas case:nom pers:3 num:p> <comma> <simple-noun-phrase case:nom pers:1 num:s>
+<noun-phrase-commas case:nom pers:1 num:p> -> <noun-phrase-commas case:nom pers:3 num:p> <comma> <simple-noun-phrase case:nom pers:1 num:p>
+<noun-phrase-commas case:nom pers:2 num:p> -> <noun-phrase-commas case:nom pers:3 num:p> <comma> <simple-noun-phrase case:nom pers:2 num:s>
+<noun-phrase-commas case:nom pers:2 num:p> -> <noun-phrase-commas case:nom pers:3 num:p> <comma> <simple-noun-phrase case:nom pers:2 num:p>
+<noun-phrase-commas case:nom pers:3 num:p> -> <noun-phrase-commas case:nom pers:3 num:p> <comma> <simple-noun-phrase case:nom pers:3 num:s>
+<noun-phrase-commas case:nom pers:3 num:p> -> <noun-phrase-commas case:nom pers:3 num:p> <comma> <simple-noun-phrase case:nom pers:3 num:p>
+<noun-phrase-commas case:obj pers:1 num:p> -> <noun-phrase-commas case:obj pers:1 num:s> <comma> <simple-noun-phrase case:obj pers:1 num:s>
+<noun-phrase-commas case:obj pers:1 num:p> -> <noun-phrase-commas case:obj pers:1 num:s> <comma> <simple-noun-phrase case:obj pers:1 num:p>
+<noun-phrase-commas case:obj pers:1 num:p> -> <noun-phrase-commas case:obj pers:1 num:s> <comma> <simple-noun-phrase case:obj pers:2 num:s>
+<noun-phrase-commas case:obj pers:1 num:p> -> <noun-phrase-commas case:obj pers:1 num:s> <comma> <simple-noun-phrase case:obj pers:2 num:p>
+<noun-phrase-commas case:obj pers:1 num:p> -> <noun-phrase-commas case:obj pers:1 num:s> <comma> <simple-noun-phrase case:obj pers:3 num:s>
+<noun-phrase-commas case:obj pers:1 num:p> -> <noun-phrase-commas case:obj pers:1 num:s> <comma> <simple-noun-phrase case:obj pers:3 num:p>
+<noun-phrase-commas case:obj pers:1 num:p> -> <noun-phrase-commas case:obj pers:1 num:p> <comma> <simple-noun-phrase case:obj pers:1 num:s>
+<noun-phrase-commas case:obj pers:1 num:p> -> <noun-phrase-commas case:obj pers:1 num:p> <comma> <simple-noun-phrase case:obj pers:1 num:p>
+<noun-phrase-commas case:obj pers:1 num:p> -> <noun-phrase-commas case:obj pers:1 num:p> <comma> <simple-noun-phrase case:obj pers:2 num:s>
+<noun-phrase-commas case:obj pers:1 num:p> -> <noun-phrase-commas case:obj pers:1 num:p> <comma> <simple-noun-phrase case:obj pers:2 num:p>
+<noun-phrase-commas case:obj pers:1 num:p> -> <noun-phrase-commas case:obj pers:1 num:p> <comma> <simple-noun-phrase case:obj pers:3 num:s>
+<noun-phrase-commas case:obj pers:1 num:p> -> <noun-phrase-commas case:obj pers:1 num:p> <comma> <simple-noun-phrase case:obj pers:3 num:p>
+<noun-phrase-commas case:obj pers:1 num:p> -> <noun-phrase-commas case:obj pers:2 num:s> <comma> <simple-noun-phrase case:obj pers:1 num:s>
+<noun-phrase-commas case:obj pers:1 num:p> -> <noun-phrase-commas case:obj pers:2 num:s> <comma> <simple-noun-phrase case:obj pers:1 num:p>
+<noun-phrase-commas case:obj pers:2 num:p> -> <noun-phrase-commas case:obj pers:2 num:s> <comma> <simple-noun-phrase case:obj pers:2 num:s>
+<noun-phrase-commas case:obj pers:2 num:p> -> <noun-phrase-commas case:obj pers:2 num:s> <comma> <simple-noun-phrase case:obj pers:2 num:p>
+<noun-phrase-commas case:obj pers:2 num:p> -> <noun-phrase-commas case:obj pers:2 num:s> <comma> <simple-noun-phrase case:obj pers:3 num:s>
+<noun-phrase-commas case:obj pers:2 num:p> -> <noun-phrase-commas case:obj pers:2 num:s> <comma> <simple-noun-phrase case:obj pers:3 num:p>
+<noun-phrase-commas case:obj pers:1 num:p> -> <noun-phrase-commas case:obj pers:2 num:p> <comma> <simple-noun-phrase case:obj pers:1 num:s>
+<noun-phrase-commas case:obj pers:1 num:p> -> <noun-phrase-commas case:obj pers:2 num:p> <comma> <simple-noun-phrase case:obj pers:1 num:p>
+<noun-phrase-commas case:obj pers:2 num:p> -> <noun-phrase-commas case:obj pers:2 num:p> <comma> <simple-noun-phrase case:obj pers:2 num:s>
+<noun-phrase-commas case:obj pers:2 num:p> -> <noun-phrase-commas case:obj pers:2 num:p> <comma> <simple-noun-phrase case:obj pers:2 num:p>
+<noun-phrase-commas case:obj pers:2 num:p> -> <noun-phrase-commas case:obj pers:2 num:p> <comma> <simple-noun-phrase case:obj pers:3 num:s>
+<noun-phrase-commas case:obj pers:2 num:p> -> <noun-phrase-commas case:obj pers:2 num:p> <comma> <simple-noun-phrase case:obj pers:3 num:p>
+<noun-phrase-commas case:obj pers:1 num:p> -> <noun-phrase-commas case:obj pers:3 num:s> <comma> <simple-noun-phrase case:obj pers:1 num:s>
+<noun-phrase-commas case:obj pers:1 num:p> -> <noun-phrase-commas case:obj pers:3 num:s> <comma> <simple-noun-phrase case:obj pers:1 num:p>
+<noun-phrase-commas case:obj pers:2 num:p> -> <noun-phrase-commas case:obj pers:3 num:s> <comma> <simple-noun-phrase case:obj pers:2 num:s>
+<noun-phrase-commas case:obj pers:2 num:p> -> <noun-phrase-commas case:obj pers:3 num:s> <comma> <simple-noun-phrase case:obj pers:2 num:p>
+<noun-phrase-commas case:obj pers:3 num:p> -> <noun-phrase-commas case:obj pers:3 num:s> <comma> <simple-noun-phrase case:obj pers:3 num:s>
+<noun-phrase-commas case:obj pers:3 num:p> -> <noun-phrase-commas case:obj pers:3 num:s> <comma> <simple-noun-phrase case:obj pers:3 num:p>
+<noun-phrase-commas case:obj pers:1 num:p> -> <noun-phrase-commas case:obj pers:3 num:p> <comma> <simple-noun-phrase case:obj pers:1 num:s>
+<noun-phrase-commas case:obj pers:1 num:p> -> <noun-phrase-commas case:obj pers:3 num:p> <comma> <simple-noun-phrase case:obj pers:1 num:p>
+<noun-phrase-commas case:obj pers:2 num:p> -> <noun-phrase-commas case:obj pers:3 num:p> <comma> <simple-noun-phrase case:obj pers:2 num:s>
+<noun-phrase-commas case:obj pers:2 num:p> -> <noun-phrase-commas case:obj pers:3 num:p> <comma> <simple-noun-phrase case:obj pers:2 num:p>
+<noun-phrase-commas case:obj pers:3 num:p> -> <noun-phrase-commas case:obj pers:3 num:p> <comma> <simple-noun-phrase case:obj pers:3 num:s>
+<noun-phrase-commas case:obj pers:3 num:p> -> <noun-phrase-commas case:obj pers:3 num:p> <comma> <simple-noun-phrase case:obj pers:3 num:p>
+<noun-phrase-commas case:pos pers:1 num:p> -> <noun-phrase-commas case:pos pers:1 num:s> <comma> <simple-noun-phrase case:pos pers:1 num:s>
+<noun-phrase-commas case:pos pers:1 num:p> -> <noun-phrase-commas case:pos pers:1 num:s> <comma> <simple-noun-phrase case:pos pers:1 num:p>
+<noun-phrase-commas case:pos pers:1 num:p> -> <noun-phrase-commas case:pos pers:1 num:s> <comma> <simple-noun-phrase case:pos pers:2 num:s>
+<noun-phrase-commas case:pos pers:1 num:p> -> <noun-phrase-commas case:pos pers:1 num:s> <comma> <simple-noun-phrase case:pos pers:2 num:p>
+<noun-phrase-commas case:pos pers:1 num:p> -> <noun-phrase-commas case:pos pers:1 num:s> <comma> <simple-noun-phrase case:pos pers:3 num:s>
+<noun-phrase-commas case:pos pers:1 num:p> -> <noun-phrase-commas case:pos pers:1 num:s> <comma> <simple-noun-phrase case:pos pers:3 num:p>
+<noun-phrase-commas case:pos pers:1 num:p> -> <noun-phrase-commas case:pos pers:1 num:p> <comma> <simple-noun-phrase case:pos pers:1 num:s>
+<noun-phrase-commas case:pos pers:1 num:p> -> <noun-phrase-commas case:pos pers:1 num:p> <comma> <simple-noun-phrase case:pos pers:1 num:p>
+<noun-phrase-commas case:pos pers:1 num:p> -> <noun-phrase-commas case:pos pers:1 num:p> <comma> <simple-noun-phrase case:pos pers:2 num:s>
+<noun-phrase-commas case:pos pers:1 num:p> -> <noun-phrase-commas case:pos pers:1 num:p> <comma> <simple-noun-phrase case:pos pers:2 num:p>
+<noun-phrase-commas case:pos pers:1 num:p> -> <noun-phrase-commas case:pos pers:1 num:p> <comma> <simple-noun-phrase case:pos pers:3 num:s>
+<noun-phrase-commas case:pos pers:1 num:p> -> <noun-phrase-commas case:pos pers:1 num:p> <comma> <simple-noun-phrase case:pos pers:3 num:p>
+<noun-phrase-commas case:pos pers:1 num:p> -> <noun-phrase-commas case:pos pers:2 num:s> <comma> <simple-noun-phrase case:pos pers:1 num:s>
+<noun-phrase-commas case:pos pers:1 num:p> -> <noun-phrase-commas case:pos pers:2 num:s> <comma> <simple-noun-phrase case:pos pers:1 num:p>
+<noun-phrase-commas case:pos pers:2 num:p> -> <noun-phrase-commas case:pos pers:2 num:s> <comma> <simple-noun-phrase case:pos pers:2 num:s>
+<noun-phrase-commas case:pos pers:2 num:p> -> <noun-phrase-commas case:pos pers:2 num:s> <comma> <simple-noun-phrase case:pos pers:2 num:p>
+<noun-phrase-commas case:pos pers:2 num:p> -> <noun-phrase-commas case:pos pers:2 num:s> <comma> <simple-noun-phrase case:pos pers:3 num:s>
+<noun-phrase-commas case:pos pers:2 num:p> -> <noun-phrase-commas case:pos pers:2 num:s> <comma> <simple-noun-phrase case:pos pers:3 num:p>
+<noun-phrase-commas case:pos pers:1 num:p> -> <noun-phrase-commas case:pos pers:2 num:p> <comma> <simple-noun-phrase case:pos pers:1 num:s>
+<noun-phrase-commas case:pos pers:1 num:p> -> <noun-phrase-commas case:pos pers:2 num:p> <comma> <simple-noun-phrase case:pos pers:1 num:p>
+<noun-phrase-commas case:pos pers:2 num:p> -> <noun-phrase-commas case:pos pers:2 num:p> <comma> <simple-noun-phrase case:pos pers:2 num:s>
+<noun-phrase-commas case:pos pers:2 num:p> -> <noun-phrase-commas case:pos pers:2 num:p> <comma> <simple-noun-phrase case:pos pers:2 num:p>
+<noun-phrase-commas case:pos pers:2 num:p> -> <noun-phrase-commas case:pos pers:2 num:p> <comma> <simple-noun-phrase case:pos pers:3 num:s>
+<noun-phrase-commas case:pos pers:2 num:p> -> <noun-phrase-commas case:pos pers:2 num:p> <comma> <simple-noun-phrase case:pos pers:3 num:p>
+<noun-phrase-commas case:pos pers:1 num:p> -> <noun-phrase-commas case:pos pers:3 num:s> <comma> <simple-noun-phrase case:pos pers:1 num:s>
+<noun-phrase-commas case:pos pers:1 num:p> -> <noun-phrase-commas case:pos pers:3 num:s> <comma> <simple-noun-phrase case:pos pers:1 num:p>
+<noun-phrase-commas case:pos pers:2 num:p> -> <noun-phrase-commas case:pos pers:3 num:s> <comma> <simple-noun-phrase case:pos pers:2 num:s>
+<noun-phrase-commas case:pos pers:2 num:p> -> <noun-phrase-commas case:pos pers:3 num:s> <comma> <simple-noun-phrase case:pos pers:2 num:p>
+<noun-phrase-commas case:pos pers:3 num:p> -> <noun-phrase-commas case:pos pers:3 num:s> <comma> <simple-noun-phrase case:pos pers:3 num:s>
+<noun-phrase-commas case:pos pers:3 num:p> -> <noun-phrase-commas case:pos pers:3 num:s> <comma> <simple-noun-phrase case:pos pers:3 num:p>
+<noun-phrase-commas case:pos pers:1 num:p> -> <noun-phrase-commas case:pos pers:3 num:p> <comma> <simple-noun-phrase case:pos pers:1 num:s>
+<noun-phrase-commas case:pos pers:1 num:p> -> <noun-phrase-commas case:pos pers:3 num:p> <comma> <simple-noun-phrase case:pos pers:1 num:p>
+<noun-phrase-commas case:pos pers:2 num:p> -> <noun-phrase-commas case:pos pers:3 num:p> <comma> <simple-noun-phrase case:pos pers:2 num:s>
+<noun-phrase-commas case:pos pers:2 num:p> -> <noun-phrase-commas case:pos pers:3 num:p> <comma> <simple-noun-phrase case:pos pers:2 num:p>
+<noun-phrase-commas case:pos pers:3 num:p> -> <noun-phrase-commas case:pos pers:3 num:p> <comma> <simple-noun-phrase case:pos pers:3 num:s>
+<noun-phrase-commas case:pos pers:3 num:p> -> <noun-phrase-commas case:pos pers:3 num:p> <comma> <simple-noun-phrase case:pos pers:3 num:p>
+
 # <noun-phrase-commas case:@c pers:@p num:@n> -> <simple-noun-phrase case:@c pers:@p num:@n>
-# <noun-phrase case:@c pers:precedence(@p1, @p2) num:p> -> <simple-noun-phrase case:@c pers:@p1 num:@n1> <coord-conj> <simple-noun-phrase case:@c pers:@p2 num:@n2>
-# <noun-phrase case:@c pers:@p num:@p> -> <simple-noun-phrase case:@c pers:@p num:@p>
+<noun-phrase-commas case:nom pers:1 num:s> -> <simple-noun-phrase case:nom pers:1 num:s>
+<noun-phrase-commas case:nom pers:1 num:p> -> <simple-noun-phrase case:nom pers:1 num:p>
+<noun-phrase-commas case:nom pers:2 num:s> -> <simple-noun-phrase case:nom pers:2 num:s>
+<noun-phrase-commas case:nom pers:2 num:p> -> <simple-noun-phrase case:nom pers:2 num:p>
+<noun-phrase-commas case:nom pers:3 num:s> -> <simple-noun-phrase case:nom pers:3 num:s>
+<noun-phrase-commas case:nom pers:3 num:p> -> <simple-noun-phrase case:nom pers:3 num:p>
+<noun-phrase-commas case:obj pers:1 num:s> -> <simple-noun-phrase case:obj pers:1 num:s>
+<noun-phrase-commas case:obj pers:1 num:p> -> <simple-noun-phrase case:obj pers:1 num:p>
+<noun-phrase-commas case:obj pers:2 num:s> -> <simple-noun-phrase case:obj pers:2 num:s>
+<noun-phrase-commas case:obj pers:2 num:p> -> <simple-noun-phrase case:obj pers:2 num:p>
+<noun-phrase-commas case:obj pers:3 num:s> -> <simple-noun-phrase case:obj pers:3 num:s>
+<noun-phrase-commas case:obj pers:3 num:p> -> <simple-noun-phrase case:obj pers:3 num:p>
+<noun-phrase-commas case:pos pers:1 num:s> -> <simple-noun-phrase case:pos pers:1 num:s>
+<noun-phrase-commas case:pos pers:1 num:p> -> <simple-noun-phrase case:pos pers:1 num:p>
+<noun-phrase-commas case:pos pers:2 num:s> -> <simple-noun-phrase case:pos pers:2 num:s>
+<noun-phrase-commas case:pos pers:2 num:p> -> <simple-noun-phrase case:pos pers:2 num:p>
+<noun-phrase-commas case:pos pers:3 num:s> -> <simple-noun-phrase case:pos pers:3 num:s>
+<noun-phrase-commas case:pos pers:3 num:p> -> <simple-noun-phrase case:pos pers:3 num:p>
 
 ## Noun phrase structure
 # <simple-noun-phrase case:@c pers:@p num:@n> -> <pers-pronoun case:@c pers:@p num:@n>
@@ -27,6 +321,49 @@
 
 ## Noun types
 # <noncount-noun> -> <person-name> | <person-title> <person-name>
+
+# An interrogative independent clause normally forces the main verb to be the
+# either the copula verb ("be") or an auxiliary ("do", "can", "will", etc.) and
+# inverts the word order of this helper verb with the subject.
+
+# o "I am John."      -> "Am I John?"
+# o "I was John."     -> "Was I John?"
+# o "I will be John." -> "Will I be John?"
+# o "I see it."       -> "Do I see it?"
+# o "I will see it."  -> "Will I see it?"
+# o "I can see it."   -> "Can I see it?"
+# o "I may see it."   -> "May I see it?"
+# o "I have seen it." -> "Have I seen it?"
+# o "I will have seen it." -> "Will I have seen it?"
+
+# <indep-clause mood:intg> -> <copula-verb tense:@t pers:@p num:@n> <noun-phrase case:nom pers:@p num:@n> <nom-predicate>
+<indep-clause mood:intg> -> <copula-verb tense:pres pers:1 num:s> <noun-phrase case:nom pers:1 num:s> <nom-predicate>
+<indep-clause mood:intg> -> <copula-verb tense:past pers:1 num:s> <noun-phrase case:nom pers:1 num:s> <nom-predicate>
+<indep-clause mood:intg> -> <copula-verb tense:pres pers:2 num:s> <noun-phrase case:nom pers:2 num:s> <nom-predicate>
+<indep-clause mood:intg> -> <copula-verb tense:past pers:2 num:s> <noun-phrase case:nom pers:2 num:s> <nom-predicate>
+<indep-clause mood:intg> -> <copula-verb tense:pres pers:3 num:s> <noun-phrase case:nom pers:3 num:s> <nom-predicate>
+<indep-clause mood:intg> -> <copula-verb tense:past pers:3 num:s> <noun-phrase case:nom pers:3 num:s> <nom-predicate>
+<indep-clause mood:intg> -> <copula-verb tense:pres pers:1 num:p> <noun-phrase case:nom pers:1 num:p> <nom-predicate>
+<indep-clause mood:intg> -> <copula-verb tense:past pers:1 num:p> <noun-phrase case:nom pers:1 num:p> <nom-predicate>
+<indep-clause mood:intg> -> <copula-verb tense:pres pers:2 num:p> <noun-phrase case:nom pers:2 num:p> <nom-predicate>
+<indep-clause mood:intg> -> <copula-verb tense:past pers:2 num:p> <noun-phrase case:nom pers:2 num:p> <nom-predicate>
+<indep-clause mood:intg> -> <copula-verb tense:pres pers:3 num:p> <noun-phrase case:nom pers:3 num:p> <nom-predicate>
+<indep-clause mood:intg> -> <copula-verb tense:past pers:3 num:p> <noun-phrase case:nom pers:3 num:p> <nom-predicate>
+# TODO
+
+# Nominative predicates
+# <nom-predicate> -> <noun-phrase case:nom pers:@p num:@n>
+<nom-predicate> -> <noun-phrase case:nom pers:1 num:s>
+<nom-predicate> -> <noun-phrase case:nom pers:2 num:s>
+<nom-predicate> -> <noun-phrase case:nom pers:3 num:s>
+<nom-predicate> -> <noun-phrase case:nom pers:1 num:p>
+<nom-predicate> -> <noun-phrase case:nom pers:2 num:p>
+<nom-predicate> -> <noun-phrase case:nom pers:3 num:p>
+
+# <nom-predicate> -> <adj-phrase>
+<nom-predicate> -> <adj-phrase>
+
+# <indep-clause mood:impv> -> <verb-phrase form:root pers:@p num:@n>
 
 ## Conjunction of verb phrases
 # <verb-phrase pers:@p num:@n> -> <verb-phrase-commas pers:@p num:@n> <comma> <coord-conj> <simple-verb-phrase pers:@p num:@n>
@@ -42,6 +379,7 @@
 ## Verb phrase structure
 # <simple-verb-phrase tense:@t voice:@v mood:@m pers:@p num:@n> -> <intrans-verb tense:@t voice:@v mood:@m pers:@p num:@n>
 # <simple-verb-phrase tense:@t voice:@v mood:@m pers:@p num:@n> -> <trans-verb tense:@t voice:@v mood:@m pers:@p num:@n> <noun-phrase case:obj pers:@pp num:@nn>
+# <simple-verb-phrase tense:@t voice:@v mood:@m pers:@p num:@n> -> <copula-verb tense:@t voice:@v mood:@m pers:@p num:@n> <nom-predicate>
 
 ## Verb types
 # <intrans-verb tense:past voice:act mood:ind pers:@p num:@n> -> <intrans-verb-past>
@@ -104,6 +442,22 @@
 
 ## Verb vocabulary
 
+# <copula-verb tense:pres pers:1 num:s> -> "am"
+# <copula-verb tense:pres pers:2 num:s> -> "are"
+# <copula-verb tense:pres pers:3 num:s> -> "is"
+# <copula-verb tense:pres pers:@p num:n> -> "are"
+
+# <aux-verb tense:pres pers:1 num:s> -> <aux-verb-root>
+# <aux-verb tense:pres pers:2 num:s> -> <aux-verb-root>
+# <aux-verb tense:pres pers:3 num:s> -> <aux-verb-s>
+# <aux-verb tense:pres pers:@p num:p> -> <aux-verb-root>
+
+# <aux-verb-root> -> "do"
+# <aux-verb-s> -> "does"
+
+# <aux-verb-root> -> "have"
+# <aux-verb-s> -> "has"
+
 # <intrans-verb-root> -> "go"
 # <intrans-verb-s> -> "goes"
 # <intrans-verb-past> -> "went"
@@ -119,7 +473,7 @@
 # <trans-verb-past> -> "hugged"
 # <trans-verb-pastpart> -> "hugged"
 
-# <trans-verb-past> -> "kissed" | "hate"
+# <trans-verb-past> -> "kissed" | "hated"
 
 # <comp-inf-verb-past> -> "wanted"
 # <cop-trans-verb> -> "keep"
