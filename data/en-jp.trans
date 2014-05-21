@@ -1,0 +1,3 @@
+<sentence> { x } -> <*sentence> { x }
+<*sentence> { <complex-clause mood:ind> { c } } -> <*sentence> { <complex-clause> { c } }
+

@@ -310,17 +310,130 @@
 <noun-phrase-commas case:pos pers:3 num:s> -> <simple-noun-phrase case:pos pers:3 num:s>
 <noun-phrase-commas case:pos pers:3 num:p> -> <simple-noun-phrase case:pos pers:3 num:p>
 
-## Noun phrase structure
+# A simple noun phrase can be single personal pronoun
 # <simple-noun-phrase case:@c pers:@p num:@n> -> <pers-pronoun case:@c pers:@p num:@n>
-# <simple-noun-phrase case:@c pers:3 num:@n> -> <noncount-noun>
-# <simple-noun-phrase case:@c pers:3 num:@n> -> <det num:@n> <undet-noun-phrase case:@c num:@n>
-# <undet-noun-phrase case:@c pers:3 num:s> -> <common-noun>
-# <simple-noun-phrase case:@c pers:3 num:p> -> <common-noun-pl>
-# <det num:@n> -> <pers-pronoun case:pos pers:@p num:@n>
-# <det num:@n> -> <demonst-pronoun num:@n>
+<simple-noun-phrase case:nom pers:1 num:s> -> <pers-pronoun case:nom pers:1 num:s>
+<simple-noun-phrase case:nom pers:1 num:p> -> <pers-pronoun case:nom pers:1 num:p>
+<simple-noun-phrase case:nom pers:2 num:s> -> <pers-pronoun case:nom pers:2 num:s>
+<simple-noun-phrase case:nom pers:2 num:p> -> <pers-pronoun case:nom pers:2 num:p>
+<simple-noun-phrase case:nom pers:3 num:s> -> <pers-pronoun case:nom pers:3 num:s>
+<simple-noun-phrase case:nom pers:3 num:p> -> <pers-pronoun case:nom pers:3 num:p>
+<simple-noun-phrase case:obj pers:1 num:s> -> <pers-pronoun case:obj pers:1 num:s>
+<simple-noun-phrase case:obj pers:1 num:p> -> <pers-pronoun case:obj pers:1 num:p>
+<simple-noun-phrase case:obj pers:2 num:s> -> <pers-pronoun case:obj pers:2 num:s>
+<simple-noun-phrase case:obj pers:2 num:p> -> <pers-pronoun case:obj pers:2 num:p>
+<simple-noun-phrase case:obj pers:3 num:s> -> <pers-pronoun case:obj pers:3 num:s>
+<simple-noun-phrase case:obj pers:3 num:p> -> <pers-pronoun case:obj pers:3 num:p>
+<simple-noun-phrase case:pos pers:1 num:s> -> <pers-pronoun case:pos pers:1 num:s>
+<simple-noun-phrase case:pos pers:1 num:p> -> <pers-pronoun case:pos pers:1 num:p>
+<simple-noun-phrase case:pos pers:2 num:s> -> <pers-pronoun case:pos pers:2 num:s>
+<simple-noun-phrase case:pos pers:2 num:p> -> <pers-pronoun case:pos pers:2 num:p>
+<simple-noun-phrase case:pos pers:3 num:s> -> <pers-pronoun case:pos pers:3 num:s>
+<simple-noun-phrase case:pos pers:3 num:p> -> <pers-pronoun case:pos pers:3 num:p>
 
-## Noun types
+# A simple noun phrase can be a single uncountable noun, optionally modified by
+# an adjectival phrase.
+# For example: "freedom", "water"
+# <simple-noun-phrase case:@c pers:3 num:@n> -> <noncount-noun>
+<simple-noun-phrase case:nom pers:s num:s> -> <noncount-noun>
+<simple-noun-phrase case:nom pers:s num:p> -> <noncount-noun>
+<simple-noun-phrase case:obj pers:s num:s> -> <noncount-noun>
+<simple-noun-phrase case:obj pers:s num:p> -> <noncount-noun>
+<simple-noun-phrase case:pos pers:s num:s> -> <noncount-noun>
+<simple-noun-phrase case:pos pers:s num:p> -> <noncount-noun>
+
+# <simple-noun-phrase case:@c pers:3 num:@n> -> <adj-phrase> <noncount-noun>
+<simple-noun-phrase case:nom pers:s num:s> -> <adj-phrase> <noncount-noun>
+<simple-noun-phrase case:nom pers:s num:p> -> <adj-phrase> <noncount-noun>
+<simple-noun-phrase case:obj pers:s num:s> -> <adj-phrase> <noncount-noun>
+<simple-noun-phrase case:obj pers:s num:p> -> <adj-phrase> <noncount-noun>
+<simple-noun-phrase case:pos pers:s num:s> -> <adj-phrase> <noncount-noun>
+<simple-noun-phrase case:pos pers:s num:p> -> <adj-phrase> <noncount-noun>
+
+# A simple noun phrase can be an undetermined noun phrase preceded by a
+# determiner. An adjectival phrase may optionally appear in between.
+# <simple-noun-phrase case:@c pers:3 num:@n> -> <det num:@n> <undet-noun-phrase case:@c num:@n>
+<simple-noun-phrase case:nom pers:s num:s> -> <det num:s> <undet-noun-phrase case:nom num:s>
+<simple-noun-phrase case:nom pers:s num:p> -> <det num:p> <undet-noun-phrase case:nom num:p>
+<simple-noun-phrase case:obj pers:s num:s> -> <det num:s> <undet-noun-phrase case:obj num:s>
+<simple-noun-phrase case:obj pers:s num:p> -> <det num:p> <undet-noun-phrase case:obj num:p>
+<simple-noun-phrase case:pos pers:s num:s> -> <det num:s> <undet-noun-phrase case:pos num:s>
+<simple-noun-phrase case:pos pers:s num:p> -> <det num:p> <undet-noun-phrase case:pos num:p>
+
+# <simple-noun-phrase case:@c pers:3 num:@n> -> <det num:@n> <adj-phrase> <undet-noun-phrase case:@c num:@n>
+<simple-noun-phrase case:nom pers:s num:s> -> <det num:s> <adj-phrase> <undet-noun-phrase case:nom num:s>
+<simple-noun-phrase case:nom pers:s num:p> -> <det num:p> <adj-phrase> <undet-noun-phrase case:nom num:p>
+<simple-noun-phrase case:obj pers:s num:s> -> <det num:s> <adj-phrase> <undet-noun-phrase case:obj num:s>
+<simple-noun-phrase case:obj pers:s num:p> -> <det num:p> <adj-phrase> <undet-noun-phrase case:obj num:p>
+<simple-noun-phrase case:pos pers:s num:s> -> <det num:s> <adj-phrase> <undet-noun-phrase case:pos num:s>
+<simple-noun-phrase case:pos pers:s num:p> -> <det num:p> <adj-phrase> <undet-noun-phrase case:pos num:p>
+
+# An undetermined noun phrase can consist of a single common noun.
+# <undet-noun-phrase case:{nom,obj} pers:3 num:s> -> <common-noun>
+# <undet-noun-phrase case:pos pers:3 num:p> -> <common-noun-pos>
+# <undet-noun-phrase case:{nom,obj} pers:3 num:p> -> <common-noun-s>
+# <undet-noun-phrase case:pos pers:3 num:p> -> <common-noun-s-pos>
+<undet-noun-phrase case:nom pers:3 num:s> -> <common-noun>
+<undet-noun-phrase case:obj pers:3 num:s> -> <common-noun>
+<undet-noun-phrase case:pos pers:3 num:s> -> <common-noun-pos>
+<undet-noun-phrase case:nom pers:3 num:p> -> <common-noun-s>
+<undet-noun-phrase case:obj pers:3 num:p> -> <common-noun-s>
+<undet-noun-phrase case:pos pers:3 num:p> -> <common-noun-s-pos>
+
+# Possessive pronouns act as determiners.
+# <det num:@n> -> <pers-pronoun case:pos pers:@p num:@n>
+<det num:s> -> <pers-pronoun case:pos pers:1 num:s>
+<det num:p> -> <pers-pronoun case:pos pers:1 num:p>
+<det num:s> -> <pers-pronoun case:pos pers:2 num:s>
+<det num:p> -> <pers-pronoun case:pos pers:2 num:p>
+<det num:s> -> <pers-pronoun case:pos pers:3 num:s>
+<det num:p> -> <pers-pronoun case:pos pers:3 num:p>
+
+# Demonstrative pronouns act as determiners.
+# <det num:@n> -> <demonst-pronoun num:@n>
+<det num:s> -> <demonst-pronoun num:s>
+<det num:p> -> <demonst-pronoun num:p>
+
+# Uncountable nouns include personal names.
 # <noncount-noun> -> <person-name> | <person-title> <person-name>
+<noncount-noun> -> <person-name>
+
+# Adjectival phrases are conjuncted in the usual way.
+# <adj-phrase> -> <adj-phrase-commas> <comma> <coord-conj> <simple-adj-phrase>
+<adj-phrase> -> <adj-phrase-commas> <comma> <coord-conj> <simple-adj-phrase>
+
+# <adj-phrase> -> <simple-adj-phrase> <coord-conj> <simple-adj-phrase>
+<adj-phrase> -> <simple-adj-phrase> <coord-conj> <simple-adj-phrase>
+
+# <adj-phrase> -> <simple-adj-phrase>
+<adj-phrase> -> <simple-adj-phrase>
+
+# <adj-phrase-commas> -> <adj-phrase-commas> <comma> <simple-adj-phrase>
+<adj-phrase-commas> -> <adj-phrase-commas> <comma> <simple-adj-phrase>
+
+# Simple adjectival phrases consist of an adjective optionally preceded by an
+# adverbial phrase.
+# <simple-adj-phrase> -> <adj>
+<simple-adj-phrase> -> <adj>
+
+# <simple-adj-phrase> -> <adv-phrase> <adj>
+<simple-adj-phrase> -> <adv-phrase> <adj>
+
+# Adverbial phrases are conjuncted in the usual way.
+# <adv-phrase> -> <adv-phrase-commas> <comma> <coord-conj> <simple-adv-phrase>
+<adv-phrase> -> <adv-phrase-commas> <comma> <coord-conj> <simple-adv-phrase>
+
+# <adv-phrase> -> <simple-adv-phrase> <coord-conj> <simple-adv-phrase>
+<adv-phrase> -> <simple-adv-phrase> <coord-conj> <simple-adv-phrase>
+
+# <adv-phrase> -> <simple-adv-phrase>
+<adv-phrase> -> <simple-adv-phrase>
+
+# <adv-phrase-commas> -> <adv-phrase-commas> <comma> <simple-adv-phrase>
+<adv-phrase-commas> -> <adv-phrase-commas> <comma> <simple-adv-phrase>
+
+# <simple-adv-phrase> -> <adv> | <prep-phrase>
+<simple-adv-phrase> -> <adv> | <prep-phrase>
 
 # An interrogative independent clause normally forces the main verb to be the
 # either the copula verb ("be") or an auxiliary ("do", "can", "will", etc.) and
@@ -338,42 +451,84 @@
 
 # <indep-clause mood:intg> -> <copula-verb tense:@t pers:@p num:@n> <noun-phrase case:nom pers:@p num:@n> <nom-predicate>
 <indep-clause mood:intg> -> <copula-verb tense:pres pers:1 num:s> <noun-phrase case:nom pers:1 num:s> <nom-predicate>
-<indep-clause mood:intg> -> <copula-verb tense:past pers:1 num:s> <noun-phrase case:nom pers:1 num:s> <nom-predicate>
-<indep-clause mood:intg> -> <copula-verb tense:pres pers:2 num:s> <noun-phrase case:nom pers:2 num:s> <nom-predicate>
-<indep-clause mood:intg> -> <copula-verb tense:past pers:2 num:s> <noun-phrase case:nom pers:2 num:s> <nom-predicate>
-<indep-clause mood:intg> -> <copula-verb tense:pres pers:3 num:s> <noun-phrase case:nom pers:3 num:s> <nom-predicate>
-<indep-clause mood:intg> -> <copula-verb tense:past pers:3 num:s> <noun-phrase case:nom pers:3 num:s> <nom-predicate>
 <indep-clause mood:intg> -> <copula-verb tense:pres pers:1 num:p> <noun-phrase case:nom pers:1 num:p> <nom-predicate>
-<indep-clause mood:intg> -> <copula-verb tense:past pers:1 num:p> <noun-phrase case:nom pers:1 num:p> <nom-predicate>
+<indep-clause mood:intg> -> <copula-verb tense:pres pers:2 num:s> <noun-phrase case:nom pers:2 num:s> <nom-predicate>
 <indep-clause mood:intg> -> <copula-verb tense:pres pers:2 num:p> <noun-phrase case:nom pers:2 num:p> <nom-predicate>
-<indep-clause mood:intg> -> <copula-verb tense:past pers:2 num:p> <noun-phrase case:nom pers:2 num:p> <nom-predicate>
+<indep-clause mood:intg> -> <copula-verb tense:pres pers:3 num:s> <noun-phrase case:nom pers:3 num:s> <nom-predicate>
 <indep-clause mood:intg> -> <copula-verb tense:pres pers:3 num:p> <noun-phrase case:nom pers:3 num:p> <nom-predicate>
+<indep-clause mood:intg> -> <copula-verb tense:past pers:1 num:s> <noun-phrase case:nom pers:1 num:s> <nom-predicate>
+<indep-clause mood:intg> -> <copula-verb tense:past pers:1 num:p> <noun-phrase case:nom pers:1 num:p> <nom-predicate>
+<indep-clause mood:intg> -> <copula-verb tense:past pers:2 num:s> <noun-phrase case:nom pers:2 num:s> <nom-predicate>
+<indep-clause mood:intg> -> <copula-verb tense:past pers:2 num:p> <noun-phrase case:nom pers:2 num:p> <nom-predicate>
+<indep-clause mood:intg> -> <copula-verb tense:past pers:3 num:s> <noun-phrase case:nom pers:3 num:s> <nom-predicate>
 <indep-clause mood:intg> -> <copula-verb tense:past pers:3 num:p> <noun-phrase case:nom pers:3 num:p> <nom-predicate>
+
+# <indep-clause mood:intg> -> <aux-verb tense:@t pers:@p num:@n> <noun-phrase case:nom pers:@p num:@n> <verb-phrase-form form:root>
 # TODO
 
-# Nominative predicates
+# A nominative predicate is just a nominative noun phrase.
 # <nom-predicate> -> <noun-phrase case:nom pers:@p num:@n>
 <nom-predicate> -> <noun-phrase case:nom pers:1 num:s>
-<nom-predicate> -> <noun-phrase case:nom pers:2 num:s>
-<nom-predicate> -> <noun-phrase case:nom pers:3 num:s>
 <nom-predicate> -> <noun-phrase case:nom pers:1 num:p>
+<nom-predicate> -> <noun-phrase case:nom pers:2 num:s>
 <nom-predicate> -> <noun-phrase case:nom pers:2 num:p>
+<nom-predicate> -> <noun-phrase case:nom pers:3 num:s>
 <nom-predicate> -> <noun-phrase case:nom pers:3 num:p>
 
+# A nominative noun phrase can also be an adjective.
 # <nom-predicate> -> <adj-phrase>
 <nom-predicate> -> <adj-phrase>
 
-# <indep-clause mood:impv> -> <verb-phrase form:root pers:@p num:@n>
+# An independent clause in the imperative consists of a bare verb phrase.
+# <indep-clause mood:impv> -> <verb-phrase-form form:root>
 
-## Conjunction of verb phrases
+# Verb phrases are conjuncted in the same pattern as noun phrases. All sub-
+# phrases agree in person and number, but they do not have to agree in tense.
 # <verb-phrase pers:@p num:@n> -> <verb-phrase-commas pers:@p num:@n> <comma> <coord-conj> <simple-verb-phrase pers:@p num:@n>
-# <verb-phrase-commas pers:@p num:@n> -> <verb-phrase-commas pers:@p num:@n> <comma> <simple-verb-phrase pers:@p num:@n> | <simple-verb-phrase pers:@p num:@n>
-# <verb-phrase pers:@p num:@n> -> <simple-verb-phrase pers:@p num:@n> <coord-conj> <simple-verb-phrase pers:@p num:@n>
-# <verb-phrase pers:@p num:@n> -> <simple-verb-phrase pers:@p num:@n>
+# TODO Need to redo this
+<verb-phrase pers:1 num:s> -> <verb-phrase-commas pers:1 num:s> <comma> <coord-conj> <simple-verb-phrase pers:1 num:s>
+<verb-phrase pers:1 num:p> -> <verb-phrase-commas pers:1 num:p> <comma> <coord-conj> <simple-verb-phrase pers:1 num:p>
+<verb-phrase pers:2 num:s> -> <verb-phrase-commas pers:2 num:s> <comma> <coord-conj> <simple-verb-phrase pers:2 num:s>
+<verb-phrase pers:2 num:p> -> <verb-phrase-commas pers:2 num:p> <comma> <coord-conj> <simple-verb-phrase pers:2 num:p>
+<verb-phrase pers:3 num:s> -> <verb-phrase-commas pers:3 num:s> <comma> <coord-conj> <simple-verb-phrase pers:3 num:s>
+<verb-phrase pers:3 num:p> -> <verb-phrase-commas pers:3 num:p> <comma> <coord-conj> <simple-verb-phrase pers:3 num:p>
 
-## Adverbial phrase attachment
+# <verb-phrase-commas pers:@p num:@n> -> <verb-phrase-commas pers:@p num:@n> <comma> <simple-verb-phrase pers:@p num:@n> | <simple-verb-phrase pers:@p num:@n>
+<verb-phrase-commas pers:1 num:s> -> <verb-phrase-commas pers:1 num:s> <comma> <simple-verb-phrase pers:1 num:s> | <simple-verb-phrase pers:1 num:s>
+<verb-phrase-commas pers:1 num:p> -> <verb-phrase-commas pers:1 num:p> <comma> <simple-verb-phrase pers:1 num:p> | <simple-verb-phrase pers:1 num:p>
+<verb-phrase-commas pers:2 num:s> -> <verb-phrase-commas pers:2 num:s> <comma> <simple-verb-phrase pers:2 num:s> | <simple-verb-phrase pers:2 num:s>
+<verb-phrase-commas pers:2 num:p> -> <verb-phrase-commas pers:2 num:p> <comma> <simple-verb-phrase pers:2 num:p> | <simple-verb-phrase pers:2 num:p>
+<verb-phrase-commas pers:3 num:s> -> <verb-phrase-commas pers:3 num:s> <comma> <simple-verb-phrase pers:3 num:s> | <simple-verb-phrase pers:3 num:s>
+<verb-phrase-commas pers:3 num:p> -> <verb-phrase-commas pers:3 num:p> <comma> <simple-verb-phrase pers:3 num:p> | <simple-verb-phrase pers:3 num:p>
+
+# <verb-phrase pers:@p num:@n> -> <simple-verb-phrase pers:@p num:@n> <coord-conj> <simple-verb-phrase pers:@p num:@n>
+<verb-phrase pers:1 num:s> -> <simple-verb-phrase pers:1 num:s> <coord-conj> <simple-verb-phrase pers:1 num:s>
+<verb-phrase pers:1 num:p> -> <simple-verb-phrase pers:1 num:p> <coord-conj> <simple-verb-phrase pers:1 num:p>
+<verb-phrase pers:2 num:s> -> <simple-verb-phrase pers:2 num:s> <coord-conj> <simple-verb-phrase pers:2 num:s>
+<verb-phrase pers:2 num:p> -> <simple-verb-phrase pers:2 num:p> <coord-conj> <simple-verb-phrase pers:2 num:p>
+<verb-phrase pers:3 num:s> -> <simple-verb-phrase pers:3 num:s> <coord-conj> <simple-verb-phrase pers:3 num:s>
+<verb-phrase pers:3 num:p> -> <simple-verb-phrase pers:3 num:p> <coord-conj> <simple-verb-phrase pers:3 num:p>
+
+# <verb-phrase pers:@p num:@n> -> <simple-verb-phrase pers:@p num:@n>
+<verb-phrase pers:1 num:s> -> <simple-verb-phrase pers:1 num:s>
+<verb-phrase pers:1 num:p> -> <simple-verb-phrase pers:1 num:p>
+<verb-phrase pers:2 num:s> -> <simple-verb-phrase pers:2 num:s>
+<verb-phrase pers:2 num:p> -> <simple-verb-phrase pers:2 num:p>
+<verb-phrase pers:3 num:s> -> <simple-verb-phrase pers:3 num:s>
+<verb-phrase pers:3 num:p> -> <simple-verb-phrase pers:3 num:p>
+
+# An adverbial phrase may follow any verb phrase and precede a simple verb
+# phrase.
 # <verb-phrase pers:@p num:@n> -> <verb-phrase pers:@p num:@n> <adv-phrase>
+<verb-phrase pers:1 num:s> -> <verb-phrase pers:1 num:s> <adv-phrase>
+<verb-phrase pers:1 num:p> -> <verb-phrase pers:1 num:p> <adv-phrase>
+<verb-phrase pers:2 num:s> -> <verb-phrase pers:2 num:s> <adv-phrase>
+<verb-phrase pers:2 num:p> -> <verb-phrase pers:2 num:p> <adv-phrase>
+<verb-phrase pers:3 num:s> -> <verb-phrase pers:3 num:s> <adv-phrase>
+<verb-phrase pers:3 num:p> -> <verb-phrase pers:3 num:p> <adv-phrase>
+
 # <simple-verb-phrase tense:@t voice:@v mood:@m pers:@p num:@n> -> <simple-verb-phrase tense:@t voice:@v mood:@m pers:@p num:@n> <adv-phrase>
+
 # <simple-verb-phrase tense:@t voice:@v mood:@m pers:@p num:@n> -> <adv-phrase> <simple-verb-phrase tense:@t voice:@v mood:@m pers:@p num:@n>
 
 ## Verb phrase structure
