@@ -105,13 +105,13 @@ Examples:
 
 English to Japanese:
 
-    % ./bin/xlator test/a.gram.txt test/a.trans.txt
+    % ./bin/xlator examples/simple-en-jp.{gram,trans}
     the man sees the woman
     otoko no hito wa onna no hito o mimasu
 
 English to Latin:
 
-    % ./bin/xlator test/testgrammar1.txt test/testtranslator1.txt
+    % ./bin/xlator examples/simple-en-la.{gram,trans}
     the teacher teaches the student
     magister discipulum docet
     magister discipulam docet
@@ -150,5 +150,6 @@ Pretty cool, eh?
   child set; drop the children of a childless leaf on the left side and
   possibly provide a way to specify all possible alternations of a childless
   leaf node on the right side.
-* Use more library features from C++11 and boost, e.g. shared_ptr.
+* Use more library features from C++11 and boost, e.g. shared_ptr (at the cost
+  of introducing external dependencies).
 

@@ -1,4 +1,0 @@
-<Sentence> -> <Sentence> [<Sentence>]
-<Sentence> { <Subject> <Predicate> } -> <Sentence> { <Subject> [<Subject>] <Predicate> [<Predicate>] }
-<Subject> { <Noun phrase> } -> <Subject> { <Nominative noun phrase> [<Noun phrase>] }
-
