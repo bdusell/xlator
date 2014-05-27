@@ -1,0 +1,94 @@
+#!/bin/bash
+
+usage() {
+    echo "$(basename "$0") [options]
+    --help              Display this help message.
+    --no-test-output    Suppress output from individual unit tests.
+    --no-make-output    Suppress Makefile output.
+    --only-failures     Display only failures.
+    --terse             Activate all output suppression flags."
+}
+
+NO_TEST_OUTPUT=false
+NO_MAKE_OUTPUT=false
+ONLY_FAILURES=false
+while [[ $# -gt 0 ]]; do
+case "$1" in
+--help|-h|help) usage; exit 0 ;;
+--no-test-output) NO_TEST_OUTPUT=true ;;
+--no-make-output) NO_MAKE_OUTPUT=true ;;
+--only-failures) ONLY_FAILURES=true ;;
+--terse) NO_TEST_OUTPUT=true; NO_MAKE_OUTPUT=true; ONLY_FAILURES=true ;;
+--) shift; break ;;
+*) usage; exit 1 ;;
+esac
+shift
+done
+
+color() {
+    local VAL=$1; shift
+    echo -e '\033['"$VAL"'m'"$@"'\033[0m'
+}
+
+red() {
+    color '31' "$@"
+}
+
+cyan() {
+    color '36' "$@"
+}
+
+green() {
+    color '32' "$@"
+}
+
+run-make() {
+    if $NO_MAKE_OUTPUT; then
+        make -s "$@" &> /dev/null
+    else
+        make "$@"
+    fi
+}
+
+run-test() {
+    if $NO_TEST_OUTPUT; then
+        "$@" -s &> /dev/null
+    else
+        "$@"
+    fi
+}
+
+NUM_PASS=0
+NUM_TOTAL=0
+FILES=($(find ../src -type f -name '*.h' | sed -r 's!^../src/(.*)\.h$!\1!'))
+for NAME in "${FILES[@]}"; do
+    ((++NUM_TOTAL))
+    if [[ -e "$NAME.cpp" ]]; then
+        if run-make "$NAME.test"; then
+            if run-test "$NAME.test"; then
+                $ONLY_FAILURES || green "test for $NAME.h passed"
+                ((++NUM_PASS))
+            else
+                red "test for $NAME.h failed"
+            fi
+        else
+            red "error: compilation of $NAME.cpp failed"
+        fi
+    else
+        red "error: no test for $NAME.h"
+    fi
+done
+
+NUM_FAIL=$((NUM_TOTAL - NUM_PASS))
+
+echo
+cyan '==== TEST SUITE COMPLETE ===='
+echo
+echo   "Total tests: $NUM_TOTAL"
+[[ $NUM_FAIL -gt 0 ]] && COLOR=red || COLOR=echo
+$COLOR "Failures:    $NUM_FAIL"
+[[ $NUM_PASS -gt 0 ]] && COLOR=green || COLOR=echo
+$COLOR "Successes:   $NUM_PASS"
+
+[[ $NUM_FAIL -eq 0 ]]
+
