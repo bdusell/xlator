@@ -19,12 +19,12 @@ translations.
 Quickstart
 ----------
 
-<pre>
-<samp>% </samp><kbd>make</kbd>
-<samp>% </samp><kbd>./bin/xlator <var>grammar-file</var> <var>translation-file</var></kbd>
-<kbd><var>input-string</var></kbd>
-<samp><var>output-strings</var></samp>
-</pre>
+<pre>% make
+% ./bin/xlator <var>grammar-file</var> <var>translation-file</var>
+<kbd>this is my input string</kbd>
+<samp>output string 1
+output string 2
+<var>...</var></samp></pre>
 
 Algorithms
 ----------
@@ -68,7 +68,7 @@ rudimentary understanding of how the translation algorithm works. Let's look at
 a very simple example of a translation rule for translating a sentence from
 English to Japanese. Here, we're saying that for every English sentence of the
 form _\[subject\] \[verb\] \[object\]_, the equivalent sentence in Japanese is
-in the form _[\subject\] wa \[object\] o \[verb\]_, where the subject, object,
+in the form _\[subject\] wa \[object\] o \[verb\]_, where the subject, object,
 and verb will be translated in turn. The translation rule for this looks like:
 
     <jp-sentence> { <en-noun> { subj } <en-verb> { verb } <en-noun> { obj } } -> <jp-sentence> { <jp-noun> { subj } "wa" <jp-noun> { obj } "o" <jp-verb> { verb } }
