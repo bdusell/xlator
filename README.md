@@ -12,9 +12,9 @@ The `xlator` program accepts three inputs:
 
 Given these inputs, `xlator` outputs all valid translations of the input string
 with respect to the grammar and translation scheme provided. If the input is
-not valid sentence in the input language, it will generate no translations. If
-the input can be translated ambiguously, it will generate multiple
-translations.
+not a valid sentence in the input language, the program will report an error
+and generate no translations. If the input can be parsed or translated
+ambiguously, the program will generate multiple translations.
 
 Quickstart
 ----------
@@ -38,8 +38,7 @@ trees, and pruning the search space for strings which have already been
 encountered.
 
 Note that this is far from the best known algorithm for parsing ambiguous
-context-free grammars. A future version will use Tomita's GLR algorithm for
-parsing the input string with respect to the grammar.
+context-free grammars. A better alternative would be Tomita's GLR algorithm.
 
 Limitations
 -----------
@@ -47,9 +46,8 @@ Limitations
 Naturally, `xlator` cannot parse non-context-free languages. There are, in
 fact, instances of natural grammatical structures which cannot be represented
 by any context-free grammar; the Mohawk language, for example, contains strings
-of the <var>xyz...xyz...</var> variety. Whether it is appropriate to model
-natural languages as context-free grammars at all is debatable &ndash; and it
-probably isn't in the general case.
+of the <var>xyz...xyz...</var> variety. Context-free grammars are not able to
+model human language in the general case.
 
 Usage
 -----
@@ -139,11 +137,11 @@ separated by white space. This tokenization method is currently not very
 intelligent and does not even permit sentence capitalization (at least not
 in a way that doesn't involve tweaking the input grammar in a ludricous way).
 
-The program works transparently with UTF-8.
-
 Both the grammar and translation files can include `#`-style comments;
 everything after the first `#` character on a line not inside of a token is
 ignored.
+
+The program works transparently with Unicode encoded in UTF-8.
 
 Examples
 --------
@@ -178,5 +176,3 @@ docet discipulum magistra
 docet discipulam magister
 docet discipulam magistra
 ```
-
-Pretty cool, right?
